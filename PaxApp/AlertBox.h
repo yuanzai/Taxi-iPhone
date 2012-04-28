@@ -17,11 +17,12 @@
     int timeCount;
     
     NSTimer *countdownTimer;
-   
+    BOOL isOpen;
+    
 }
 
 @property (nonatomic,strong) NSTimer *countdownTimer;
-
+@property BOOL isOpen;
 
 -(void) launchAlertBox: (id)setDelegate;
 - (void) createTimer;

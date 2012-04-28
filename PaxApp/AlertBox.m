@@ -9,14 +9,14 @@
 #import "AlertBox.h"
 
 @implementation AlertBox
-@synthesize countdownTimer;
+@synthesize countdownTimer, isOpen;
 
 -(void) launchAlertBox: (id)setDelegate
 {
-
+    //self.isOpen = YES;
     dialog = [[UIAlertView alloc] init];
     [dialog setDelegate:setDelegate];
-    [dialog setTitle:@"Waiting for Driver's reply"];
+    [dialog setTitle:@"Waiting for driver reply"];
     [dialog setMessage:@" "];
     [dialog addButtonWithTitle:@"Cancel"];
     
@@ -30,11 +30,11 @@
     
     [dialog addSubview:timerView];
     
-    CGAffineTransform moveUp = CGAffineTransformMakeTranslation(0.0, -100.0);
+    CGAffineTransform moveUp = CGAffineTransformMakeTranslation(0.0, 0.0);
     [dialog setTransform: moveUp];
     [dialog show];
     
-    NSLog(@"%@ - %@ - %@",self.class,NSStringFromSelector(_cmd),dialog);
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     
     
     [self createTimer];
@@ -70,8 +70,11 @@
 
 -(void) stopTimer
 {
+    [dialog dismissWithClickedButtonIndex:0 animated:NO];
+   
     [countdownTimer invalidate];
     self.countdownTimer = nil;
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
 
 
 }
@@ -79,21 +82,11 @@
 - (void) timerExpired
 {
     [dialog dismissWithClickedButtonIndex:0 animated:NO];
+    
     [countdownTimer invalidate];
     self.countdownTimer = nil;
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
 
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-
-
-    if (buttonIndex == 0) {
-            NSLog(@"%@ - %@ - Alert Cancelled",self.class,NSStringFromSelector(_cmd));
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"cancelPostJob" object: nil ];
-
-    }     
 }
 
 @end

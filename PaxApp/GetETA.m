@@ -8,7 +8,7 @@
 
 #import "GetETA.h"
 #import "PostMethod.h"
-#import "GlobalVariablePositions.h"
+#import "GlobalVariables.h"
 
 
 @implementation GetETA
@@ -37,7 +37,7 @@
     NSNumber* fromLat = [[NSNumber alloc] initWithFloat: driverCoordinates.latitude];    
     NSNumber* fromLongi = [[NSNumber alloc] initWithFloat: driverCoordinates.longitude];
     
-    CLLocationCoordinate2D userCoordinates = [[GlobalVariablePositions myGlobalVariablePositions] gUserCoordinate];
+    CLLocationCoordinate2D userCoordinates = [[GlobalVariables myGlobalVariables] gUserCoordinate];
     
     NSNumber* toLat = [[NSNumber alloc] initWithFloat: userCoordinates.latitude];
     NSNumber* toLongi = [[NSNumber alloc] initWithFloat: userCoordinates.longitude];

@@ -12,7 +12,8 @@
 @interface GetGeocodedAddress : NSObject
 {
     CLGeocoder* geocoder;
+    NSString *geoaddress;
 }
-- (void)geocodeLocation:(CLLocation*)location;
+- (NSString*)geocodeLocation:(CLLocation*)location;
 
 @end

@@ -7,24 +7,26 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AlertBox.h"
 
-@class JobInfo;
-@interface SubmitClass : AlertBox
+@class Job;
+@class AlertBox;
+@interface SubmitClass : NSObject
 {
     NSTimer *checkTimer;
     NSString* job_id;
 
-    JobInfo* checkJobStatus;
+    Job* newJob;
+    AlertBox* myBox;
 }
 @property (nonatomic,strong) NSTimer *checkTimer;
+@property (nonatomic,strong) AlertBox* myBox;
+
 
 
 - (void)startSubmitProcesswithdriverID:(NSString*)driver_id pickupAddress:(NSString*)pickup destinationAddress:(NSString *)destination;
 - (void)createCheckTimer;
 
 - (void)stopCheckTimer;
-- (void)cancelJob: (NSNotification *) notification;
 
 
 

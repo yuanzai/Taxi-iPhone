@@ -18,9 +18,14 @@
 		8F0CE31E1545EDF400CC19CC /* AlertBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE31D1545EDF300CC19CC /* AlertBox.m */; };
 		8F0CE32115467B8100CC19CC /* PostNewJob.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE32015467B8100CC19CC /* PostNewJob.m */; };
 		8F0CE32415467B9000CC19CC /* JobQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE32315467B8F00CC19CC /* JobQuery.m */; };
-		8F0CE327154697A100CC19CC /* JobInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE326154697A000CC19CC /* JobInfo.m */; };
+		8F0CE327154697A100CC19CC /* Job.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE326154697A000CC19CC /* Job.m */; };
 		8F0CE32A1546B13500CC19CC /* SubmitClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE3291546B13500CC19CC /* SubmitClass.m */; };
-		8F0CE32D1546B57400CC19CC /* CheckJobStatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE32C1546B57400CC19CC /* CheckJobStatus.m */; };
+		8F512F3D1547B3B90083A2CE /* RatingAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F3C1547B3B90083A2CE /* RatingAlert.m */; };
+		8F512F4015484B840083A2CE /* DriverInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F3F15484B840083A2CE /* DriverInfo.m */; };
+		8F512F4315484E8E0083A2CE /* PickedUpReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F4215484E8E0083A2CE /* PickedUpReceiver.m */; };
+		8F5EC549154960470096D741 /* CancelJob.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5EC548154960470096D741 /* CancelJob.m */; };
+		8F5EC54B1549CD880096D741 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EC54A1549CD880096D741 /* profile.png */; };
+		8F841416154B242F004C6F2E /* CalloutBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F841415154B242F004C6F2E /* CalloutBar.m */; };
 		8FAA7A9B15415E0300CC6435 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9A15415E0300CC6435 /* UIKit.framework */; };
 		8FAA7A9D15415E0300CC6435 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9C15415E0300CC6435 /* Foundation.framework */; };
 		8FAA7A9F15415E0300CC6435 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9E15415E0300CC6435 /* CoreGraphics.framework */; };
@@ -34,18 +39,19 @@
 		8FAA7ABB15415E0300CC6435 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9C15415E0300CC6435 /* Foundation.framework */; };
 		8FAA7AC315415E0300CC6435 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FAA7AC115415E0300CC6435 /* InfoPlist.strings */; };
 		8FAA7AC615415E0300CC6435 /* PaxAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AC515415E0300CC6435 /* PaxAppTests.m */; };
-		8FAA7AD61541760700CC6435 /* DriverItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AD51541760700CC6435 /* DriverItem.m */; };
+		8FAA7AD61541760700CC6435 /* DriverAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AD51541760700CC6435 /* DriverAnnotation.m */; };
 		8FAA7AD91541762E00CC6435 /* PostMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AD81541762E00CC6435 /* PostMethod.m */; };
-		8FAA7ADC154176EC00CC6435 /* DownloadData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7ADB154176EC00CC6435 /* DownloadData.m */; };
+		8FAA7ADC154176EC00CC6435 /* DownloadDriverData.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7ADB154176EC00CC6435 /* DownloadDriverData.m */; };
 		8FAA7ADF154176FC00CC6435 /* GetETA.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7ADE154176FC00CC6435 /* GetETA.m */; };
 		8FAA7AE21541774A00CC6435 /* GetGeocodedAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AE11541774A00CC6435 /* GetGeocodedAddress.m */; };
-		8FAA7AE5154177A700CC6435 /* GlobalVariablePositions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AE4154177A700CC6435 /* GlobalVariablePositions.m */; };
-		8FAA7AE81541782100CC6435 /* DriverList.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AE71541782100CC6435 /* DriverList.m */; };
-		8FAA7AEB15417DF900CC6435 /* UserLocationItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AEA15417DF900CC6435 /* UserLocationItem.m */; };
+		8FAA7AE5154177A700CC6435 /* GlobalVariables.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AE4154177A700CC6435 /* GlobalVariables.m */; };
+		8FAA7AE81541782100CC6435 /* DriverPositions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AE71541782100CC6435 /* DriverPositions.m */; };
+		8FAA7AEB15417DF900CC6435 /* UserLocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AEA15417DF900CC6435 /* UserLocationAnnotation.m */; };
 		8FAA7AF1154197D300CC6435 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7AF0154197D300CC6435 /* CoreLocation.framework */; };
 		8FAA7AF3154197DB00CC6435 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7AF2154197DB00CC6435 /* SystemConfiguration.framework */; };
 		8FAA7AF5154197E200CC6435 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7AF4154197E100CC6435 /* MapKit.framework */; };
 		8FAA7AF81541981500CC6435 /* CoreLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AF71541981500CC6435 /* CoreLocationManager.m */; };
+		8FD4418F15494C4100605B0D /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4418E15494C4100605B0D /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,12 +84,21 @@
 		8F0CE32015467B8100CC19CC /* PostNewJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostNewJob.m; sourceTree = "<group>"; };
 		8F0CE32215467B8E00CC19CC /* JobQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobQuery.h; sourceTree = "<group>"; };
 		8F0CE32315467B8F00CC19CC /* JobQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobQuery.m; sourceTree = "<group>"; };
-		8F0CE325154697A000CC19CC /* JobInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobInfo.h; sourceTree = "<group>"; };
-		8F0CE326154697A000CC19CC /* JobInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobInfo.m; sourceTree = "<group>"; };
+		8F0CE325154697A000CC19CC /* Job.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Job.h; sourceTree = "<group>"; };
+		8F0CE326154697A000CC19CC /* Job.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Job.m; sourceTree = "<group>"; };
 		8F0CE3281546B13500CC19CC /* SubmitClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitClass.h; sourceTree = "<group>"; };
 		8F0CE3291546B13500CC19CC /* SubmitClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitClass.m; sourceTree = "<group>"; };
-		8F0CE32B1546B57300CC19CC /* CheckJobStatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckJobStatus.h; sourceTree = "<group>"; };
-		8F0CE32C1546B57400CC19CC /* CheckJobStatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckJobStatus.m; sourceTree = "<group>"; };
+		8F512F3B1547B3B90083A2CE /* RatingAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RatingAlert.h; sourceTree = "<group>"; };
+		8F512F3C1547B3B90083A2CE /* RatingAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingAlert.m; sourceTree = "<group>"; };
+		8F512F3E15484B840083A2CE /* DriverInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverInfo.h; sourceTree = "<group>"; };
+		8F512F3F15484B840083A2CE /* DriverInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverInfo.m; sourceTree = "<group>"; };
+		8F512F4115484E8E0083A2CE /* PickedUpReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickedUpReceiver.h; sourceTree = "<group>"; };
+		8F512F4215484E8E0083A2CE /* PickedUpReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickedUpReceiver.m; sourceTree = "<group>"; };
+		8F5EC547154960470096D741 /* CancelJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelJob.h; sourceTree = "<group>"; };
+		8F5EC548154960470096D741 /* CancelJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelJob.m; sourceTree = "<group>"; };
+		8F5EC54A1549CD880096D741 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		8F841414154B242F004C6F2E /* CalloutBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutBar.h; sourceTree = "<group>"; };
+		8F841415154B242F004C6F2E /* CalloutBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalloutBar.m; sourceTree = "<group>"; };
 		8FAA7A9615415E0300CC6435 /* PaxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaxApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAA7A9A15415E0300CC6435 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8FAA7A9C15415E0300CC6435 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -103,27 +118,29 @@
 		8FAA7AC215415E0300CC6435 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8FAA7AC415415E0300CC6435 /* PaxAppTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PaxAppTests.h; sourceTree = "<group>"; };
 		8FAA7AC515415E0300CC6435 /* PaxAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaxAppTests.m; sourceTree = "<group>"; };
-		8FAA7AD41541760700CC6435 /* DriverItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverItem.h; sourceTree = "<group>"; };
-		8FAA7AD51541760700CC6435 /* DriverItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverItem.m; sourceTree = "<group>"; };
+		8FAA7AD41541760700CC6435 /* DriverAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverAnnotation.h; sourceTree = "<group>"; };
+		8FAA7AD51541760700CC6435 /* DriverAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverAnnotation.m; sourceTree = "<group>"; };
 		8FAA7AD71541762E00CC6435 /* PostMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostMethod.h; sourceTree = "<group>"; };
 		8FAA7AD81541762E00CC6435 /* PostMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostMethod.m; sourceTree = "<group>"; };
-		8FAA7ADA154176EC00CC6435 /* DownloadData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadData.h; sourceTree = "<group>"; };
-		8FAA7ADB154176EC00CC6435 /* DownloadData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadData.m; sourceTree = "<group>"; };
+		8FAA7ADA154176EC00CC6435 /* DownloadDriverData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownloadDriverData.h; sourceTree = "<group>"; };
+		8FAA7ADB154176EC00CC6435 /* DownloadDriverData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DownloadDriverData.m; sourceTree = "<group>"; };
 		8FAA7ADD154176FC00CC6435 /* GetETA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetETA.h; sourceTree = "<group>"; };
 		8FAA7ADE154176FC00CC6435 /* GetETA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetETA.m; sourceTree = "<group>"; };
 		8FAA7AE01541774A00CC6435 /* GetGeocodedAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGeocodedAddress.h; sourceTree = "<group>"; };
 		8FAA7AE11541774A00CC6435 /* GetGeocodedAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGeocodedAddress.m; sourceTree = "<group>"; };
-		8FAA7AE3154177A700CC6435 /* GlobalVariablePositions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalVariablePositions.h; sourceTree = "<group>"; };
-		8FAA7AE4154177A700CC6435 /* GlobalVariablePositions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalVariablePositions.m; sourceTree = "<group>"; };
-		8FAA7AE61541782100CC6435 /* DriverList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverList.h; sourceTree = "<group>"; };
-		8FAA7AE71541782100CC6435 /* DriverList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverList.m; sourceTree = "<group>"; };
-		8FAA7AE915417DF900CC6435 /* UserLocationItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLocationItem.h; sourceTree = "<group>"; };
-		8FAA7AEA15417DF900CC6435 /* UserLocationItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLocationItem.m; sourceTree = "<group>"; };
+		8FAA7AE3154177A700CC6435 /* GlobalVariables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
+		8FAA7AE4154177A700CC6435 /* GlobalVariables.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlobalVariables.m; sourceTree = "<group>"; };
+		8FAA7AE61541782100CC6435 /* DriverPositions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverPositions.h; sourceTree = "<group>"; };
+		8FAA7AE71541782100CC6435 /* DriverPositions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverPositions.m; sourceTree = "<group>"; };
+		8FAA7AE915417DF900CC6435 /* UserLocationAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserLocationAnnotation.h; sourceTree = "<group>"; };
+		8FAA7AEA15417DF900CC6435 /* UserLocationAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserLocationAnnotation.m; sourceTree = "<group>"; };
 		8FAA7AF0154197D300CC6435 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		8FAA7AF2154197DB00CC6435 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8FAA7AF4154197E100CC6435 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8FAA7AF61541981500CC6435 /* CoreLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreLocationManager.h; sourceTree = "<group>"; };
 		8FAA7AF71541981500CC6435 /* CoreLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreLocationManager.m; sourceTree = "<group>"; };
+		8FD4418D15494C4100605B0D /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
+		8FD4418E15494C4100605B0D /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,6 +173,7 @@
 		8F0CE2ED1545511500CC19CC /* Other Files */ = {
 			isa = PBXGroup;
 			children = (
+				8F5EC54A1549CD880096D741 /* profile.png */,
 				8F0CE2EF1545516100CC19CC /* taxi.png */,
 				8F0CE2F01545516100CC19CC /* userdot.png */,
 				8F0CE2F11545516100CC19CC /* selected.png */,
@@ -172,8 +190,6 @@
 				8F0CE32015467B8100CC19CC /* PostNewJob.m */,
 				8F0CE3281546B13500CC19CC /* SubmitClass.h */,
 				8F0CE3291546B13500CC19CC /* SubmitClass.m */,
-				8F0CE32B1546B57300CC19CC /* CheckJobStatus.h */,
-				8F0CE32C1546B57400CC19CC /* CheckJobStatus.m */,
 			);
 			name = SubmitJob;
 			sourceTree = "<group>";
@@ -181,6 +197,12 @@
 		8F0CE30B154590C300CC19CC /* Onroute */ = {
 			isa = PBXGroup;
 			children = (
+				8F512F3B1547B3B90083A2CE /* RatingAlert.h */,
+				8F512F3C1547B3B90083A2CE /* RatingAlert.m */,
+				8F512F4115484E8E0083A2CE /* PickedUpReceiver.h */,
+				8F512F4215484E8E0083A2CE /* PickedUpReceiver.m */,
+				8F5EC547154960470096D741 /* CancelJob.h */,
+				8F5EC548154960470096D741 /* CancelJob.m */,
 			);
 			name = Onroute;
 			sourceTree = "<group>";
@@ -221,13 +243,13 @@
 		8FAA7AA015415E0300CC6435 /* PaxApp */ = {
 			isa = PBXGroup;
 			children = (
+				8FAA7AA915415E0300CC6435 /* AppDelegate.h */,
+				8FAA7AAA15415E0300CC6435 /* AppDelegate.m */,
+				8FAA7AAC15415E0300CC6435 /* MainStoryboard.storyboard */,
 				8F0CE2ED1545511500CC19CC /* Other Files */,
 				8FAA7ACF15415E6300CC6435 /* MainMap */,
 				8F0CE30015458F7E00CC19CC /* SubmitJob */,
 				8F0CE30B154590C300CC19CC /* Onroute */,
-				8FAA7AA915415E0300CC6435 /* AppDelegate.h */,
-				8FAA7AAA15415E0300CC6435 /* AppDelegate.m */,
-				8FAA7AAC15415E0300CC6435 /* MainStoryboard.storyboard */,
 				8FAA7AD3154175B900CC6435 /* SharedClasses */,
 				8FAA7AD21541759300CC6435 /* ViewControllers */,
 				8FAA7AA115415E0300CC6435 /* Supporting Files */,
@@ -268,16 +290,12 @@
 		8FAA7ACF15415E6300CC6435 /* MainMap */ = {
 			isa = PBXGroup;
 			children = (
-				8FAA7ADA154176EC00CC6435 /* DownloadData.h */,
-				8FAA7ADB154176EC00CC6435 /* DownloadData.m */,
 				8FAA7ADD154176FC00CC6435 /* GetETA.h */,
 				8FAA7ADE154176FC00CC6435 /* GetETA.m */,
 				8FAA7AE01541774A00CC6435 /* GetGeocodedAddress.h */,
 				8FAA7AE11541774A00CC6435 /* GetGeocodedAddress.m */,
-				8FAA7AE3154177A700CC6435 /* GlobalVariablePositions.h */,
-				8FAA7AE4154177A700CC6435 /* GlobalVariablePositions.m */,
-				8FAA7AE61541782100CC6435 /* DriverList.h */,
-				8FAA7AE71541782100CC6435 /* DriverList.m */,
+				8F841414154B242F004C6F2E /* CalloutBar.h */,
+				8F841415154B242F004C6F2E /* CalloutBar.m */,
 			);
 			name = MainMap;
 			sourceTree = "<group>";
@@ -293,6 +311,8 @@
 				8F0CE3051545909700CC19CC /* OnrouteViewController.m */,
 				8F0CE308154590B700CC19CC /* PrefsViewController.h */,
 				8F0CE309154590B700CC19CC /* PrefsViewController.m */,
+				8FD4418D15494C4100605B0D /* RootViewController.h */,
+				8FD4418E15494C4100605B0D /* RootViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -300,24 +320,56 @@
 		8FAA7AD3154175B900CC6435 /* SharedClasses */ = {
 			isa = PBXGroup;
 			children = (
+				8FD4419B154958F100605B0D /* BasicClasses */,
+				8FD4419A154958C400605B0D /* CheckingMethods */,
+				8FD44199154957E500605B0D /* Query */,
+				8FAA7ADA154176EC00CC6435 /* DownloadDriverData.h */,
+				8FAA7ADB154176EC00CC6435 /* DownloadDriverData.m */,
+				8FAA7AF61541981500CC6435 /* CoreLocationManager.h */,
+				8FAA7AF71541981500CC6435 /* CoreLocationManager.m */,
+				8FAA7AE3154177A700CC6435 /* GlobalVariables.h */,
+				8FAA7AE4154177A700CC6435 /* GlobalVariables.m */,
+			);
+			name = SharedClasses;
+			sourceTree = "<group>";
+		};
+		8FD44199154957E500605B0D /* Query */ = {
+			isa = PBXGroup;
+			children = (
+				8F512F3E15484B840083A2CE /* DriverInfo.h */,
+				8F512F3F15484B840083A2CE /* DriverInfo.m */,
+				8FAA7AE61541782100CC6435 /* DriverPositions.h */,
+				8FAA7AE71541782100CC6435 /* DriverPositions.m */,
+				8F0CE32215467B8E00CC19CC /* JobQuery.h */,
+				8F0CE32315467B8F00CC19CC /* JobQuery.m */,
+				8F0CE325154697A000CC19CC /* Job.h */,
+				8F0CE326154697A000CC19CC /* Job.m */,
+			);
+			name = Query;
+			sourceTree = "<group>";
+		};
+		8FD4419A154958C400605B0D /* CheckingMethods */ = {
+			isa = PBXGroup;
+			children = (
 				8F0CE2FD1545689700CC19CC /* CheckConnection.h */,
 				8F0CE2FE1545689700CC19CC /* CheckConnection.m */,
 				8F0CE2F91545680500CC19CC /* Reachability.h */,
 				8F0CE2FA1545680500CC19CC /* Reachability.m */,
-				8FAA7AD41541760700CC6435 /* DriverItem.h */,
-				8FAA7AD51541760700CC6435 /* DriverItem.m */,
+			);
+			name = CheckingMethods;
+			sourceTree = "<group>";
+		};
+		8FD4419B154958F100605B0D /* BasicClasses */ = {
+			isa = PBXGroup;
+			children = (
+				8FAA7AD41541760700CC6435 /* DriverAnnotation.h */,
+				8FAA7AD51541760700CC6435 /* DriverAnnotation.m */,
 				8FAA7AD71541762E00CC6435 /* PostMethod.h */,
 				8FAA7AD81541762E00CC6435 /* PostMethod.m */,
-				8FAA7AE915417DF900CC6435 /* UserLocationItem.h */,
-				8FAA7AEA15417DF900CC6435 /* UserLocationItem.m */,
-				8FAA7AF61541981500CC6435 /* CoreLocationManager.h */,
-				8FAA7AF71541981500CC6435 /* CoreLocationManager.m */,
-				8F0CE32215467B8E00CC19CC /* JobQuery.h */,
-				8F0CE32315467B8F00CC19CC /* JobQuery.m */,
-				8F0CE325154697A000CC19CC /* JobInfo.h */,
-				8F0CE326154697A000CC19CC /* JobInfo.m */,
+				8FAA7AE915417DF900CC6435 /* UserLocationAnnotation.h */,
+				8FAA7AEA15417DF900CC6435 /* UserLocationAnnotation.m */,
 			);
-			name = SharedClasses;
+			name = BasicClasses;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -395,6 +447,7 @@
 				8F0CE2F21545516200CC19CC /* taxi.png in Resources */,
 				8F0CE2F31545516200CC19CC /* userdot.png in Resources */,
 				8F0CE2F41545516200CC19CC /* selected.png in Resources */,
+				8F5EC54B1549CD880096D741 /* profile.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -432,14 +485,14 @@
 				8FAA7AA715415E0300CC6435 /* main.m in Sources */,
 				8FAA7AAB15415E0300CC6435 /* AppDelegate.m in Sources */,
 				8FAA7AB115415E0300CC6435 /* MainMapViewController.m in Sources */,
-				8FAA7AD61541760700CC6435 /* DriverItem.m in Sources */,
+				8FAA7AD61541760700CC6435 /* DriverAnnotation.m in Sources */,
 				8FAA7AD91541762E00CC6435 /* PostMethod.m in Sources */,
-				8FAA7ADC154176EC00CC6435 /* DownloadData.m in Sources */,
+				8FAA7ADC154176EC00CC6435 /* DownloadDriverData.m in Sources */,
 				8FAA7ADF154176FC00CC6435 /* GetETA.m in Sources */,
 				8FAA7AE21541774A00CC6435 /* GetGeocodedAddress.m in Sources */,
-				8FAA7AE5154177A700CC6435 /* GlobalVariablePositions.m in Sources */,
-				8FAA7AE81541782100CC6435 /* DriverList.m in Sources */,
-				8FAA7AEB15417DF900CC6435 /* UserLocationItem.m in Sources */,
+				8FAA7AE5154177A700CC6435 /* GlobalVariables.m in Sources */,
+				8FAA7AE81541782100CC6435 /* DriverPositions.m in Sources */,
+				8FAA7AEB15417DF900CC6435 /* UserLocationAnnotation.m in Sources */,
 				8FAA7AF81541981500CC6435 /* CoreLocationManager.m in Sources */,
 				8F0CE2FB1545680500CC19CC /* Reachability.m in Sources */,
 				8F0CE2FF1545689700CC19CC /* CheckConnection.m in Sources */,
@@ -449,9 +502,14 @@
 				8F0CE31E1545EDF400CC19CC /* AlertBox.m in Sources */,
 				8F0CE32115467B8100CC19CC /* PostNewJob.m in Sources */,
 				8F0CE32415467B9000CC19CC /* JobQuery.m in Sources */,
-				8F0CE327154697A100CC19CC /* JobInfo.m in Sources */,
+				8F0CE327154697A100CC19CC /* Job.m in Sources */,
 				8F0CE32A1546B13500CC19CC /* SubmitClass.m in Sources */,
-				8F0CE32D1546B57400CC19CC /* CheckJobStatus.m in Sources */,
+				8F512F3D1547B3B90083A2CE /* RatingAlert.m in Sources */,
+				8F512F4015484B840083A2CE /* DriverInfo.m in Sources */,
+				8F512F4315484E8E0083A2CE /* PickedUpReceiver.m in Sources */,
+				8FD4418F15494C4100605B0D /* RootViewController.m in Sources */,
+				8F5EC549154960470096D741 /* CancelJob.m in Sources */,
+				8F841416154B242F004C6F2E /* CalloutBar.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

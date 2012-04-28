@@ -7,15 +7,17 @@
 //
 
 #import "MainMapViewController.h"
-#import "DownloadData.h"
-#import "GlobalVariablePositions.h"
-#import "UserLocationItem.h"
+#import "DownloadDriverData.h"
+#import "GlobalVariables.h"
+#import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
 #import "GetETA.h"
+#import "GetGeocodedAddress.h"
+#import "CalloutBar.h"
 
 
 @implementation MainMapViewController
-@synthesize mapView;
+@synthesize mapView, mainBottomBar;
 
 - (void)didReceiveMemoryWarning
 {
@@ -29,8 +31,6 @@
 {
 
     [mapView setDelegate:self];
-    [self registerNotification]; 
-    downloader = [[DownloadData alloc]init];
 
 	// Do any additional setup after loading the view, typically from a nib.
 
@@ -43,10 +43,21 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+    
+
 }
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    
+    [self registerNotification]; 
+    downloader = [[DownloadDriverData alloc]init];
+    downloader.driver_id = @"all";
+    myBar = [[CalloutBar alloc]init];
+    myBar.topBar = mainTopBar;
+    myBar.bottomBar = mainBottomBar;
+    
+    [myBar hideUserBar];
     
     [super viewWillAppear:animated];
 }
@@ -56,7 +67,7 @@
     [super viewDidAppear:animated];
 
     [self getUserLocation];
-    [downloader startNSTimerThread];
+    [downloader startDriverDataDownloadTimer];
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -67,7 +78,9 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-    [downloader stopNSTimerThread];
+    [downloader stopDownloadDriverDataTimer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+
 
 }
 
@@ -97,16 +110,22 @@
      name:@"ETA"
      object:nil ];
     
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(updateGeoAddress:)
+     name:@"GeoAddress"
+     object:nil ];
+    
 }
 
 - (void)updateMapMarkers: (NSNotification *) notification
 {    
-    NSLog(@"Updating Map Markers");
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     
     if (!newDriverList) {
         newDriverList = [[NSMutableArray alloc]init];
     }    
-    newDriverList = [[GlobalVariablePositions myGlobalVariablePositions] gDriverList]; 
+    newDriverList = [[GlobalVariables myGlobalVariables] gDriverList]; 
     
     if (!tempSelectedDriver) {
         tempSelectedDriver = [[NSString alloc]init];
@@ -140,14 +159,14 @@
 
 -(void)updateUserMarker: (NSNotification *) notification
 {
-    
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+
     if (!userLocationAnnotation) {
-        userLocationAnnotation = [[UserLocationItem alloc]init];
+        userLocationAnnotation = [[UserLocationAnnotation alloc]init];
     } else {
         [mapView removeAnnotation:userLocationAnnotation];
     }
-    NSLog(@"Update User Marker");
-    CLLocationCoordinate2D coordinate=[[GlobalVariablePositions myGlobalVariablePositions] gUserCoordinate];    
+    CLLocationCoordinate2D coordinate=[[GlobalVariables myGlobalVariables] gUserCoordinate];    
     
     MKCoordinateRegion region;
 	MKCoordinateSpan span;
@@ -164,6 +183,7 @@
     [userLocationAnnotation setCoordinateWithGV];
     [mapView addAnnotation:userLocationAnnotation];
     
+    
 
 }
 
@@ -179,16 +199,7 @@
         annView.image = [UIImage imageNamed:@"userdot"];
         annView.draggable = YES;
         annView.canShowCallout = NO;
-       
-        /*
-        MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"userloc"];
-        annView.draggable = YES;
-        annView.pinColor = MKPinAnnotationColorGreen;  
-        annView.animatesDrop=NO;
-        annView.canShowCallout = NO;
-        annView.calloutOffset = CGPointMake(-5, 5);
-        */
-         
+
          return annView;
     }else{
         NSLog(@"MKAnnotationView Called - Drivers");
@@ -203,20 +214,6 @@
             selectedAnnotation = annotation;
             
         }
-        
-        /*
-        MKPinAnnotationView *annView=[[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"driverloc"];
-        annView.pinColor = MKPinAnnotationColorPurple;  
-        annView.animatesDrop=NO;
-        annView.canShowCallout = NO;
-        annView.calloutOffset = CGPointMake(-5, 5);
-        NSLog(@"%@ vs %@", [NSString stringWithFormat:selectedDriver], annotation.title);
-        if ([annotation.title isEqualToString:selectedDriver]) {
-
-            [self.mapView selectAnnotation:annotation animated:NO];
-            NSLog(@"This is %@", selectedDriver);
-        }
-        */
         	return annView;
 
     }
@@ -247,10 +244,7 @@
     
         view.image = [UIImage imageNamed:@"selected"];
 
-        selectedDriver = view.annotation.title;
-        NSLog(@"%@", selectedDriver);
-
-        NSLog(@"ETA ran");        
+        selectedDriver = view.annotation.title;      
         
     }else {
         NSLog(@"No ETA");
@@ -272,9 +266,29 @@
 {
 }
 
+
+
 - (void) updateETA: (NSNotification *) notification;
 {
-    
-    NSLog(@"Updated ETA - %@", [callGetETA eta]);
+    NSLog(@"%@ - %@ - Updated ETA - %@",self.class,NSStringFromSelector(_cmd),[callGetETA eta]);
 }
+
+- (IBAction) setGDriver_id:(id)sender
+{
+    //BroadCast button
+ [[GlobalVariables myGlobalVariables] setGDriver_id:@"0"];  
+    
+}
+
+-(void) updateGeoAddress:(NSNotification*) notification
+{
+    if(!mainBottomBar)
+        mainBottomBar = [[UILabel alloc]init];
+
+    [myBar showUserBarWithGeoAddress];
+    //[mainBottomBar setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];
+    
+    
+}
+
 @end

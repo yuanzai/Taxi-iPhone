@@ -8,10 +8,13 @@
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
 
-@class UserLocationItem;
+@class UserLocationAnnotation;
 @class CoreLocationManager;
 @class GetETA;
-@class DownloadData;
+@class DownloadDriverData;
+@class CalloutBar;
+
+
 @interface MainMapViewController : UIViewController<MKMapViewDelegate> 
 {
     NSMutableArray *oldDriverList;
@@ -22,19 +25,25 @@
     NSString* tempSelectedDriver;
     id <MKAnnotation> selectedAnnotation;
     
-    UserLocationItem* userLocationAnnotation;
+    UserLocationAnnotation* userLocationAnnotation;
     CoreLocationManager *clManager;
     GetETA *callGetETA;
-    DownloadData *downloader;
+    DownloadDriverData *downloader;
     
-    
+    IBOutlet UILabel *mainTopBar;
+    IBOutlet UILabel *mainBottomBar;
+    CalloutBar *myBar;
 
 }
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
-- (void)getUserLocation;
-- (void)registerNotification;
-- (void)updateMapMarkers: (NSNotification *) notification;
-- (void)updateUserMarker: (NSNotification *) notification;
+@property (strong, nonatomic) IBOutlet UILabel *mainBottomBar;
+- (void) getUserLocation;
+- (void) registerNotification;
+- (void) updateMapMarkers: (NSNotification *) notification;
+- (void) updateUserMarker: (NSNotification *) notification;
 - (void) updateETA: (NSNotification *) notification;
+-(void) updateGeoAddress:(NSNotification*) notification;
+
+- (IBAction) setGDriver_id:(id)sender;
 
 @end

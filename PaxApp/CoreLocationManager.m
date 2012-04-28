@@ -7,14 +7,17 @@
 //
 
 #import "CoreLocationManager.h"
-#import "UserLocationItem.h"
-#import "GlobalVariablePositions.h"
+#import "UserLocationAnnotation.h"
+#import "GlobalVariables.h"
 #import "GetGeocodedAddress.h"
 
 @implementation CoreLocationManager
 @synthesize clLatitude,clLongitude;
 
 -(void)startLocationManager:(id)delegateSelect{
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+
+    
     locationManager = [[CLLocationManager alloc] init];
     locationManager.purpose =@"Locate yourself on the map!";
      
@@ -25,7 +28,6 @@
         locationManager.distanceFilter = kCLDistanceFilterNone; // whenever we move
         locationManager.desiredAccuracy = kCLLocationAccuracyHundredMeters; // 100 m
         [locationManager startUpdatingLocation];  
-        NSLog(@"startLocationManager");
         
     } else {
         NSLog(@"Location Services disabled");
@@ -59,7 +61,7 @@
 
     
     //Writing location to global variable
-    [[GlobalVariablePositions myGlobalVariablePositions] setGUserCoordinate:newLocation.coordinate];
+    [[GlobalVariables myGlobalVariables] setGUserCoordinate:newLocation.coordinate];
     
     
     GetGeocodedAddress *getGeo = [[GetGeocodedAddress alloc]init];

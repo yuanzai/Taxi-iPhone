@@ -9,28 +9,29 @@
 #import "SubmitClass.h"
 #import "PostNewJob.h"
 #import "AlertBox.h"
-#import "JobInfo.h"
+#import "Job.h"
 #import "JobQuery.h"
+#import "GlobalVariables.h"
 
 
 @implementation SubmitClass
-@synthesize checkTimer;
+
+@synthesize checkTimer, myBox;
 
 -(void) startSubmitProcesswithdriverID:(NSString*)driver_id pickupAddress:(NSString*)pickup destinationAddress:(NSString *)destination
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(cancelJob:)
-     name:@"cancelPostJob"
-     object:nil ];
     
-    [self launchAlertBox];
+    AlertBox *newBox = [[AlertBox alloc]init];
+    [newBox launchAlertBox:self];
     
-    PostNewJob *newJob = [[PostNewJob alloc]init];
-    job_id = [newJob postNewJobwithdriverID:@"0" 
+    self.myBox = newBox;
+    
+    PostNewJob *newPostJob = [[PostNewJob alloc]init];
+    job_id = [newPostJob postNewJobwithdriverID:@"0" 
                      pickupAddress:pickup 
                 destinationAddress:destination];
+    [[GlobalVariables myGlobalVariables] setGJob_id:job_id];
     [self createCheckTimer];
      
 }
@@ -60,36 +61,54 @@
 
 - (void)timerFiredCheck:(NSTimer *)timer {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    if (!checkJobStatus)
-        checkJobStatus = [[JobInfo alloc] init];
-
-    NSString* jobStatus =[checkJobStatus getJobInfo_useJobID:job_id];
-    if (jobStatus == @"accepted") {
-        [self stopTimer];
-    } else if (jobStatus == @"dcancel") {
-        [self stopTimer];
-    } else {
-        NSLog(@"%@ - No Response", self.class);
-    }
+    if (self.myBox.countdownTimer == nil){
+        [self stopCheckTimer];
+    } else{
+    if (!newJob)
+        newJob = [[Job alloc] init];
     
+    [newJob getJobInfo_useJobID:job_id];
+    
+    if ([[newJob.jobItem objectForKey:@"accepted"] isEqualToString:@"1"]) {
+        [[GlobalVariables myGlobalVariables] setGDriver_id:[newJob.jobItem objectForKey:@"driver_id"]];
+        [self stopCheckTimer];
+        [self.myBox stopTimer];
+        self.myBox = nil;
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoOnroute" object:nil];
+        NSLog(@"%@ - %@ - Accepted",self.class,NSStringFromSelector(_cmd));    
+
+        
+    } else if ([newJob.jobItem objectForKey:@"dcancel"]== @"1") {
+        [self stopCheckTimer];
+        [self.myBox stopTimer];
+        self.myBox = nil;
+    } else {
+    NSLog(@"%@ - %@ - No Response",self.class,NSStringFromSelector(_cmd));    }
+    }
 
 }
 
--(void)cancelJob: (NSNotification *) notification
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     
-    JobQuery* cancelJobQuery = [[JobQuery alloc]init];
     
-    [cancelJobQuery submitJobQuerywithMsgType:@"clientcancel"
-                                       job_id:job_id 
-                                       rating:@"" 
-                                    driver_id:@""];
+    if (buttonIndex == 0) {
+        NSLog(@"%@ - %@ - AlertBox Delegate/Alert Cancelled",self.class,NSStringFromSelector(_cmd));
+        
+        [self.myBox stopTimer];
+        self.myBox = nil;
+        [self stopCheckTimer];
+
+        JobQuery* cancelJobQuery = [[JobQuery alloc]init];
+        
+        [cancelJobQuery submitJobQuerywithMsgType:@"clientcancel"
+                                           job_id:job_id 
+                                           rating:@"" 
+                                        driver_id:@""];
+        
     
-     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    [self stopCheckTimer];
-    [self stopTimer];
-
-
+    }     
 }
 
 @end

@@ -7,7 +7,7 @@
 //
 
 #import "SubmitJobViewController.h"
-#import "GlobalVariablePositions.h"
+#import "GlobalVariables.h"
 #import "SubmitClass.h"
 
 @implementation SubmitJobViewController
@@ -18,17 +18,17 @@
     [pickup resignFirstResponder];    
     [destination resignFirstResponder];    
     
-    [[GlobalVariablePositions myGlobalVariablePositions] setPickupString:pickup.text];
-    [[GlobalVariablePositions myGlobalVariablePositions] setDestinationString:destination.text];
+    [[GlobalVariables myGlobalVariables] setGPickupString:pickup.text];
+    [[GlobalVariables myGlobalVariables] setGDestinationString:destination.text];
     
     //pickupString = [[NSString alloc]initWithString:pickup.text];
     //destinationString = [[NSString alloc]initWithString:destination.text];
     
     newSubmitClass = [[SubmitClass alloc]init];
     
-    [newSubmitClass startSubmitProcesswithdriverID:@"0"
-                                     pickupAddress:[[GlobalVariablePositions myGlobalVariablePositions] pickupString] 
-                                destinationAddress:[[GlobalVariablePositions myGlobalVariablePositions] destinationString]];
+    [newSubmitClass startSubmitProcesswithdriverID:[[GlobalVariables myGlobalVariables] gDriver_id]
+                                     pickupAddress:[[GlobalVariables myGlobalVariables] gPickupString] 
+                                destinationAddress:[[GlobalVariables myGlobalVariables] gDestinationString]];
     
     NSLog(@"%@ - pickup: %@, destination: %@",self.class,pickup.text, destination.text);
     
@@ -43,8 +43,8 @@
 {
     [sender resignFirstResponder];    
     
-    [[GlobalVariablePositions myGlobalVariablePositions] setPickupString:pickup.text];
-    [[GlobalVariablePositions myGlobalVariablePositions] setDestinationString:destination.text];
+    [[GlobalVariables myGlobalVariables] setGPickupString:pickup.text];
+    [[GlobalVariables myGlobalVariables] setGDestinationString:destination.text];
     
     //pickupString = [[NSString alloc]initWithString:pickup.text];
     //destinationString = [[NSString alloc]initWithString:destination.text];
@@ -80,9 +80,10 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    pickup.text =[[GlobalVariablePositions myGlobalVariablePositions] pickupString];
-    destination.text =[[GlobalVariablePositions myGlobalVariablePositions] destinationString];
-    
+    pickup.text =[[GlobalVariables myGlobalVariables] gPickupString];
+    destination.text =[[GlobalVariables myGlobalVariables] gDestinationString];
+    [self registerNotifications];
+    [self updateGeoAddress];
     [super viewDidLoad];
 }
 
@@ -90,14 +91,49 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
+
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+-(void)viewDidDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+- (void)registerNotifications
+{
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(gotoOnroute:)
+     name:@"gotoOnroute"
+     object:nil ];
+}
+
+-(void)gotoOnroute:(NSNotification *)notification
+{
+    [self performSegueWithIdentifier:@"JobAccepted" sender:self];
+}
+
+-(IBAction)testButton:(id)sender
+{
+    NSLog(@"%@",sender);
+    [self performSegueWithIdentifier:@"JobAccepted" sender:self];
+}
+
+-(void) updateGeoAddress
+{
+    if(!geoAddress)
+        geoAddress = [[UILabel alloc]init];
+
+    [geoAddress setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];    
 }
 
 @end

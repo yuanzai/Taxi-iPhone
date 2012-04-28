@@ -17,6 +17,7 @@
     NSString* destinationString;
     
     SubmitClass *newSubmitClass;
+    IBOutlet UILabel* geoAddress;
 }
 @property (nonatomic, strong) IBOutlet UITextField* pickup;
 @property (nonatomic, strong) IBOutlet UITextField* destination;
@@ -26,5 +27,11 @@
 
 - (IBAction)escapeKeyboard:(id)sender;
 - (IBAction)setTextfields:(id)sender;
+
+- (void)registerNotifications;
+-(void)gotoOnroute:(NSNotification *)notification;
+-(IBAction)testButton:(id)sender;
+-(void) updateGeoAddress;
+
 
 @end
