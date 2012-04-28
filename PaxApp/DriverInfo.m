@@ -23,12 +23,18 @@
     
     NSArray *array = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil];    
     
+    driverInfoAll = array;
     driverInfo = [array objectAtIndex:0];
     
     
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     NSLog(@"%@ - responseString: %@",self.class, driverInfo);
 
+}
+
+-(NSArray*) driverInfoAll
+{
+    return driverInfoAll;
 }
 
 -(NSDictionary*) driverInfo

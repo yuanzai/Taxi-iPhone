@@ -8,8 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-
+@class DriverInfo;
 @interface DriverPositions : NSObject
+{
+    DriverInfo *driverInfo;
+}
+
 -(NSMutableArray*)getDriverListFromServer: (NSString*)driver_id;
 
 

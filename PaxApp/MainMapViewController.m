@@ -127,13 +127,12 @@
     }    
     newDriverList = [[GlobalVariables myGlobalVariables] gDriverList]; 
     
-    if (!tempSelectedDriver) {
+    if (!tempSelectedDriver)
         tempSelectedDriver = [[NSString alloc]init];
-    }   
-    
-    if (!selectedDriver) {
+
+    if (!selectedDriver) 
         selectedDriver = [[NSString alloc]init];
-    }
+    
     
     tempSelectedDriver = selectedDriver;
     
@@ -182,8 +181,6 @@
     
     [userLocationAnnotation setCoordinateWithGV];
     [mapView addAnnotation:userLocationAnnotation];
-    
-    
 
 }
 
@@ -231,20 +228,18 @@
     NSLog(@"Annotation Selected - %@", view.annotation.title);
     
     if (view.annotation.title != @"User Location") {
-        if (!callGetETA){
+        
+        if (!callGetETA)
             callGetETA = [[GetETA alloc]init];
-        }
         
         [callGetETA startETAThread:view.annotation];
         
-        if (!selectedDriver) {
+        if (!selectedDriver)
             selectedDriver = [[NSString alloc]init ];
-        }
         
-    
         view.image = [UIImage imageNamed:@"selected"];
-
         selectedDriver = view.annotation.title;      
+        
         
     }else {
         NSLog(@"No ETA");

@@ -10,9 +10,12 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 
-@interface GetETA : NSObject
+@class PostMethodAsync;
+
+@interface GetETA : NSObject <NSURLConnectionDataDelegate>
 {
     NSString* eta;
+    PostMethodAsync* postMethodAsync;
 }
 -(void)startETAThread:(id <MKAnnotation>)anno;
 -(NSString *)eta;

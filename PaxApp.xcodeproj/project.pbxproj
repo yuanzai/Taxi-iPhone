@@ -26,6 +26,7 @@
 		8F5EC549154960470096D741 /* CancelJob.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5EC548154960470096D741 /* CancelJob.m */; };
 		8F5EC54B1549CD880096D741 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EC54A1549CD880096D741 /* profile.png */; };
 		8F841416154B242F004C6F2E /* CalloutBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F841415154B242F004C6F2E /* CalloutBar.m */; };
+		8F84141A154BCC55004C6F2E /* PostMethodAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F841419154BCC54004C6F2E /* PostMethodAsync.m */; };
 		8FAA7A9B15415E0300CC6435 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9A15415E0300CC6435 /* UIKit.framework */; };
 		8FAA7A9D15415E0300CC6435 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9C15415E0300CC6435 /* Foundation.framework */; };
 		8FAA7A9F15415E0300CC6435 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9E15415E0300CC6435 /* CoreGraphics.framework */; };
@@ -99,6 +100,8 @@
 		8F5EC54A1549CD880096D741 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
 		8F841414154B242F004C6F2E /* CalloutBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutBar.h; sourceTree = "<group>"; };
 		8F841415154B242F004C6F2E /* CalloutBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalloutBar.m; sourceTree = "<group>"; };
+		8F841418154BCC54004C6F2E /* PostMethodAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostMethodAsync.h; sourceTree = "<group>"; };
+		8F841419154BCC54004C6F2E /* PostMethodAsync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostMethodAsync.m; sourceTree = "<group>"; };
 		8FAA7A9615415E0300CC6435 /* PaxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaxApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAA7A9A15415E0300CC6435 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8FAA7A9C15415E0300CC6435 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -368,6 +371,8 @@
 				8FAA7AD81541762E00CC6435 /* PostMethod.m */,
 				8FAA7AE915417DF900CC6435 /* UserLocationAnnotation.h */,
 				8FAA7AEA15417DF900CC6435 /* UserLocationAnnotation.m */,
+				8F841418154BCC54004C6F2E /* PostMethodAsync.h */,
+				8F841419154BCC54004C6F2E /* PostMethodAsync.m */,
 			);
 			name = BasicClasses;
 			sourceTree = "<group>";
@@ -510,6 +515,7 @@
 				8FD4418F15494C4100605B0D /* RootViewController.m in Sources */,
 				8F5EC549154960470096D741 /* CancelJob.m in Sources */,
 				8F841416154B242F004C6F2E /* CalloutBar.m in Sources */,
+				8F84141A154BCC55004C6F2E /* PostMethodAsync.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,9 +11,11 @@
 @interface DriverInfo : NSObject
 {
     NSDictionary* driverInfo;
+    NSArray* driverInfoAll;
     
 }
 -(void) getDriverInfo_useDriverID:(NSString*) driver_id;
 -(NSDictionary*) driverInfo;
+-(NSArray*) driverInfoAll;
 
 @end

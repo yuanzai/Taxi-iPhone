@@ -22,8 +22,6 @@
         myCheckConnection = [[CheckConnection alloc]init];
     }
 
-    
-
     NSMutableArray *latestDriverList = [[NSMutableArray alloc]init];
     DriverPositions *driverListGetter =[[DriverPositions alloc]init];
     latestDriverList = [driverListGetter getDriverListFromServer:driver_id];

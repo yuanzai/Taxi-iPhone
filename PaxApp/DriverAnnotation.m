@@ -1,5 +1,5 @@
 #import "DriverAnnotation.h"
-#import "PostMethod.h"
+
 
 @implementation DriverAnnotation
 @synthesize coordinate, subTitle, title;
@@ -12,6 +12,8 @@
 	//NSLog(@"%f,%f",c.latitude,c.longitude);
 	return self;
 }
+
+
 
 
 @end

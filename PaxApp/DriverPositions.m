@@ -9,11 +9,17 @@
 #import "DriverPositions.h"
 #import "DriverAnnotation.h"
 #import "PostMethod.h"
+#import "DriverInfo.h"
 
 @implementation DriverPositions
 
 -(NSMutableArray*)getDriverListFromServer: (NSString*)driver_id
 {
+    if (!driverInfo)
+        driverInfo = [[DriverInfo alloc] init];
+       
+    [driverInfo getDriverInfo_useDriverID:@"all"];
+    driverInfo.driverInfoAll
     
     NSString* postURL = [NSString stringWithFormat:@"driver_id=%@",driver_id];
                          
@@ -28,6 +34,9 @@
     NSLog(@"String Data received from URL - %@",responseString);
     NSLog([NSString stringWithFormat: @"Driver count - %d", [array count]]);
     
+    NSLog(@"%@ - %@ - Driver Array: %@",self.class,NSStringFromSelector(_cmd),driverInfo.driverInfoAll);
+
+    
     NSMutableArray *driverList = [[NSMutableArray alloc]init];
     int x = 0;
     while (x<[array count])
@@ -41,8 +50,9 @@
         driverItem.driverInfo = rawDriverItem;
         driverItem.driver_id = driver_id;
         driverItem.title = [NSString stringWithFormat: @"%@",driver_id];
-        CLLocationCoordinate2D location;     
+        driverItem.driverInfo = rawDriverItem;
         
+        CLLocationCoordinate2D location;     
         location.latitude = lat ;
         location.longitude = longi;
         
