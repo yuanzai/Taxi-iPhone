@@ -12,9 +12,11 @@
 @interface DriverPositions : NSObject
 {
     DriverInfo *driverInfo;
+    NSMutableDictionary *newKey;
+    NSMutableDictionary *oldKey;
 }
 
--(NSMutableArray*)getDriverListFromServer: (NSString*)driver_id;
+-(NSMutableDictionary*)getDriverListFromServer: (NSString*)driver_id;
 
 
 @end

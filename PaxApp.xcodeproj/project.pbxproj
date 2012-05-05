@@ -22,11 +22,28 @@
 		8F0CE32A1546B13500CC19CC /* SubmitClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE3291546B13500CC19CC /* SubmitClass.m */; };
 		8F512F3D1547B3B90083A2CE /* RatingAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F3C1547B3B90083A2CE /* RatingAlert.m */; };
 		8F512F4015484B840083A2CE /* DriverInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F3F15484B840083A2CE /* DriverInfo.m */; };
-		8F512F4315484E8E0083A2CE /* PickedUpReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F4215484E8E0083A2CE /* PickedUpReceiver.m */; };
+		8F512F4315484E8E0083A2CE /* JobStatusReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F4215484E8E0083A2CE /* JobStatusReceiver.m */; };
 		8F5EC549154960470096D741 /* CancelJob.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5EC548154960470096D741 /* CancelJob.m */; };
 		8F5EC54B1549CD880096D741 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EC54A1549CD880096D741 /* profile.png */; };
+		8F80A40D154D4B12000F536E /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A40C154D4B12000F536E /* PaymentViewController.m */; };
+		8F80A411154DAECB000F536E /* MeterReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A410154DAECB000F536E /* MeterReceiver.m */; };
+		8F80A414154DC80B000F536E /* CountdownAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A413154DC80B000F536E /* CountdownAlert.m */; };
+		8F80A47E154F50A9000F536E /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A47D154F50A8000F536E /* SignInViewController.m */; };
+		8F80A481154F50BE000F536E /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A480154F50BE000F536E /* RegisterViewController.m */; };
+		8F80A484154F50F5000F536E /* ManageAddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A483154F50F5000F536E /* ManageAddressesViewController.m */; };
+		8F80A487154F510C000F536E /* ManageDriversViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A486154F510B000F536E /* ManageDriversViewController.m */; };
+		8F80A48A154F5125000F536E /* TravelHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A489154F5124000F536E /* TravelHistoryViewController.m */; };
+		8F80A48D154F5143000F536E /* ManageAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A48C154F5143000F536E /* ManageAccountViewController.m */; };
 		8F841416154B242F004C6F2E /* CalloutBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F841415154B242F004C6F2E /* CalloutBar.m */; };
 		8F84141A154BCC55004C6F2E /* PostMethodAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F841419154BCC54004C6F2E /* PostMethodAsync.m */; };
+		8F8414B2154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8F8414B1154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg */; };
+		8F8414B4154C6931004C6F2E /* no pic profile.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8F8414B3154C6931004C6F2E /* no pic profile.jpeg */; };
+		8F8414B7154C7FE1004C6F2E /* JobView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8414B6154C7FE0004C6F2E /* JobView.m */; };
+		8F8414BA154C9433004C6F2E /* OnTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8414B9154C9433004C6F2E /* OnTripViewController.m */; };
+		8F86BB12155415020083E540 /* ChooseLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB11155415010083E540 /* ChooseLocationViewController.m */; };
+		8F86BB1A155417B90083E540 /* AddressAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB19155417B90083E540 /* AddressAnnotation.m */; };
+		8F8796471550534F00281151 /* greenbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8796461550534F00281151 /* greenbutton.png */; };
+		8F87964A1550535800281151 /* redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8796491550535800281151 /* redbutton.png */; };
 		8FAA7A9B15415E0300CC6435 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9A15415E0300CC6435 /* UIKit.framework */; };
 		8FAA7A9D15415E0300CC6435 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9C15415E0300CC6435 /* Foundation.framework */; };
 		8FAA7A9F15415E0300CC6435 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9E15415E0300CC6435 /* CoreGraphics.framework */; };
@@ -52,7 +69,6 @@
 		8FAA7AF3154197DB00CC6435 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7AF2154197DB00CC6435 /* SystemConfiguration.framework */; };
 		8FAA7AF5154197E200CC6435 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7AF4154197E100CC6435 /* MapKit.framework */; };
 		8FAA7AF81541981500CC6435 /* CoreLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AF71541981500CC6435 /* CoreLocationManager.m */; };
-		8FD4418F15494C4100605B0D /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FD4418E15494C4100605B0D /* RootViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,15 +109,45 @@
 		8F512F3C1547B3B90083A2CE /* RatingAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingAlert.m; sourceTree = "<group>"; };
 		8F512F3E15484B840083A2CE /* DriverInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverInfo.h; sourceTree = "<group>"; };
 		8F512F3F15484B840083A2CE /* DriverInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverInfo.m; sourceTree = "<group>"; };
-		8F512F4115484E8E0083A2CE /* PickedUpReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PickedUpReceiver.h; sourceTree = "<group>"; };
-		8F512F4215484E8E0083A2CE /* PickedUpReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PickedUpReceiver.m; sourceTree = "<group>"; };
+		8F512F4115484E8E0083A2CE /* JobStatusReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobStatusReceiver.h; sourceTree = "<group>"; };
+		8F512F4215484E8E0083A2CE /* JobStatusReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobStatusReceiver.m; sourceTree = "<group>"; };
 		8F5EC547154960470096D741 /* CancelJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelJob.h; sourceTree = "<group>"; };
 		8F5EC548154960470096D741 /* CancelJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelJob.m; sourceTree = "<group>"; };
 		8F5EC54A1549CD880096D741 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
+		8F80A40B154D4B12000F536E /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
+		8F80A40C154D4B12000F536E /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
+		8F80A40F154DAECB000F536E /* MeterReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeterReceiver.h; sourceTree = "<group>"; };
+		8F80A410154DAECB000F536E /* MeterReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeterReceiver.m; sourceTree = "<group>"; };
+		8F80A412154DC80B000F536E /* CountdownAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownAlert.h; sourceTree = "<group>"; };
+		8F80A413154DC80B000F536E /* CountdownAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownAlert.m; sourceTree = "<group>"; };
+		8F80A47C154F50A8000F536E /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
+		8F80A47D154F50A8000F536E /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
+		8F80A47F154F50BD000F536E /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
+		8F80A480154F50BE000F536E /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
+		8F80A482154F50F5000F536E /* ManageAddressesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageAddressesViewController.h; sourceTree = "<group>"; };
+		8F80A483154F50F5000F536E /* ManageAddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageAddressesViewController.m; sourceTree = "<group>"; };
+		8F80A485154F510B000F536E /* ManageDriversViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageDriversViewController.h; sourceTree = "<group>"; };
+		8F80A486154F510B000F536E /* ManageDriversViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageDriversViewController.m; sourceTree = "<group>"; };
+		8F80A488154F5123000F536E /* TravelHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelHistoryViewController.h; sourceTree = "<group>"; };
+		8F80A489154F5124000F536E /* TravelHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelHistoryViewController.m; sourceTree = "<group>"; };
+		8F80A48B154F5142000F536E /* ManageAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageAccountViewController.h; sourceTree = "<group>"; };
+		8F80A48C154F5143000F536E /* ManageAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageAccountViewController.m; sourceTree = "<group>"; };
 		8F841414154B242F004C6F2E /* CalloutBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutBar.h; sourceTree = "<group>"; };
 		8F841415154B242F004C6F2E /* CalloutBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalloutBar.m; sourceTree = "<group>"; };
 		8F841418154BCC54004C6F2E /* PostMethodAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostMethodAsync.h; sourceTree = "<group>"; };
 		8F841419154BCC54004C6F2E /* PostMethodAsync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostMethodAsync.m; sourceTree = "<group>"; };
+		8F8414B1154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "2011-BMW-5-Series-M-Sport-450x314.jpg"; sourceTree = "<group>"; };
+		8F8414B3154C6931004C6F2E /* no pic profile.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "no pic profile.jpeg"; sourceTree = "<group>"; };
+		8F8414B5154C7FE0004C6F2E /* JobView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobView.h; sourceTree = "<group>"; };
+		8F8414B6154C7FE0004C6F2E /* JobView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobView.m; sourceTree = "<group>"; };
+		8F8414B8154C9432004C6F2E /* OnTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnTripViewController.h; sourceTree = "<group>"; };
+		8F8414B9154C9433004C6F2E /* OnTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnTripViewController.m; sourceTree = "<group>"; };
+		8F86BB10155415010083E540 /* ChooseLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLocationViewController.h; sourceTree = "<group>"; };
+		8F86BB11155415010083E540 /* ChooseLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationViewController.m; sourceTree = "<group>"; };
+		8F86BB18155417B90083E540 /* AddressAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressAnnotation.h; sourceTree = "<group>"; };
+		8F86BB19155417B90083E540 /* AddressAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressAnnotation.m; sourceTree = "<group>"; };
+		8F8796461550534F00281151 /* greenbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenbutton.png; sourceTree = "<group>"; };
+		8F8796491550535800281151 /* redbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbutton.png; sourceTree = "<group>"; };
 		8FAA7A9615415E0300CC6435 /* PaxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaxApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAA7A9A15415E0300CC6435 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8FAA7A9C15415E0300CC6435 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -142,8 +188,6 @@
 		8FAA7AF4154197E100CC6435 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8FAA7AF61541981500CC6435 /* CoreLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreLocationManager.h; sourceTree = "<group>"; };
 		8FAA7AF71541981500CC6435 /* CoreLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreLocationManager.m; sourceTree = "<group>"; };
-		8FD4418D15494C4100605B0D /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
-		8FD4418E15494C4100605B0D /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -176,6 +220,10 @@
 		8F0CE2ED1545511500CC19CC /* Other Files */ = {
 			isa = PBXGroup;
 			children = (
+				8F8796491550535800281151 /* redbutton.png */,
+				8F8796461550534F00281151 /* greenbutton.png */,
+				8F8414B3154C6931004C6F2E /* no pic profile.jpeg */,
+				8F8414B1154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg */,
 				8F5EC54A1549CD880096D741 /* profile.png */,
 				8F0CE2EF1545516100CC19CC /* taxi.png */,
 				8F0CE2F01545516100CC19CC /* userdot.png */,
@@ -202,12 +250,21 @@
 			children = (
 				8F512F3B1547B3B90083A2CE /* RatingAlert.h */,
 				8F512F3C1547B3B90083A2CE /* RatingAlert.m */,
-				8F512F4115484E8E0083A2CE /* PickedUpReceiver.h */,
-				8F512F4215484E8E0083A2CE /* PickedUpReceiver.m */,
 				8F5EC547154960470096D741 /* CancelJob.h */,
 				8F5EC548154960470096D741 /* CancelJob.m */,
+				8F8414B5154C7FE0004C6F2E /* JobView.h */,
+				8F8414B6154C7FE0004C6F2E /* JobView.m */,
 			);
 			name = Onroute;
+			sourceTree = "<group>";
+		};
+		8F80A40E154DAE85000F536E /* OnTrip */ = {
+			isa = PBXGroup;
+			children = (
+				8F80A40F154DAECB000F536E /* MeterReceiver.h */,
+				8F80A410154DAECB000F536E /* MeterReceiver.m */,
+			);
+			name = OnTrip;
 			sourceTree = "<group>";
 		};
 		8FAA7A8B15415E0300CC6435 = {
@@ -253,6 +310,7 @@
 				8FAA7ACF15415E6300CC6435 /* MainMap */,
 				8F0CE30015458F7E00CC19CC /* SubmitJob */,
 				8F0CE30B154590C300CC19CC /* Onroute */,
+				8F80A40E154DAE85000F536E /* OnTrip */,
 				8FAA7AD3154175B900CC6435 /* SharedClasses */,
 				8FAA7AD21541759300CC6435 /* ViewControllers */,
 				8FAA7AA115415E0300CC6435 /* Supporting Files */,
@@ -312,10 +370,26 @@
 				8F0CE30215458FB300CC19CC /* SubmitJobViewController.m */,
 				8F0CE3041545909700CC19CC /* OnrouteViewController.h */,
 				8F0CE3051545909700CC19CC /* OnrouteViewController.m */,
+				8F8414B8154C9432004C6F2E /* OnTripViewController.h */,
+				8F8414B9154C9433004C6F2E /* OnTripViewController.m */,
+				8F80A40B154D4B12000F536E /* PaymentViewController.h */,
+				8F80A40C154D4B12000F536E /* PaymentViewController.m */,
 				8F0CE308154590B700CC19CC /* PrefsViewController.h */,
 				8F0CE309154590B700CC19CC /* PrefsViewController.m */,
-				8FD4418D15494C4100605B0D /* RootViewController.h */,
-				8FD4418E15494C4100605B0D /* RootViewController.m */,
+				8F80A47C154F50A8000F536E /* SignInViewController.h */,
+				8F80A47D154F50A8000F536E /* SignInViewController.m */,
+				8F80A47F154F50BD000F536E /* RegisterViewController.h */,
+				8F80A480154F50BE000F536E /* RegisterViewController.m */,
+				8F80A482154F50F5000F536E /* ManageAddressesViewController.h */,
+				8F80A483154F50F5000F536E /* ManageAddressesViewController.m */,
+				8F80A485154F510B000F536E /* ManageDriversViewController.h */,
+				8F80A486154F510B000F536E /* ManageDriversViewController.m */,
+				8F80A488154F5123000F536E /* TravelHistoryViewController.h */,
+				8F80A489154F5124000F536E /* TravelHistoryViewController.m */,
+				8F80A48B154F5142000F536E /* ManageAccountViewController.h */,
+				8F80A48C154F5143000F536E /* ManageAccountViewController.m */,
+				8F86BB10155415010083E540 /* ChooseLocationViewController.h */,
+				8F86BB11155415010083E540 /* ChooseLocationViewController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -326,6 +400,8 @@
 				8FD4419B154958F100605B0D /* BasicClasses */,
 				8FD4419A154958C400605B0D /* CheckingMethods */,
 				8FD44199154957E500605B0D /* Query */,
+				8F512F4115484E8E0083A2CE /* JobStatusReceiver.h */,
+				8F512F4215484E8E0083A2CE /* JobStatusReceiver.m */,
 				8FAA7ADA154176EC00CC6435 /* DownloadDriverData.h */,
 				8FAA7ADB154176EC00CC6435 /* DownloadDriverData.m */,
 				8FAA7AF61541981500CC6435 /* CoreLocationManager.h */,
@@ -367,12 +443,16 @@
 			children = (
 				8FAA7AD41541760700CC6435 /* DriverAnnotation.h */,
 				8FAA7AD51541760700CC6435 /* DriverAnnotation.m */,
-				8FAA7AD71541762E00CC6435 /* PostMethod.h */,
-				8FAA7AD81541762E00CC6435 /* PostMethod.m */,
 				8FAA7AE915417DF900CC6435 /* UserLocationAnnotation.h */,
 				8FAA7AEA15417DF900CC6435 /* UserLocationAnnotation.m */,
+				8FAA7AD71541762E00CC6435 /* PostMethod.h */,
+				8FAA7AD81541762E00CC6435 /* PostMethod.m */,
 				8F841418154BCC54004C6F2E /* PostMethodAsync.h */,
 				8F841419154BCC54004C6F2E /* PostMethodAsync.m */,
+				8F80A412154DC80B000F536E /* CountdownAlert.h */,
+				8F80A413154DC80B000F536E /* CountdownAlert.m */,
+				8F86BB18155417B90083E540 /* AddressAnnotation.h */,
+				8F86BB19155417B90083E540 /* AddressAnnotation.m */,
 			);
 			name = BasicClasses;
 			sourceTree = "<group>";
@@ -453,6 +533,10 @@
 				8F0CE2F31545516200CC19CC /* userdot.png in Resources */,
 				8F0CE2F41545516200CC19CC /* selected.png in Resources */,
 				8F5EC54B1549CD880096D741 /* profile.png in Resources */,
+				8F8414B2154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg in Resources */,
+				8F8414B4154C6931004C6F2E /* no pic profile.jpeg in Resources */,
+				8F8796471550534F00281151 /* greenbutton.png in Resources */,
+				8F87964A1550535800281151 /* redbutton.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -511,11 +595,23 @@
 				8F0CE32A1546B13500CC19CC /* SubmitClass.m in Sources */,
 				8F512F3D1547B3B90083A2CE /* RatingAlert.m in Sources */,
 				8F512F4015484B840083A2CE /* DriverInfo.m in Sources */,
-				8F512F4315484E8E0083A2CE /* PickedUpReceiver.m in Sources */,
-				8FD4418F15494C4100605B0D /* RootViewController.m in Sources */,
+				8F512F4315484E8E0083A2CE /* JobStatusReceiver.m in Sources */,
 				8F5EC549154960470096D741 /* CancelJob.m in Sources */,
 				8F841416154B242F004C6F2E /* CalloutBar.m in Sources */,
 				8F84141A154BCC55004C6F2E /* PostMethodAsync.m in Sources */,
+				8F8414B7154C7FE1004C6F2E /* JobView.m in Sources */,
+				8F8414BA154C9433004C6F2E /* OnTripViewController.m in Sources */,
+				8F80A40D154D4B12000F536E /* PaymentViewController.m in Sources */,
+				8F80A411154DAECB000F536E /* MeterReceiver.m in Sources */,
+				8F80A414154DC80B000F536E /* CountdownAlert.m in Sources */,
+				8F80A47E154F50A9000F536E /* SignInViewController.m in Sources */,
+				8F80A481154F50BE000F536E /* RegisterViewController.m in Sources */,
+				8F80A484154F50F5000F536E /* ManageAddressesViewController.m in Sources */,
+				8F80A487154F510C000F536E /* ManageDriversViewController.m in Sources */,
+				8F80A48A154F5125000F536E /* TravelHistoryViewController.m in Sources */,
+				8F80A48D154F5143000F536E /* ManageAccountViewController.m in Sources */,
+				8F86BB12155415020083E540 /* ChooseLocationViewController.m in Sources */,
+				8F86BB1A155417B90083E540 /* AddressAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -24,6 +24,7 @@
     [topBar setHidden:NO];
     [bottomBar setHidden:NO];
     
+    [topBar setText:@"Your Current Location"];
     [bottomBar setText:[[GlobalVariables myGlobalVariables]gUserAddress]];
      
     [UIView animateWithDuration:.5
@@ -33,6 +34,8 @@
      {
          [topBar setAlpha:1];
          [bottomBar setAlpha:1];
+         //[topBar setHidden:YES];
+         //[bottomBar setHidden:YES];
          
      }
                      completion:^(BOOL finished) 
@@ -48,8 +51,8 @@
                           completion:^(BOOL finished) 
           {
               if(finished)
-                  [topBar setHidden:YES];
-              [bottomBar setHidden:YES];
+                  //[topBar setHidden:YES];
+             // [bottomBar setHidden:YES];
                   NSLog(@"FadedOut");
           }];
      }
@@ -59,14 +62,15 @@
 }
 
 
--(void)showDriverBarWithETA
+-(void)showDriverBarWithETA:(NSString*)ETA driver_id:(NSString*)driver_id;
 {
     [topBar setAlpha:0];
     [bottomBar setAlpha:0];
     [topBar setHidden:NO];
     [bottomBar setHidden:NO];
     
-    [bottomBar setText:[[GlobalVariables myGlobalVariables]gUserAddress]];
+    [topBar setText:@"Selected Driver"];
+    [bottomBar setText:[NSString stringWithFormat:@"Driver is %@ minutes away",ETA]];
     
     [UIView animateWithDuration:.5
                           delay:0 
@@ -86,10 +90,13 @@
           {
               [topBar setAlpha:0];
               [bottomBar setAlpha:0];
+              //[topBar setHidden:YES];
+              //[bottomBar setHidden:YES];
           } 
                           completion:^(BOOL finished) 
           {
               if(finished)
+
                   NSLog(@"FadedOut");
           }];
      }

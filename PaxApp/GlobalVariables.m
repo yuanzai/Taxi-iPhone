@@ -25,5 +25,13 @@ static GlobalVariables* myGlobalVariables;
 }
 
 
+- (void) clearGlobalData
+{
+    gDriverList = nil;
+    gDriver_id = nil;
+    gJob_id = nil;
+    gUserAddress = nil;
+    
+}
 //[[GlobalVariablePositions myGlobalVariablePositions] setSavedString:@"HELLO"]; - eg setting gvs
 @end

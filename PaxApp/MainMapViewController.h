@@ -17,8 +17,8 @@
 
 @interface MainMapViewController : UIViewController<MKMapViewDelegate> 
 {
-    NSMutableArray *oldDriverList;
-    NSMutableArray *newDriverList;
+    NSArray *oldDriverList;
+    NSArray *newDriverList;
     IBOutlet MKMapView	*mapView;
     
     NSString* selectedDriver;
@@ -36,13 +36,12 @@
 
 }
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
-@property (strong, nonatomic) IBOutlet UILabel *mainBottomBar;
 - (void) getUserLocation;
 - (void) registerNotification;
 - (void) updateMapMarkers: (NSNotification *) notification;
 - (void) updateUserMarker: (NSNotification *) notification;
 - (void) updateETA: (NSNotification *) notification;
--(void) updateGeoAddress:(NSNotification*) notification;
+- (void) updateGeoAddress:(NSNotification*) notification;
 
 - (IBAction) setGDriver_id:(id)sender;
 

@@ -10,6 +10,22 @@
 #import "PostMethod.h"
 
 @implementation JobQuery
+/* message types
+ 
+ //completed
+ //drivercancellate
+ //drivernoshow
+ //clientcancel
+ //drivercancel
+ //driveraccept
+ //driverpicked
+ //clientnoshow 
+ //clientonboard
+ //driverreached
+  */
+
+
+
 
 -(NSString*) submitJobQuerywithMsgType:(NSString*)msgtype job_id:(NSString*)job_id rating:(NSString *)rating driver_id:(NSString*)driver_id
 {

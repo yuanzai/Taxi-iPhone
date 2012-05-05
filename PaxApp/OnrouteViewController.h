@@ -12,10 +12,10 @@
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class Job;
-@class DriverInfo;
-@class PickedUpReceiver;
+@class JobStatusReceiver;
 @class RatingAlert;
 @class CancelJob;
+@class JobView;
 @interface OnrouteViewController : UIViewController <MKMapViewDelegate> 
 {
     IBOutlet MKMapView	*mapView;
@@ -25,13 +25,16 @@
     NSMutableArray* driverList;
     
     Job *currentJob;
-    DriverInfo *currentDriverInfo;
     
-    PickedUpReceiver *myPickupReceiver;
+    JobStatusReceiver *myStatusReceiver;
     
     RatingAlert *myRatingAlert;
     
     CancelJob *confirmCancel;
+    
+    JobView *myJobView;
+    IBOutlet UIView *infoView;
+    IBOutlet UIButton *showMoreButton;
 
 }
 @property (nonatomic,strong) IBOutlet MKMapView *mapView;
@@ -39,10 +42,14 @@
 - (void)registerNotification;
 - (void)getUserLocation;
 - (void)displayInfo;
-- (void)startPickupReceiver;
+- (void)startStatusReceiver;
 - (IBAction)button:(id)sender;
 - (IBAction)confirmCancel:(id)sender;
 -(void)backToMain:(NSNotification*)Notification;
+-(void)updateUserMarker;
+-(IBAction)testPicked:(id)sender;
+-(void)actionPickedStatus:(NSNotification *)notification;
+- (void)updateMapMarkers: (NSNotification *) notification;
 
 
 

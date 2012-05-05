@@ -18,11 +18,10 @@
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     
-    if (!myCheckConnection) {
-        myCheckConnection = [[CheckConnection alloc]init];
-    }
+    //myCheckConnection = [[CheckConnection alloc]init];
+    
 
-    NSMutableArray *latestDriverList = [[NSMutableArray alloc]init];
+    NSMutableDictionary *latestDriverList = [[NSMutableDictionary alloc]init];
     DriverPositions *driverListGetter =[[DriverPositions alloc]init];
     latestDriverList = [driverListGetter getDriverListFromServer:driver_id];
     
@@ -34,33 +33,24 @@
 
 }
 
-/*                        
--(void)startDataDownloadThread{
-    [NSThread detachNewThreadSelector:@selector(startNSTimerThread)toTarget:self withObject:nil]; 
-   
-}
-
--(void)stopDataDownloadThread{
-    
-}
- 
- */
 
 -(void)startDriverDataDownloadTimer{
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
 
     [self dataDownload:nil];
     
-    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:15 
+    NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:10 
                                                       target:self selector:@selector(dataDownload:)
                                                     userInfo:nil repeats:YES];
     self.repeatingTimer = timer;
-    [myCheckConnection startConnectionCheck];
+    //[myCheckConnection startConnectionCheck];
 }
 
 - (void)stopDownloadDriverDataTimer{
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-
+    
+    //[myCheckConnection stopConnectionCheck];
+    
     [repeatingTimer invalidate];
     self.repeatingTimer = nil;
 }

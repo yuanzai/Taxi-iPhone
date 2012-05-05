@@ -17,7 +17,7 @@
 
 
 @implementation MainMapViewController
-@synthesize mapView, mainBottomBar;
+@synthesize mapView;
 
 - (void)didReceiveMemoryWarning
 {
@@ -31,7 +31,21 @@
 {
 
     [mapView setDelegate:self];
-
+    [[GlobalVariables myGlobalVariables] clearGlobalData];   
+    
+    [self registerNotification];
+    downloader = [[DownloadDriverData alloc]init];
+    downloader.driver_id = @"all";
+    myBar = [[CalloutBar alloc]init];
+    myBar.topBar = mainTopBar;
+    myBar.bottomBar = mainBottomBar;
+    
+    [myBar hideUserBar];
+    callGetETA = [[GetETA alloc]init];
+    
+    [self getUserLocation];
+    [downloader startDriverDataDownloadTimer];
+    
 	// Do any additional setup after loading the view, typically from a nib.
 
     
@@ -48,17 +62,7 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{
-    
-    [self registerNotification]; 
-    downloader = [[DownloadDriverData alloc]init];
-    downloader.driver_id = @"all";
-    myBar = [[CalloutBar alloc]init];
-    myBar.topBar = mainTopBar;
-    myBar.bottomBar = mainBottomBar;
-    
-    [myBar hideUserBar];
-    
+{  
     [super viewWillAppear:animated];
 }
 
@@ -66,21 +70,19 @@
 {
     [super viewDidAppear:animated];
 
-    [self getUserLocation];
-    [downloader startDriverDataDownloadTimer];
+
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
+    [downloader stopDownloadDriverDataTimer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-    [downloader stopDownloadDriverDataTimer];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-
 
 }
 
@@ -123,9 +125,11 @@
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     
     if (!newDriverList) {
-        newDriverList = [[NSMutableArray alloc]init];
+        newDriverList = [[NSArray alloc]init];
     }    
-    newDriverList = [[GlobalVariables myGlobalVariables] gDriverList]; 
+    newDriverList = [[[GlobalVariables myGlobalVariables] gDriverList] allValues]; 
+    
+    
     
     if (!tempSelectedDriver)
         tempSelectedDriver = [[NSString alloc]init];
@@ -137,13 +141,30 @@
     tempSelectedDriver = selectedDriver;
     
     if (!oldDriverList) {
-        oldDriverList = [[NSMutableArray alloc]init];
-    } else {
-        [mapView removeAnnotations:oldDriverList];
-    }
-    [mapView addAnnotations:newDriverList];
+        oldDriverList = [[NSArray alloc]init];
+        [mapView addAnnotations:newDriverList];
 
     
+    } else {
+        //[mapView removeAnnotations:oldDriverList];
+        
+        NSMutableArray *tempAddList = [[NSMutableArray alloc]init];
+        NSMutableArray *tempRemoveList = [[NSMutableArray alloc]init];
+        tempAddList = [NSMutableArray arrayWithArray:newDriverList];
+        tempRemoveList = [NSMutableArray arrayWithArray:oldDriverList];
+
+        if (![tempAddList containsObject:oldDriverList]) {
+            [tempAddList removeObjectsInArray:oldDriverList];
+            [mapView addAnnotations:tempAddList];
+
+        }
+
+        if (![tempRemoveList containsObject:newDriverList]) {
+            [tempRemoveList removeObjectsInArray:newDriverList];
+            [mapView removeAnnotations:tempRemoveList];
+        }
+       
+    }
     oldDriverList = newDriverList;
 }
 
@@ -229,9 +250,6 @@
     
     if (view.annotation.title != @"User Location") {
         
-        if (!callGetETA)
-            callGetETA = [[GetETA alloc]init];
-        
         [callGetETA startETAThread:view.annotation];
         
         if (!selectedDriver)
@@ -266,6 +284,8 @@
 - (void) updateETA: (NSNotification *) notification;
 {
     NSLog(@"%@ - %@ - Updated ETA - %@",self.class,NSStringFromSelector(_cmd),[callGetETA eta]);
+    [myBar showDriverBarWithETA:callGetETA.eta driver_id:nil];
+    
 }
 
 - (IBAction) setGDriver_id:(id)sender
@@ -277,9 +297,6 @@
 
 -(void) updateGeoAddress:(NSNotification*) notification
 {
-    if(!mainBottomBar)
-        mainBottomBar = [[UILabel alloc]init];
-
     [myBar showUserBarWithGeoAddress];
     //[mainBottomBar setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];
     

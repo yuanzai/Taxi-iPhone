@@ -68,6 +68,14 @@
     
 }
 
+-(void)stopConnectionCheck
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    internetReachable = nil;
+    hostReachable =nil;
+    
+}
+
 
 
 @end

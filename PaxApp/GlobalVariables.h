@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface GlobalVariables : NSObject{
-    NSMutableArray* gDriverList;
+    NSMutableDictionary* gDriverList;
     CLLocationCoordinate2D gUserCoordinate;
     
     NSString* gPickupString;
@@ -20,9 +20,10 @@
     NSString* gJob_id;
     NSString* gUserAddress;
 
+
 }
 
-@property (nonatomic, strong) NSMutableArray* gDriverList;
+@property (nonatomic, strong) NSMutableDictionary* gDriverList;
 @property CLLocationCoordinate2D gUserCoordinate;
 @property (nonatomic,strong) NSString* gPickupString;
 @property (nonatomic,strong) NSString* gDestinationString;
@@ -34,5 +35,6 @@
 
 
 + (GlobalVariables*)myGlobalVariables;
+- (void) clearGlobalData;
 
 @end

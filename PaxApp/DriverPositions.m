@@ -10,62 +10,53 @@
 #import "DriverAnnotation.h"
 #import "PostMethod.h"
 #import "DriverInfo.h"
+#import "GlobalVariables.h"
 
 @implementation DriverPositions
 
--(NSMutableArray*)getDriverListFromServer: (NSString*)driver_id
+-(NSMutableDictionary*)getDriverListFromServer: (NSString*)driver_id
 {
     if (!driverInfo)
         driverInfo = [[DriverInfo alloc] init];
        
-    [driverInfo getDriverInfo_useDriverID:@"all"];
-    driverInfo.driverInfoAll
-    
-    NSString* postURL = [NSString stringWithFormat:@"driver_id=%@",driver_id];
-                         
-    
-    PostMethod *postMethod = [[PostMethod alloc]init];
-    NSData* arrayData = [postMethod getDataFromURLPostMethod:postURL :[NSURL URLWithString:@"http://localhost/taxi/drivers.php"]];
-    
-    NSArray *array = [NSJSONSerialization JSONObjectWithData:arrayData options:NSJSONReadingMutableLeaves error:nil];    
-    
-    
-    NSString *responseString = [[NSString alloc] initWithData:arrayData encoding:NSUTF8StringEncoding];
-    NSLog(@"String Data received from URL - %@",responseString);
-    NSLog([NSString stringWithFormat: @"Driver count - %d", [array count]]);
+    [driverInfo getDriverInfo_useDriverID:driver_id];
     
     NSLog(@"%@ - %@ - Driver Array: %@",self.class,NSStringFromSelector(_cmd),driverInfo.driverInfoAll);
 
     
-    NSMutableArray *driverList = [[NSMutableArray alloc]init];
+    newKey = [[NSMutableDictionary alloc]init];
+    oldKey = [[GlobalVariables myGlobalVariables]gDriverList];
+    
     int x = 0;
-    while (x<[array count])
+    while (x<[driverInfo.driverInfoAll count])
     {
-        NSDictionary *rawDriverItem = [array objectAtIndex:x];
-        NSNumber *driver_id = [rawDriverItem objectForKey:@"driver_id"];
+        
+        NSDictionary *rawDriverItem = [driverInfo.driverInfoAll objectAtIndex:x];
         float lat = [[rawDriverItem objectForKey:@"lat"] floatValue]/1E6;
         float longi = [[rawDriverItem objectForKey:@"longi"] floatValue]/1E6;
+        NSString* driver_id = [rawDriverItem objectForKey:@"driver_id"];
         
-        DriverAnnotation *driverItem =[[DriverAnnotation alloc]init];
-        driverItem.driverInfo = rawDriverItem;
-        driverItem.driver_id = driver_id;
-        driverItem.title = [NSString stringWithFormat: @"%@",driver_id];
-        driverItem.driverInfo = rawDriverItem;
         
-        CLLocationCoordinate2D location;     
-        location.latitude = lat ;
-        location.longitude = longi;
         
-        [driverItem initWithCoordinate:location];
-        
-        [driverList addObject:driverItem];
-        NSLog(@"driver_id - %@ lat = %f longi = %f",driverItem.driver_id,location.latitude, location.longitude);
+        if ([oldKey objectForKey:driver_id] != nil){
+            DriverAnnotation *driverItem =[[DriverAnnotation alloc]init];
+            driverItem = [oldKey objectForKey:driver_id];
+            [driverItem initWithCoordinate:CLLocationCoordinate2DMake(lat, longi)];
+            [newKey setValue:driverItem forKey:driver_id]; 
+        } else {
+            DriverAnnotation *driverItem =[[DriverAnnotation alloc]init];
+            driverItem.driverInfo = rawDriverItem;
+            driverItem.driver_id = driver_id;
+            driverItem.title = driver_id;
+            [driverItem initWithCoordinate:CLLocationCoordinate2DMake(lat, longi)];            
+            [newKey setValue:driverItem forKey:driver_id]; 
+        }
         
         rawDriverItem = nil;
         x++;
     };
    
-    return driverList;
+    return newKey;
 }
 
 

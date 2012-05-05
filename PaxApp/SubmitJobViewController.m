@@ -10,6 +10,9 @@
 #import "GlobalVariables.h"
 #import "SubmitClass.h"
 
+//remove after testing
+#import "JobQuery.h"
+
 @implementation SubmitJobViewController
 @synthesize pickupString, destinationString, pickup, destination;
 
@@ -80,26 +83,32 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
-    pickup.text =[[GlobalVariables myGlobalVariables] gPickupString];
-    destination.text =[[GlobalVariables myGlobalVariables] gDestinationString];
-    [self registerNotifications];
-    [self updateGeoAddress];
+
     [super viewDidLoad];
 }
+
+
 
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
 
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
--(void)viewDidDisappear:(BOOL)animated
+-(void)viewDidAppear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    pickup.text =[[GlobalVariables myGlobalVariables] gPickupString];
+    destination.text =[[GlobalVariables myGlobalVariables] gDestinationString];
+    [self registerNotifications];
+    [self updateGeoAddress];
+}
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -119,13 +128,17 @@
 
 -(void)gotoOnroute:(NSNotification *)notification
 {
-    [self performSegueWithIdentifier:@"JobAccepted" sender:self];
+    [self performSegueWithIdentifier:@"gotoOnroute" sender:self];
 }
 
 -(IBAction)testButton:(id)sender
 {
-    NSLog(@"%@",sender);
-    [self performSegueWithIdentifier:@"JobAccepted" sender:self];
+
+    JobQuery *newQuery=[[JobQuery alloc]init];
+    [newQuery submitJobQuerywithMsgType:@"driveraccept" job_id:[[GlobalVariables myGlobalVariables]gJob_id] rating:nil driver_id:@"1"];
+    [[GlobalVariables myGlobalVariables]setGDriver_id:@"1"];
+    
+    [self performSegueWithIdentifier:@"gotoOnroute" sender:self];
 }
 
 -(void) updateGeoAddress

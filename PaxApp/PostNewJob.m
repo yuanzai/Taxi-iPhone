@@ -29,7 +29,7 @@
     NSString *number = @"92723223";
     NSString *pax_id = @"temp number";
     
-    NSString* postBody = [[NSString alloc] initWithFormat:@"driver_id=%@&lat=%@&longi=%@&name=%@&number=%@&pickup=%@&destination=%@&pax_id=%@&open=1",driver_id,toLat,toLongi,name,number,pickup,destination,pax_id];
+    NSString* postBody = [[NSString alloc] initWithFormat:@"driver_id=%@&lat=%@&longi=%@&name=%@&number=%@&pickup=%@&destination=%@&pax_id=%@&open=1&jobstatus=open",driver_id,toLat,toLongi,name,number,pickup,destination,pax_id];
     
     PostMethod *postMethod = [[PostMethod alloc]init];
     NSData* responseData = [postMethod getDataFromURLPostMethod:postBody :[NSURL URLWithString:@"http://localhost/taxi/postjob.php"]];

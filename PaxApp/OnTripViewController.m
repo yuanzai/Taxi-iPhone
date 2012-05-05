@@ -1,12 +1,12 @@
 //
-//  OnrouteViewController.m
+//  OnTripViewController.m
 //  PaxApp
 //
-//  Created by Junyuan Lau on 23/04/2012.
+//  Created by Junyuan Lau on 29/04/2012.
 //  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
 //
 
-#import "OnrouteViewController.h"
+#import "OnTripViewController.h"
 #import "DownloadDriverData.h"
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
@@ -20,10 +20,11 @@
 
 #import "JobQuery.h"
 
+#import "MeterReceiver.h"
 
-@implementation OnrouteViewController
+
+@implementation OnTripViewController
 @synthesize mapView;
-
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -53,73 +54,76 @@
 
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
+-(void)viewDidLoad
 {
     [super viewDidLoad];
     [self registerNotification];
     [mapView setDelegate:self];
     downloader = [[DownloadDriverData alloc]init];
     downloader.driver_id = [[GlobalVariables myGlobalVariables]gDriver_id];
-    [self displayInfo];
     [self startStatusReceiver];
     [self updateUserMarker];
-    myJobView = [[JobView alloc]init]; 
-    myJobView.infoView = infoView;
-    [downloader startDriverDataDownloadTimer];
+    [downloader startDriverDataDownloadTimer]; 
+    
+    myMeter = [[MeterReceiver alloc]init];
+    
+    myMeter.fareLabel = fareLabel;
+    [super viewDidLoad];
+
 
 }
 
-- (void)viewDidUnload
+
+-(void)viewDidUnload
 {
-    [super viewDidUnload];
+    [super viewDidUnload];    
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
 }
 
--(void)viewDidAppear:(BOOL)animated
+
+-(void) viewWillDisappear:(BOOL)animated
 {
-
-}
-
--(void)viewWillAppear:(BOOL)animated
-{
-    [showMoreButton setHidden:YES];
-}
-
-
--(void)viewWillDisappear:(BOOL)animated
-{
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
+    
     [downloader stopDownloadDriverDataTimer];
+    [[NSNotificationCenter defaultCenter] removeObserver:self];    
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     // Return YES for supported orientations
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-
-- (void)registerNotification
+-(void)registerNotification
 {
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(updateMapMarkers:)
      name:@"driverListUpdated"
-     object:nil ];
-    
+     object:nil ];    
+
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(endTrip:)
+     name:@"NotifyDriverreachedStatus"
+     object:nil ];    
+
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(gotoMain:)
      name:@"gotoMain"
-     object:nil ];
-        
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(actionPickedStatus:)
-     name:@"NotifyPickedStatus"
-     object:nil ];
+     object:nil ]; 
+}
 
+-(void)startStatusReceiver
+{
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+    
+    myStatusReceiver = [[JobStatusReceiver alloc]init];
+    myStatusReceiver.job_id = [[GlobalVariables myGlobalVariables]gJob_id];
+    [myStatusReceiver startStatusReceiverTimer];
+    
 }
 
 - (void)updateMapMarkers: (NSNotification *) notification
@@ -127,9 +131,7 @@
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     [mapView addAnnotations:[[[GlobalVariables myGlobalVariables] gDriverList] allValues]];
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"driverListUpdated" object:nil];
- 
 }
-
 
 -(void)updateUserMarker
 {
@@ -176,37 +178,23 @@
     }
 }
 
--(void)displayInfo
+-(IBAction)startTrip
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+    [myMeter setJob_ID:[[GlobalVariables myGlobalVariables]gJob_id]];
+    [myMeter startMeterReceiverTimer];
+}
 
-    currentJob = [[Job alloc]init];    
-    [currentJob getJobInfo_useJobID:[[GlobalVariables myGlobalVariables] gJob_id]];
-    
-    NSLog(@"%@ - %@ - currentJob:%@",self.class,NSStringFromSelector(_cmd),currentJob);
+-(void)endTrip: (NSNotification*) notification
+{
+    [self performSegueWithIdentifier:@"gotoPayment" sender:self];
 
 }
 
--(void)startStatusReceiver
+-(IBAction)testReached:(id)sender
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-
-    myStatusReceiver = [[JobStatusReceiver alloc]init];
-    myStatusReceiver.job_id = [[GlobalVariables myGlobalVariables]gJob_id];
-    [myStatusReceiver startStatusReceiverTimer];
     
-}
-
--(IBAction)button:(id)sender
-{
-    myRatingAlert = [[RatingAlert alloc]init];
-    [myRatingAlert launchMainBox:nil];
-    
-}
-
--(void)gotoMain:(NSNotification*)Notification
-{
-    [self performSegueWithIdentifier:@"gotoMain" sender:self];
+    JobQuery* newQuery =[[JobQuery alloc]init];
+    [newQuery submitJobQuerywithMsgType:@"driverreached" job_id:[[GlobalVariables myGlobalVariables]gJob_id] rating:nil driver_id:nil];
 }
 
 -(IBAction)confirmCancel:(id)sender
@@ -216,29 +204,8 @@
     
 }
 
--(IBAction)hideInfoView:(id)sender
-{   
-    [showMoreButton setHidden:NO];
-    [myJobView hideInfoView];
-}
-
--(IBAction)showInfoView:(id)sender
+-(void)gotoMain:(NSNotification*) notification
 {
-    [showMoreButton setHidden:YES];
-    [myJobView showInfoView];
-}
-
-
--(IBAction)testPicked:(id)sender
-{
-    JobQuery *newQuery=[[JobQuery alloc]init];
-    [newQuery submitJobQuerywithMsgType:@"driverpicked" job_id:[[GlobalVariables myGlobalVariables]gJob_id] rating:nil driver_id:nil];    
-}
-
--(void)actionPickedStatus:(NSNotification *)notification
-{
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-
-    [self performSegueWithIdentifier:@"gotoOnTrip" sender:self];
+    [self performSegueWithIdentifier:@"gotoMain" sender:self];
 }
 @end

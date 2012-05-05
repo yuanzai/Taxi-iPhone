@@ -43,6 +43,8 @@
     
     [postMethodAsync sendAsyncPostMethod_PostBody:postBody postURL:[NSURL URLWithString:@"http://localhost/taxi/getduration.php"] setDelegate:self];
     
+    
+    
 }
 
 -(NSString *)getETAfromServer:(id <MKAnnotation>)anno
@@ -50,9 +52,7 @@
     
     CLLocationCoordinate2D driverCoordinates;
     driverCoordinates = [anno coordinate];
-    
-    
-    
+
     NSNumber* fromLat = [[NSNumber alloc] initWithFloat: driverCoordinates.latitude];    
     NSNumber* fromLongi = [[NSNumber alloc] initWithFloat: driverCoordinates.longitude];
     
@@ -90,16 +90,19 @@
 
 -(void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));    
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+
+
 }
 
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data
 {
     NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; 
-    
+  
+    eta = responseString;
     NSLog(@"%@ - %@ - Data %@",self.class,NSStringFromSelector(_cmd), responseString);
-    
+      [[NSNotificationCenter defaultCenter] postNotificationName:@"ETA" object:nil];
 }
 
 @end

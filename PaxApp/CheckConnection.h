@@ -19,7 +19,8 @@
 @property BOOL hostActive;
 
 -(void) checkNetworkStatus:(NSNotification *)notice;
-- (void)startConnectionCheck;
+-(void)startConnectionCheck;
+-(void)stopConnectionCheck;
 
 
 @end

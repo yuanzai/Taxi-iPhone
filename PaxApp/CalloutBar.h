@@ -20,5 +20,6 @@
 
 -(void)hideUserBar;
 -(void)showUserBarWithGeoAddress;
+-(void)showDriverBarWithETA:(NSString*)ETA driver_id:(NSString*)driver_id;
 
 @end

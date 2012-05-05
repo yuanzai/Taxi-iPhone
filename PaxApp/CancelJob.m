@@ -18,6 +18,8 @@
     [confirmBox setDelegate:self];
     [confirmBox setTitle:@"Are you sure you want to cancel?"];
     [confirmBox addButtonWithTitle:@"Yes"];
+    [confirmBox addButtonWithTitle:@"Yes - Driver did not show"];
+
     [confirmBox addButtonWithTitle:@"Cancel"];
     
     [confirmBox show];
@@ -41,7 +43,41 @@
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));    
 }
 
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(alertView == confirmBox) {
+        switch (buttonIndex) {
+            case 0:
+            {
+                JobQuery *cancelReport = [[JobQuery alloc]init];
+                [cancelReport submitJobQuerywithMsgType:@"clientcancel" 
+                                                       job_id:[[GlobalVariables myGlobalVariables]gJob_id]
+                                                       rating:@"0"
+                                                    driver_id:[[GlobalVariables myGlobalVariables]gDriver_id]];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoMain" object:nil];
 
+                break;
+            }
+            case 1:
+            {
+                JobQuery *cancelReportNoShow = [[JobQuery alloc]init];
+                [cancelReportNoShow submitJobQuerywithMsgType:@"drivernoshow" 
+                                                       job_id:[[GlobalVariables myGlobalVariables]gJob_id]
+                                                       rating:@"0"
+                                                    driver_id:[[GlobalVariables myGlobalVariables]gDriver_id]];
+                [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoMain" object:nil];
+
+                break;  
+            }
+            default:
+            {
+                break;
+            }
+        }
+    }
+}
+
+/*
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if (alertView == confirmBox) {
@@ -74,5 +110,5 @@
 
     }
 }
-
+*/
 @end
