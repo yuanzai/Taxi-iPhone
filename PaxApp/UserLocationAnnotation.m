@@ -15,12 +15,12 @@
 
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate
 {
+
     NSLog(@"New marker position");   
     coordinate=newCoordinate;
     [[GlobalVariables myGlobalVariables] setGUserCoordinate:newCoordinate];
     GetGeocodedAddress *getGeo = [[GetGeocodedAddress alloc]init];
     [getGeo geocodeLocation:[[CLLocation alloc] initWithLatitude:newCoordinate.latitude longitude:newCoordinate.longitude]];
-    
     
 }
 
@@ -28,7 +28,6 @@
 {
     coordinate=[[GlobalVariables myGlobalVariables] gUserCoordinate];
     return self;
-
 }
 
 
@@ -36,7 +35,7 @@
 {
 	coordinate=c;
 	//NSLog(@"%f,%f",c.latitude,c.longitude);
-	return self;
+    return self;
 }
 
 

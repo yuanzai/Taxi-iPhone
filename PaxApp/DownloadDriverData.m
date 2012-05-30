@@ -10,6 +10,7 @@
 #import "DriverPositions.h"
 #import "GlobalVariables.h"
 #import "CheckConnection.h"
+#import "DriverAsync.h"
 
 @implementation DownloadDriverData
 @synthesize repeatingTimer, driver_id;
@@ -20,16 +21,8 @@
     
     //myCheckConnection = [[CheckConnection alloc]init];
     
-
-    NSMutableDictionary *latestDriverList = [[NSMutableDictionary alloc]init];
-    DriverPositions *driverListGetter =[[DriverPositions alloc]init];
-    latestDriverList = [driverListGetter getDriverListFromServer:driver_id];
-    
-    //setting driverList gv
-    [[GlobalVariables myGlobalVariables] setGDriverList:latestDriverList];
-    
-    //Notifying View Controller to update map markers
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"driverListUpdated" object: nil ];
+    DriverAsync *newConnection= [[DriverAsync alloc]init];
+    [newConnection getDriverInfo_useDriverID:driver_id];
 
 }
 
@@ -54,4 +47,17 @@
     [repeatingTimer invalidate];
     self.repeatingTimer = nil;
 }
+
+
+
+-(void)dataDownloadAsync:(NSTimer *)timer
+{
+    
+}
+
+
+
+
+
+
 @end

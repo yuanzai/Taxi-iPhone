@@ -64,6 +64,8 @@
             [self timerExpired];
         }
     }
+    
+    
     timerView.text = [NSString stringWithFormat:@"%d:%02d",timeCount/60, timeCount % 60];
     NSLog(@"%@",[NSString stringWithFormat:@"%d:%02d",timeCount/60, timeCount % 60]);
 }

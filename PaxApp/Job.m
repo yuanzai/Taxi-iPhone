@@ -39,7 +39,6 @@
     
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     NSLog(@"%@ - responseString: %@",self.class, jobItem);
-
 }
 
 -(NSDictionary*) jobItem
@@ -47,4 +46,7 @@
     return jobItem;
 }
 
+
+
++(void) getJobInfoAsync_withJobID:(NSString*)job_id 
 @end

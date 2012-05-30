@@ -42,8 +42,12 @@
 		8F8414BA154C9433004C6F2E /* OnTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8414B9154C9433004C6F2E /* OnTripViewController.m */; };
 		8F86BB12155415020083E540 /* ChooseLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB11155415010083E540 /* ChooseLocationViewController.m */; };
 		8F86BB1A155417B90083E540 /* AddressAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB19155417B90083E540 /* AddressAnnotation.m */; };
+		8F86BB1D15569E680083E540 /* DriverAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB1C15569E680083E540 /* DriverAsync.m */; };
+		8F86BB251558E4F10083E540 /* AlertBoxAddressName.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB241558E4F10083E540 /* AlertBoxAddressName.m */; };
+		8F86BB28156114C60083E540 /* JobDetails.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB27156114C50083E540 /* JobDetails.m */; };
 		8F8796471550534F00281151 /* greenbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8796461550534F00281151 /* greenbutton.png */; };
 		8F87964A1550535800281151 /* redbutton.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F8796491550535800281151 /* redbutton.png */; };
+		8FA78165157484DB00129B13 /* FavouritesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA78164157484DB00129B13 /* FavouritesViewController.m */; };
 		8FAA7A9B15415E0300CC6435 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9A15415E0300CC6435 /* UIKit.framework */; };
 		8FAA7A9D15415E0300CC6435 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9C15415E0300CC6435 /* Foundation.framework */; };
 		8FAA7A9F15415E0300CC6435 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7A9E15415E0300CC6435 /* CoreGraphics.framework */; };
@@ -69,6 +73,7 @@
 		8FAA7AF3154197DB00CC6435 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7AF2154197DB00CC6435 /* SystemConfiguration.framework */; };
 		8FAA7AF5154197E200CC6435 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8FAA7AF4154197E100CC6435 /* MapKit.framework */; };
 		8FAA7AF81541981500CC6435 /* CoreLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AF71541981500CC6435 /* CoreLocationManager.m */; };
+		8FE56526156CC72B00607EAB /* magglass.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FE56525156CC72B00607EAB /* magglass.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -146,8 +151,16 @@
 		8F86BB11155415010083E540 /* ChooseLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationViewController.m; sourceTree = "<group>"; };
 		8F86BB18155417B90083E540 /* AddressAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressAnnotation.h; sourceTree = "<group>"; };
 		8F86BB19155417B90083E540 /* AddressAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddressAnnotation.m; sourceTree = "<group>"; };
+		8F86BB1B15569E670083E540 /* DriverAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverAsync.h; sourceTree = "<group>"; };
+		8F86BB1C15569E680083E540 /* DriverAsync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverAsync.m; sourceTree = "<group>"; };
+		8F86BB231558E4F10083E540 /* AlertBoxAddressName.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertBoxAddressName.h; sourceTree = "<group>"; };
+		8F86BB241558E4F10083E540 /* AlertBoxAddressName.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertBoxAddressName.m; sourceTree = "<group>"; };
+		8F86BB26156114C50083E540 /* JobDetails.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobDetails.h; sourceTree = "<group>"; };
+		8F86BB27156114C50083E540 /* JobDetails.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobDetails.m; sourceTree = "<group>"; };
 		8F8796461550534F00281151 /* greenbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greenbutton.png; sourceTree = "<group>"; };
 		8F8796491550535800281151 /* redbutton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbutton.png; sourceTree = "<group>"; };
+		8FA78163157484DB00129B13 /* FavouritesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavouritesViewController.h; sourceTree = "<group>"; };
+		8FA78164157484DB00129B13 /* FavouritesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavouritesViewController.m; sourceTree = "<group>"; };
 		8FAA7A9615415E0300CC6435 /* PaxApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PaxApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FAA7A9A15415E0300CC6435 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8FAA7A9C15415E0300CC6435 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -188,6 +201,7 @@
 		8FAA7AF4154197E100CC6435 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		8FAA7AF61541981500CC6435 /* CoreLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CoreLocationManager.h; sourceTree = "<group>"; };
 		8FAA7AF71541981500CC6435 /* CoreLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CoreLocationManager.m; sourceTree = "<group>"; };
+		8FE56525156CC72B00607EAB /* magglass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magglass.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -220,6 +234,7 @@
 		8F0CE2ED1545511500CC19CC /* Other Files */ = {
 			isa = PBXGroup;
 			children = (
+				8FE56525156CC72B00607EAB /* magglass.png */,
 				8F8796491550535800281151 /* redbutton.png */,
 				8F8796461550534F00281151 /* greenbutton.png */,
 				8F8414B3154C6931004C6F2E /* no pic profile.jpeg */,
@@ -241,6 +256,8 @@
 				8F0CE32015467B8100CC19CC /* PostNewJob.m */,
 				8F0CE3281546B13500CC19CC /* SubmitClass.h */,
 				8F0CE3291546B13500CC19CC /* SubmitClass.m */,
+				8F86BB26156114C50083E540 /* JobDetails.h */,
+				8F86BB27156114C50083E540 /* JobDetails.m */,
 			);
 			name = SubmitJob;
 			sourceTree = "<group>";
@@ -265,6 +282,15 @@
 				8F80A410154DAECB000F536E /* MeterReceiver.m */,
 			);
 			name = OnTrip;
+			sourceTree = "<group>";
+		};
+		8F86BB221558E4AE0083E540 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				8F86BB231558E4F10083E540 /* AlertBoxAddressName.h */,
+				8F86BB241558E4F10083E540 /* AlertBoxAddressName.m */,
+			);
+			name = Profile;
 			sourceTree = "<group>";
 		};
 		8FAA7A8B15415E0300CC6435 = {
@@ -311,6 +337,7 @@
 				8F0CE30015458F7E00CC19CC /* SubmitJob */,
 				8F0CE30B154590C300CC19CC /* Onroute */,
 				8F80A40E154DAE85000F536E /* OnTrip */,
+				8F86BB221558E4AE0083E540 /* Profile */,
 				8FAA7AD3154175B900CC6435 /* SharedClasses */,
 				8FAA7AD21541759300CC6435 /* ViewControllers */,
 				8FAA7AA115415E0300CC6435 /* Supporting Files */,
@@ -364,6 +391,8 @@
 		8FAA7AD21541759300CC6435 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				8FA78163157484DB00129B13 /* FavouritesViewController.h */,
+				8FA78164157484DB00129B13 /* FavouritesViewController.m */,
 				8FAA7AAF15415E0300CC6435 /* MainMapViewController.h */,
 				8FAA7AB015415E0300CC6435 /* MainMapViewController.m */,
 				8F0CE30115458FB300CC19CC /* SubmitJobViewController.h */,
@@ -423,6 +452,8 @@
 				8F0CE32315467B8F00CC19CC /* JobQuery.m */,
 				8F0CE325154697A000CC19CC /* Job.h */,
 				8F0CE326154697A000CC19CC /* Job.m */,
+				8F86BB1B15569E670083E540 /* DriverAsync.h */,
+				8F86BB1C15569E680083E540 /* DriverAsync.m */,
 			);
 			name = Query;
 			sourceTree = "<group>";
@@ -537,6 +568,7 @@
 				8F8414B4154C6931004C6F2E /* no pic profile.jpeg in Resources */,
 				8F8796471550534F00281151 /* greenbutton.png in Resources */,
 				8F87964A1550535800281151 /* redbutton.png in Resources */,
+				8FE56526156CC72B00607EAB /* magglass.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -612,6 +644,10 @@
 				8F80A48D154F5143000F536E /* ManageAccountViewController.m in Sources */,
 				8F86BB12155415020083E540 /* ChooseLocationViewController.m in Sources */,
 				8F86BB1A155417B90083E540 /* AddressAnnotation.m in Sources */,
+				8F86BB1D15569E680083E540 /* DriverAsync.m in Sources */,
+				8F86BB251558E4F10083E540 /* AlertBoxAddressName.m in Sources */,
+				8F86BB28156114C60083E540 /* JobDetails.m in Sources */,
+				8FA78165157484DB00129B13 /* FavouritesViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

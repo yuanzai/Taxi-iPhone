@@ -9,12 +9,15 @@
 #import "SubmitJobViewController.h"
 #import "GlobalVariables.h"
 #import "SubmitClass.h"
+#import "ChooseLocationViewController.h"
+#import "FavouritesViewController.h"
+
 
 //remove after testing
 #import "JobQuery.h"
 
 @implementation SubmitJobViewController
-@synthesize pickupString, destinationString, pickup, destination;
+@synthesize pickupString, destinationString, pickup, destination, mapaddress;
 
 - (IBAction)clickedNextButton:(id)sender
 {
@@ -104,6 +107,7 @@
     destination.text =[[GlobalVariables myGlobalVariables] gDestinationString];
     [self registerNotifications];
     [self updateGeoAddress];
+    [destination setDelegate:self];
 }
 
 -(void)viewWillDisappear:(BOOL)animated
@@ -128,7 +132,13 @@
 
 -(void)gotoOnroute:(NSNotification *)notification
 {
-    [self performSegueWithIdentifier:@"gotoOnroute" sender:self];
+    [self performSegueWithIdentifier:@"gotoOnroute" sender:nil];
+}
+
+-(IBAction)gotoMain:(id)sender
+{
+    [self performSegueWithIdentifier:@"gotoMain" sender:sender];
+
 }
 
 -(IBAction)testButton:(id)sender
@@ -146,7 +156,93 @@
     if(!geoAddress)
         geoAddress = [[UILabel alloc]init];
 
+    [mapaddress setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];
     [geoAddress setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];    
 }
+
+-(IBAction)chooseLocation:(id)sender
+{
+    [self performSegueWithIdentifier:@"gotoChooseLocation" sender:sender];
+}
+
+
+-(IBAction)chooseFavourites:(id)sender
+{
+    [self performSegueWithIdentifier:@"gotoFavourites" sender:sender];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+ 
+    if ([[segue identifier] isEqualToString:@"gotoChooseLocation"]) {
+        
+        NSLog(@"Sender Tag - %i", [sender tag]);    
+        
+        ChooseLocationViewController *clVC = [segue destinationViewController];
+        clVC.referer = [sender currentTitle];
+        clVC.refererTag = [sender tag];
+        
+        
+        NSLog(@"%@ - %@ - Sender name : %@",self.class,NSStringFromSelector(_cmd),[sender currentTitle]);
+        //sender tag 11 = top chooselocation button, tag 12 = bottom choose location button
+    } else if  ([[segue identifier] isEqualToString:@"gotoFavourites"]) {
+        
+        NSLog(@"Sender Tag - %i", [sender tag]);    
+        
+        FavouritesViewController *fVC = [segue destinationViewController];
+        fVC.refererTag = [sender tag];
+        
+    }
+    
+}
+
+
+
+
+-(BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    CLLocationCoordinate2D loc = [[GlobalVariables myGlobalVariables] gDestiCoordinate];
+    
+    if (textField == destination && loc.latitude != 0.000000 && loc.longitude != 0.000000) {
+// && (loc.latitude >= -90.0f && loc.latitude <= 90.0f && loc.longitude >= -180.0f && loc.longitude <= 180.0f)
+        UIAlertView *alert = [[UIAlertView alloc] init];
+        [alert setDelegate:self];
+        [alert setTitle:@"Remove current destination"];
+        
+        [alert addButtonWithTitle:@"Yes"];
+        [alert addButtonWithTitle:@"No"];
+        
+        [alert show];
+        
+       
+
+    }
+    
+    return YES; 
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"%i", buttonIndex);
+    if (buttonIndex == 0) {
+        CLLocationCoordinate2D loc;
+        loc.latitude = 0;
+        loc.longitude = 0;
+        [[GlobalVariables myGlobalVariables] setGDestinationString:@""];
+        [[GlobalVariables myGlobalVariables] setGDestiCoordinate:loc];
+        destination.text = @"";
+        
+        [destination becomeFirstResponder];
+        
+        
+        
+    } else if (buttonIndex == 1){
+        
+        [destination resignFirstResponder];
+        
+
+    } 
+}
+
 
 @end

@@ -15,9 +15,14 @@
 #import "GetGeocodedAddress.h"
 #import "CalloutBar.h"
 
+static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 @implementation MainMapViewController
 @synthesize mapView;
+
+@synthesize dirty;
+@synthesize loading;
+@synthesize suggestions, references;
 
 - (void)didReceiveMemoryWarning
 {
@@ -29,7 +34,6 @@
 
 - (void)viewDidLoad
 {
-
     [mapView setDelegate:self];
     [[GlobalVariables myGlobalVariables] clearGlobalData];   
     
@@ -46,9 +50,9 @@
     [self getUserLocation];
     [downloader startDriverDataDownloadTimer];
     
-	// Do any additional setup after loading the view, typically from a nib.
-
+    self.navigationItem.hidesBackButton = YES;
     
+	// Do any additional setup after loading the view, typically from a nib.
     [super viewDidLoad];
 }
 
@@ -69,8 +73,6 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
-
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -78,6 +80,8 @@
 	[super viewWillDisappear:animated];
     [downloader stopDownloadDriverDataTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    newDriverList = nil;
+    oldDriverList = nil;
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -128,9 +132,7 @@
         newDriverList = [[NSArray alloc]init];
     }    
     newDriverList = [[[GlobalVariables myGlobalVariables] gDriverList] allValues]; 
-    
-    
-    
+
     if (!tempSelectedDriver)
         tempSelectedDriver = [[NSString alloc]init];
 
@@ -187,9 +189,7 @@
         [mapView removeAnnotation:userLocationAnnotation];
     }
     CLLocationCoordinate2D coordinate=[[GlobalVariables myGlobalVariables] gUserCoordinate];    
-    
-    MKCoordinateRegion region;
-	MKCoordinateSpan span;
+
 	span.latitudeDelta=0.01;
 	span.longitudeDelta=0.01;	 
 	region.span=span;
@@ -201,10 +201,16 @@
     NSLog(@"%@,%@", [NSNumber numberWithDouble:coordinate.latitude], [NSNumber numberWithDouble:coordinate.longitude]);
     
     [userLocationAnnotation setCoordinateWithGV];
+    [self addAnnotationUserMarker];
+}
+
+- (void) addAnnotationUserMarker
+{
+    [mapView setRegion:region animated:TRUE];
+    [mapView regionThatFits:region];
     [mapView addAnnotation:userLocationAnnotation];
 
 }
-
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation
 {
@@ -297,10 +303,141 @@
 
 -(void) updateGeoAddress:(NSNotification*) notification
 {
-    [myBar showUserBarWithGeoAddress];
+    //[myBar showUserBarWithGeoAddress];
+
+    
+    [self.searchDisplayController.searchBar setPlaceholder:[[GlobalVariables myGlobalVariables]gUserAddress]];
+
     //[mainBottomBar setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];
     
     
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+	if ([searchText length] > 2) {
+		if (loading) {
+			dirty = YES;
+		} else {
+			[self loadSearchSuggestions];
+		}
+	}
+}
+
+
+
+- (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
+{
+	return NO;
+}
+
+
+- (void) loadSearchSuggestions {
+	loading = YES;
+	NSString* query = self.searchDisplayController.searchBar.text;
+    
+    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&sensor=true&key=%@&components=country:sg", query, apiKey];
+    
+    urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        
+        NSMutableArray *sug =[[NSMutableArray alloc]initWithCapacity:5 ];
+        NSMutableArray *ref =[[NSMutableArray alloc]initWithCapacity:5];
+        
+        NSDictionary* tester = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil]; 
+        NSArray* testArray = [tester objectForKey:@"predictions"];
+        
+        for (NSDictionary *result in testArray) {
+            
+            
+            NSArray* terms = [result objectForKey:@"terms"];
+            NSDictionary *term0 = [terms objectAtIndex:0];
+            NSString* resultname = [term0 objectForKey:@"value"]; 
+            
+            //NSLog([result objectForKey:@"value"]);
+            NSLog(@"%@",resultname);
+            [sug addObject:resultname];
+            [ref addObject:[result objectForKey:@"reference"]];
+        }
+        
+        
+        self.suggestions = sug;
+        self.references = ref;
+        
+        //[self.searchDisplayController.searchResultsTableView reloadData];
+        [self.searchDisplayController.searchResultsTableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES]; 
+        
+        loading = NO;
+        if (dirty) {
+            dirty = NO;
+            [self loadSearchSuggestions];
+        }
+    }];
+    
+}
+
+- (UITableViewCell *)tableView:(UITableView *)table cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	static NSString *cellIdentifier = @"suggest";
+	
+	UITableViewCell *cell = [table dequeueReusableCellWithIdentifier:cellIdentifier];
+    
+	if (cell == nil) 
+	{
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
+        
+		cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
+		cell.textLabel.numberOfLines = 0;
+		cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:12.0];
+	}
+    cell.textLabel.text = [suggestions objectAtIndex:indexPath.row];
+	return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[self.searchDisplayController setActive:NO animated:YES];
+        [self.searchDisplayController.searchBar setPlaceholder:[suggestions objectAtIndex:indexPath.row]];
+    [mapView removeAnnotations:mapView.annotations];
+    NSString* refID = [references objectAtIndex:indexPath.row];    
+    
+    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?reference=%@&sensor=true&key=%@", refID, apiKey];
+    
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSLog(@"%@",urlString);
+    
+    NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
+    [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        NSDictionary* tester = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil]; 
+        NSDictionary* result = [tester objectForKey:@"result"];
+        NSDictionary* geo = [result objectForKey:@"geometry"];
+        NSDictionary* location = [geo objectForKey:@"location"];
+     
+        CLLocationCoordinate2D coordinate=CLLocationCoordinate2DMake([[location objectForKey:@"lat"]doubleValue], [[location objectForKey:@"lng"]doubleValue]);    
+
+        span.latitudeDelta=0.007;
+        span.longitudeDelta=0.007;	 
+        region.span=span;
+        region.center=coordinate;
+        
+        NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+        [userLocationAnnotation initWithCoordinate:coordinate];
+        [self performSelectorOnMainThread:@selector(addAnnotationUserMarker) withObject:nil waitUntilDone:YES];
+        
+        //[self performSelectorOnMainThread:@selector(updateMapMarkers:) withObject:nil waitUntilDone:YES]; 
+        
+        
+        [mapView performSelectorOnMainThread:@selector(addAnnotations:) withObject:[[[GlobalVariables myGlobalVariables]gDriverList]allValues] waitUntilDone:YES];
+
+    }];
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section 
+{
+	return [suggestions count];
 }
 
 @end

@@ -18,6 +18,8 @@
 #import "CancelJob.h"
 #import "JobView.h"
 
+
+#import "DriverAnnotation.h"
 #import "JobQuery.h"
 
 
@@ -56,17 +58,17 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [[GlobalVariables myGlobalVariables]setGDriverList:nil];
+    
     [self registerNotification];
     [mapView setDelegate:self];
     downloader = [[DownloadDriverData alloc]init];
     downloader.driver_id = [[GlobalVariables myGlobalVariables]gDriver_id];
-    [self displayInfo];
     [self startStatusReceiver];
     [self updateUserMarker];
     myJobView = [[JobView alloc]init]; 
     myJobView.infoView = infoView;
     [downloader startDriverDataDownloadTimer];
-
 }
 
 - (void)viewDidUnload
@@ -126,6 +128,8 @@
 {    
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     [mapView addAnnotations:[[[GlobalVariables myGlobalVariables] gDriverList] allValues]];
+    [self displayInfo];
+
     [[NSNotificationCenter defaultCenter]removeObserver:self name:@"driverListUpdated" object:nil];
  
 }
@@ -160,7 +164,6 @@
         NSLog(@"MKAnnotationView Called - User Location");
     	MKAnnotationView *annView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"userloc"];
         annView.image = [UIImage imageNamed:@"userdot"];
-        annView.draggable = YES;
         annView.canShowCallout = NO;
         
         return annView;
@@ -183,7 +186,13 @@
     currentJob = [[Job alloc]init];    
     [currentJob getJobInfo_useJobID:[[GlobalVariables myGlobalVariables] gJob_id]];
     
-    NSLog(@"%@ - %@ - currentJob:%@",self.class,NSStringFromSelector(_cmd),currentJob);
+    NSMutableDictionary* array = [[GlobalVariables myGlobalVariables]gDriverList];
+    DriverAnnotation* thisDriver = [array objectForKey:[[GlobalVariables myGlobalVariables]gDriver_id]];
+    
+    NSDictionary* thisDriverInfo = thisDriver.driverInfo;
+    
+    carModel.text = [thisDriverInfo objectForKey:@"model"];
+    licenseNumber.text = [thisDriverInfo objectForKey:@"license"];
 
 }
 
@@ -213,7 +222,6 @@
 {
     confirmCancel = [[CancelJob alloc]init];
     [confirmCancel launchConfirmBox];
-    
 }
 
 -(IBAction)hideInfoView:(id)sender
@@ -241,4 +249,6 @@
 
     [self performSegueWithIdentifier:@"gotoOnTrip" sender:self];
 }
+
+
 @end

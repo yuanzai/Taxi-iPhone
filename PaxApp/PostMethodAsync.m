@@ -12,8 +12,6 @@
 
 -(void) sendAsyncPostMethod_PostBody:(NSString*)postBody postURL:(NSURL*)postURL setDelegate:(id)setDelegate
 {
-    
-    
     NSData *postData = [postBody dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     // postData format - @"key=value&key2=value2"
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
@@ -25,8 +23,7 @@
     [request setTimeoutInterval:10];
     [request setHTTPBody:postData];
     
-    //NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    
+    //NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request delegate:self];    
     
     //Set delegate below
     NSURLConnection *connection= [[NSURLConnection alloc] initWithRequest:request delegate:setDelegate];
@@ -38,12 +35,9 @@
 
     } else {
         NSLog(@"%@ - %@ - Not Connected",self.class,NSStringFromSelector(_cmd));
-
-        
     
     }
     // write NSData to String - NSString *responseString = [[NSString alloc] initWithData:responseData encoding:NSUTF8StringEncoding];
-
 }
 
 

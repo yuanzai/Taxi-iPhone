@@ -91,7 +91,6 @@
                 topCellTextfield.returnKeyType = UIReturnKeyDone;
                 topCell.textLabel.text = @"Name";
                 nameField = topCellTextfield;
-                [self.view endEditing:YES];
                 
             } else {
                 if ([preferences stringForKey:@"ClientNumber"] != nil)

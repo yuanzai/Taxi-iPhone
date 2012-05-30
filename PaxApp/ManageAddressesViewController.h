@@ -9,5 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface ManageAddressesViewController : UITableViewController
-
+{
+    NSMutableArray* addressList;
+}
 @end

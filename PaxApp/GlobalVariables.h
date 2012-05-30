@@ -12,6 +12,7 @@
 @interface GlobalVariables : NSObject{
     NSMutableDictionary* gDriverList;
     CLLocationCoordinate2D gUserCoordinate;
+    CLLocationCoordinate2D gDestiCoordinate;
     
     NSString* gPickupString;
     NSString* gDestinationString;
@@ -19,17 +20,22 @@
     NSString* gDriver_id;
     NSString* gJob_id;
     NSString* gUserAddress;
+    
+    NSDictionary* gDriverInfo;
 
 
 }
 
 @property (nonatomic, strong) NSMutableDictionary* gDriverList;
 @property CLLocationCoordinate2D gUserCoordinate;
+@property CLLocationCoordinate2D gDestiCoordinate;
 @property (nonatomic,strong) NSString* gPickupString;
 @property (nonatomic,strong) NSString* gDestinationString;
 @property (nonatomic,strong) NSString* gDriver_id;
 @property (nonatomic,strong) NSString* gJob_id;
 @property (nonatomic,strong) NSString* gUserAddress;
+
+@property (nonatomic,strong) NSDictionary* gDriverInfo;
 
 
 

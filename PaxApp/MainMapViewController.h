@@ -33,6 +33,9 @@
     IBOutlet UILabel *mainTopBar;
     IBOutlet UILabel *mainBottomBar;
     CalloutBar *myBar;
+    
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;
 
 }
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
@@ -42,7 +45,16 @@
 - (void) updateUserMarker: (NSNotification *) notification;
 - (void) updateETA: (NSNotification *) notification;
 - (void) updateGeoAddress:(NSNotification*) notification;
+- (void) addAnnotationUserMarker;
 
 - (IBAction) setGDriver_id:(id)sender;
+
+//choose location 
+@property (assign) BOOL dirty;
+@property (assign) BOOL loading;
+@property (nonatomic, strong) NSMutableArray* suggestions;
+@property (nonatomic, strong) NSMutableArray* references;
+- (void) loadSearchSuggestions;
+
 
 @end

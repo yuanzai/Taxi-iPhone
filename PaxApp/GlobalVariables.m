@@ -12,7 +12,7 @@
 
 @implementation GlobalVariables
 
-@synthesize gDriverList, gUserCoordinate, gPickupString, gDestinationString, gDriver_id, gJob_id, gUserAddress;
+@synthesize gDriverList, gUserCoordinate, gPickupString, gDestinationString, gDriver_id, gJob_id, gUserAddress, gDriverInfo,gDestiCoordinate;
 
 static GlobalVariables* myGlobalVariables;
 
@@ -27,10 +27,19 @@ static GlobalVariables* myGlobalVariables;
 
 - (void) clearGlobalData
 {
+    
     gDriverList = nil;
     gDriver_id = nil;
     gJob_id = nil;
     gUserAddress = nil;
+    CLLocationCoordinate2D loc;
+    loc.latitude = 0;
+    loc.longitude = 0;
+    gDestiCoordinate = loc;
+    
+    
+    
+    
     
 }
 //[[GlobalVariablePositions myGlobalVariablePositions] setSavedString:@"HELLO"]; - eg setting gvs

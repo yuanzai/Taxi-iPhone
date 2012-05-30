@@ -35,6 +35,9 @@
     JobView *myJobView;
     IBOutlet UIView *infoView;
     IBOutlet UIButton *showMoreButton;
+    
+    IBOutlet UILabel *licenseNumber;
+    IBOutlet UILabel *carModel;
 
 }
 @property (nonatomic,strong) IBOutlet MKMapView *mapView;

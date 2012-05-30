@@ -37,7 +37,7 @@
         [self stopStatusReceiverTimer];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NotifyDrivercancelStatus" object:nil];
     } else if ([jobstatus isEqualToString:@"driverreached"]){
-        NSLog(@"%@ - %@ - Driver Cancel",self.class,NSStringFromSelector(_cmd));
+        NSLog(@"%@ - %@ - Driver Reached",self.class,NSStringFromSelector(_cmd));
         
         [self stopStatusReceiverTimer];
         [[NSNotificationCenter defaultCenter] postNotificationName:@"NotifyDriverreachedStatus" object:nil];

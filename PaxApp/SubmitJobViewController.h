@@ -8,19 +8,24 @@
 
 #import <UIKit/UIKit.h>
 @class SubmitClass;
-@interface SubmitJobViewController : UIViewController
+
+@interface SubmitJobViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 {
     IBOutlet UITextField* pickup;
     IBOutlet UITextField* destination;
+    IBOutlet UITextField* mapaddress;
     
     NSString* pickupString;
     NSString* destinationString;
     
     SubmitClass *newSubmitClass;
     IBOutlet UILabel* geoAddress;
+    
 }
 @property (nonatomic, strong) IBOutlet UITextField* pickup;
 @property (nonatomic, strong) IBOutlet UITextField* destination;
+@property (nonatomic, strong) IBOutlet UITextField* mapaddress;
+
 
 @property (nonatomic,strong) NSString* pickupString;
 @property (nonatomic,strong) NSString* destinationString;
@@ -32,6 +37,9 @@
 -(void)gotoOnroute:(NSNotification *)notification;
 -(IBAction)testButton:(id)sender;
 -(void) updateGeoAddress;
+-(IBAction)chooseLocation:(id)sender;
+-(IBAction)gotoMain:(id)sender;
+-(IBAction)chooseFavourites:(id)sender;
 
 
 @end

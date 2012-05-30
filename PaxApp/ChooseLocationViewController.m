@@ -8,6 +8,8 @@
 
 #import "ChooseLocationViewController.h"
 #import "AddressAnnotation.h"
+#import "AlertBoxAddressName.h"
+#import "GlobalVariables.h"
 
 static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
@@ -16,6 +18,9 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 @synthesize loading;
 @synthesize suggestions, references;
 @synthesize mapView;
+@synthesize referer;
+@synthesize refererTag;
+
 
 
 - (void)didReceiveMemoryWarning
@@ -30,6 +35,25 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 {
     [super viewDidLoad];
     [mapView setDelegate:self];
+    if (refererTag == 11) {
+    self.title = @"Pick up";
+    } else if (refererTag == 12) {
+        self.title =@"Destination";
+    }
+
+    CLLocationCoordinate2D coordinate;    
+    coordinate.latitude = 1.3362;
+    coordinate.longitude = 103.826;
+    
+    span.latitudeDelta=0.28;
+    span.longitudeDelta=0.28;	 
+    region.span=span;
+    region.center=coordinate;
+    
+    [mapView setRegion:region animated:TRUE];
+    [mapView regionThatFits:region];
+    
+    
 	// Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -246,20 +270,17 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         coordinate.latitude = lat;
         coordinate.longitude = longi;
         
-        MKCoordinateRegion region;
-        MKCoordinateSpan span;
+
         span.latitudeDelta=0.007;
         span.longitudeDelta=0.007;	 
         region.span=span;
         region.center=coordinate;
         
-        [mapView setRegion:region animated:TRUE];
-        [mapView regionThatFits:region];
+
         
-        
-        AddressAnnotation *myAA = [[AddressAnnotation alloc]initWithCoordinate:CLLocationCoordinate2DMake(lat,longi)];
-        [mapView addAnnotation:myAA];
-        
+        myAA = [[AddressAnnotation alloc]initWithCoordinate:CLLocationCoordinate2DMake(lat,longi)];
+        myAA.subtitle = [suggestions objectAtIndex:[indexPath row]];
+        [self performSelectorOnMainThread:@selector(addAnnotations) withObject:nil waitUntilDone:YES];
     }];
     
     
@@ -270,12 +291,114 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     //label.text = suggestion.title;
 }
 
-
+- (void) addAnnotations
+{
+    [mapView setRegion:region animated:TRUE];
+    [mapView regionThatFits:region];
+    [mapView addAnnotation:myAA];
+  
+    
+}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return [suggestions count];
 }
 
+- (IBAction)saveButton:(id)sender
+{
+    
+    if (!myAA) {
+        UIAlertView *errorbox = [[UIAlertView alloc]initWithTitle:@"No location selected!" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [errorbox show];
+        
+    } else {
+        
+        nameBox = [[AlertBoxAddressName alloc]init ];
+        [nameBox initWithDelegate:self];
+        
+    }
+    
 
+    
+    
+    
+    
+
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"%@ - %@ - textfield %@",self.class,NSStringFromSelector(_cmd), nameBox.inputField.text);
+    if(buttonIndex == 1)
+    {
+        
+        NSLog(@"%@ - %@ - clicked",self.class,NSStringFromSelector(_cmd));
+
+        
+        NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
+        
+        if ([preferences arrayForKey:@"ClientSavedAddress"] == nil) {        
+            
+            
+            NSMutableDictionary *newAddress = [[NSMutableDictionary alloc]init ];
+            [newAddress setValue:[NSString stringWithFormat:@"%f",myAA.coordinate.latitude] forKey:@"latitude"];
+            [newAddress setValue:[NSString stringWithFormat:@"%f",myAA.coordinate.longitude] forKey:@"longitude"];
+            [newAddress setValue:[NSString stringWithFormat:@"%@",myAA.subtitle] forKey:@"subtitle"];
+            [newAddress setValue:[NSString stringWithFormat:@"%@",nameBox.inputField.text] forKey:@"title"];
+            
+            NSMutableArray* savedAddressList = [[NSMutableArray alloc] init];
+            [savedAddressList addObject:newAddress];
+            
+            [preferences setValue:savedAddressList forKey:@"ClientSavedAddress"];
+        } else {
+            NSMutableArray* savedAddressList = [[NSMutableArray alloc]initWithArray:[preferences arrayForKey:@"ClientSavedAddress"]];
+            
+            NSMutableDictionary *newAddress = [[NSMutableDictionary alloc]init ];
+            [newAddress setValue:[NSString stringWithFormat:@"%f",myAA.coordinate.latitude] forKey:@"latitude"];
+            [newAddress setValue:[NSString stringWithFormat:@"%f",myAA.coordinate.longitude] forKey:@"longitude"];
+            [newAddress setValue:[NSString stringWithFormat:@"%@",myAA.subtitle] forKey:@"subtitle"];
+            [newAddress setValue:[NSString stringWithFormat:@"%@",nameBox.inputField.text] forKey:@"title"];
+            
+            [savedAddressList addObject:newAddress];
+            [preferences setValue:savedAddressList forKey:@"ClientSavedAddress"];
+            
+        }
+        
+    }
+    
+}
+
+
+
+-(IBAction)useThisLocationButton:(id)sender
+{
+    if (!myAA) {
+        UIAlertView *errorbox = [[UIAlertView alloc]initWithTitle:@"No location selected!" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [errorbox show];
+        
+    } else {
+        if (refererTag == 12){
+            NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
+            [[GlobalVariables myGlobalVariables] setGDestiCoordinate:myAA.coordinate];
+            [[GlobalVariables myGlobalVariables] setGDestinationString:myAA.subtitle];
+            [self gotoSubmitJob];
+        } else if (refererTag == 11){
+            NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
+            [[GlobalVariables myGlobalVariables] setGUserCoordinate:myAA.coordinate];
+            [[GlobalVariables myGlobalVariables] setGUserAddress:myAA.subtitle];
+            [self gotoSubmitJob];
+        }
+        
+        
+    }
+    
+    
+}
+
+-(void)gotoSubmitJob
+{
+    [self performSegueWithIdentifier:@"gotoSubmitJob" sender:nil];
+}
 
 @end

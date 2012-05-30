@@ -4,9 +4,9 @@
 {
 	CLLocationCoordinate2D coordinate;	
 	NSString *title;
-	NSString *subTitle;
+	NSString *subtitle;
 }
-@property (nonatomic,strong) NSString *subTitle;
+@property (nonatomic,strong) NSString *subtitle;
 @property (nonatomic,copy) NSString *title;
 
 

@@ -2,7 +2,7 @@
 
 
 @implementation AddressAnnotation
-@synthesize coordinate, subTitle, title;
+@synthesize coordinate, subtitle, title;
 
 
 -(id)initWithCoordinate:(CLLocationCoordinate2D) c

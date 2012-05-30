@@ -33,6 +33,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
+    addressList = [[NSMutableArray alloc]initWithArray:[preferences arrayForKey:@"ClientSavedAddress"]];
+
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -78,54 +82,109 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    if (addressList.count == 0){
+        return 1;
+    } else {
+        return addressList.count;}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *CellIdentifier = @"Cell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    if (addressList.count ==0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+
+        }
+        cell.textLabel.text = @"No saved addresses";
+        cell.detailTextLabel.text = @"";
+        return cell;
+        
+    } else {
+        
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        if (cell == nil) {
+            cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
+
+        }
+        
+        
+        cell.textLabel.text = [[addressList objectAtIndex:[indexPath row]] objectForKey:@"title"];
+        cell.detailTextLabel.text = [[addressList objectAtIndex:[indexPath row]] objectForKey:@"subtitle"];
+        return cell;
     }
     
     // Configure the cell...
     
-    return cell;
 }
 
 /*
+- (void) tableView:(UITableView *)tableView accessoryButtonTappedForRowWithIndexPath:(NSIndexPath *)indexPath
+{
+    [addressList removeObjectAtIndex:[indexPath row]];
+    NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
+    [preferences setValue:addressList forKey:@"ClientSavedAddress"];
+
+    [tableView reloadData];
+    
+}
+*/
+
+
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Return NO if you do not want the specified item to be editable.
-    return YES;
+    UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+    
+    if ([cell.textLabel.text isEqual:@"No saved addresses"]){
+        return NO;
+    } else {
+        return YES;
+    }
 }
-*/
 
-/*
+
+
 // Override to support editing the table view.
 - (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (editingStyle == UITableViewCellEditingStyleDelete) {
         // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        //[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        NSLog(@"%@",[[[tableView cellForRowAtIndexPath:indexPath] textLabel] text]);
+        
+        if ([[[[tableView cellForRowAtIndexPath:indexPath] textLabel] text] isEqual:@"No saved addresses"]){
+            
+        } else {
+            [addressList removeObjectAtIndex:[indexPath row]];
+            NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
+            [preferences setValue:addressList forKey:@"ClientSavedAddress"];
+            
+            [tableView reloadData];  
+        }
+        
+
+        
+        
+        
+        
     }   
     else if (editingStyle == UITableViewCellEditingStyleInsert) {
         // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
     }   
 }
-*/
+
 
 /*
 // Override to support rearranging the table view.

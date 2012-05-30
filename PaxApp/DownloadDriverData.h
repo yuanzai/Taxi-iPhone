@@ -13,6 +13,7 @@
 {
     CheckConnection* myCheckConnection;
     NSString* driver_id;
+    NSDictionary* driverID;
 }
 
 @property (nonatomic,strong) NSTimer *repeatingTimer;
@@ -21,6 +22,7 @@
 
 - (void)startDriverDataDownloadTimer;
 - (void)stopDownloadDriverDataTimer;
+
 
 //-(void)startDataDownloadThread:(id)sender;
 @end
