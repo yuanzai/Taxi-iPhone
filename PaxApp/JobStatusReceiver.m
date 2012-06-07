@@ -10,60 +10,78 @@
 #import "Job.h"
 
 @implementation JobStatusReceiver
-@synthesize repeatingTimer, job_id;
+@synthesize repeatingTimer, job_id, targettedStatus;
 
 - (void)statusReceiver:(NSTimer*)timer
 {
-
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
 
-    if (!currentJob)
-        currentJob = [[Job alloc]init];
-    
-    [currentJob getJobInfo_useJobID:job_id];
-    NSString* jobstatus = [[NSString alloc]initWithFormat:[currentJob.jobItem objectForKey:@"jobstatus"]];
-    
+    if (!jobInfo)
+        jobInfo = [[NSMutableDictionary alloc]init];
+        
+    [Job getJobInfoAsync_withJobID:job_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
 
-    if ([jobstatus isEqualToString:@"picked"]){
-        NSLog(@"%@ - %@ - Passenger Picked",self.class,NSStringFromSelector(_cmd));
+        NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];    
         
-        [self stopStatusReceiverTimer];
+        jobInfo = [array objectAtIndex:0];
+        NSLog(@"%@ - %@ - Current Status - %@",self.class,NSStringFromSelector(_cmd), [jobInfo objectForKey:@"jobstatus"]);
         
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NotifyPickedStatus" object:nil];
+        NSString* jobstatus = [[NSString alloc]initWithFormat:[jobInfo objectForKey:@"jobstatus"]];    
         
-    } else if ([jobstatus isEqualToString:@"drivercancel"]){
-        NSLog(@"%@ - %@ - Driver Cancel",self.class,NSStringFromSelector(_cmd));
-        
-        [self stopStatusReceiverTimer];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NotifyDrivercancelStatus" object:nil];
-    } else if ([jobstatus isEqualToString:@"driverreached"]){
-        NSLog(@"%@ - %@ - Driver Reached",self.class,NSStringFromSelector(_cmd));
-        
-        [self stopStatusReceiverTimer];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NotifyDriverreachedStatus" object:nil];
-    }
+        if ([jobstatus isEqualToString:targettedStatus]){
+            NSLog(@"%@ - %@ - Status changed to %@",self.class,NSStringFromSelector(_cmd), jobstatus);
+            
+            [self stopStatusReceiverTimer];        
+            [self performSelectorOnMainThread:@selector(sendNotification) withObject:nil waitUntilDone:YES];
+        } else {
+            
+            //cancelcodes
+        }
+    }];
+}
+
+-(void) sendNotification
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:targettedStatus object:nil];
 
 }
 
 
--(void)startStatusReceiverTimer
+-(id)initStatusReceiverTimerWithJobID:(NSString*)jobID TargettedStatus:(NSString*) status 
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-        
+    if (self = [super init])
+    {        
+        job_id = jobID;
+        targettedStatus = status;
+    
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:15 
                                                       target:self selector:@selector(statusReceiver:)
                                                     userInfo:nil repeats:YES];
     self.repeatingTimer = timer;
-    //[myCheckConnection startConnectionCheck];
+    }
+    
+    return self;
 }
+
+-(void)startStatusReceiverTimerWithJobID:(NSString*)jobID TargettedStatus:(NSString*) status 
+{
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));       
+        job_id = jobID;
+        targettedStatus = status;
+        
+        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:15 
+                                                          target:self selector:@selector(statusReceiver:)
+                                                        userInfo:nil repeats:YES];
+        self.repeatingTimer = timer;
+}
+
+
 
 - (void)stopStatusReceiverTimer
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));    
     [repeatingTimer invalidate];
     self.repeatingTimer = nil;
 }
-
-
 @end

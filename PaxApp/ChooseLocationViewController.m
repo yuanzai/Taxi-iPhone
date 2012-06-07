@@ -8,8 +8,9 @@
 
 #import "ChooseLocationViewController.h"
 #import "AddressAnnotation.h"
-#import "AlertBoxAddressName.h"
+#import "AddressNameAlert.h"
 #import "GlobalVariables.h"
+#import "CustomNavBar.h"
 
 static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
@@ -35,10 +36,23 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 {
     [super viewDidLoad];
     [mapView setDelegate:self];
+    
+    //set top navBar
+    CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
+    self.navigationItem.titleView = thisNavBar;
+    self.navigationItem.hidesBackButton = YES;
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
+    
     if (refererTag == 11) {
-    self.title = @"Pick up";
+    
+    
+        self.title = @"Pick up";
+        [thisNavBar setCustomNavBarTitle:@"Pick up" subtitle:@""];
+
     } else if (refererTag == 12) {
         self.title =@"Destination";
+        [thisNavBar setCustomNavBarTitle:@"Destination" subtitle:@""];
+
     }
 
     CLLocationCoordinate2D coordinate;    
@@ -53,6 +67,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [mapView setRegion:region animated:TRUE];
     [mapView regionThatFits:region];
     
+
     
 	// Do any additional setup after loading the view, typically from a nib.
 }
@@ -242,8 +257,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [mapView removeAnnotations:mapView.annotations];
     NSString* refID = [references objectAtIndex:indexPath.row];
     
-    
-    
     NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?reference=%@&sensor=true&key=%@", refID, apiKey];
     
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -280,6 +293,9 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         
         myAA = [[AddressAnnotation alloc]initWithCoordinate:CLLocationCoordinate2DMake(lat,longi)];
         myAA.subtitle = [suggestions objectAtIndex:[indexPath row]];
+        
+        lastPlace = [suggestions objectAtIndex:[indexPath row]];
+        
         [self performSelectorOnMainThread:@selector(addAnnotations) withObject:nil waitUntilDone:YES];
     }];
     
@@ -293,6 +309,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (void) addAnnotations
 {
+    self.searchDisplayController.searchBar.placeholder = lastPlace;
     [mapView setRegion:region animated:TRUE];
     [mapView regionThatFits:region];
     [mapView addAnnotation:myAA];
@@ -304,27 +321,10 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 	return [suggestions count];
 }
 
-- (IBAction)saveButton:(id)sender
+- (IBAction)cancelButton:(id)sender
 {
     
-    if (!myAA) {
-        UIAlertView *errorbox = [[UIAlertView alloc]initWithTitle:@"No location selected!" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
-        [errorbox show];
-        
-    } else {
-        
-        nameBox = [[AlertBoxAddressName alloc]init ];
-        [nameBox initWithDelegate:self];
-        
-    }
-    
-
-    
-    
-    
-    
-
-    
+    [self gotoSubmitJob];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -399,6 +399,22 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 -(void)gotoSubmitJob
 {
     [self performSegueWithIdentifier:@"gotoSubmitJob" sender:nil];
+}
+
+
+//save locations thingy
+-(void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
+{
+    if (!myAA) {
+        UIAlertView *errorbox = [[UIAlertView alloc]initWithTitle:@"No location selected!" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        [errorbox show];
+        
+    } else {
+        
+        nameBox = [[AddressNameAlert alloc]init ];
+        [nameBox initWithDelegate:self];
+        
+    }
 }
 
 @end

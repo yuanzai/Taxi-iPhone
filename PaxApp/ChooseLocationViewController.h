@@ -9,15 +9,17 @@
 #import <UIKit/UIKit.h>
 
 @class AddressAnnotation;
-@class AlertBoxAddressName;
-@interface ChooseLocationViewController : UIViewController <MKMapViewDelegate, UIAlertViewDelegate>
+@class AddressNameAlert;
+@interface ChooseLocationViewController : UIViewController <MKMapViewDelegate, UIAlertViewDelegate, UISearchBarDelegate>
 {
     IBOutlet MKMapView *mapView;
     AddressAnnotation *myAA;
     MKCoordinateRegion region;
     MKCoordinateSpan span;
+    NSString* lastPlace;
     
-    AlertBoxAddressName* nameBox;
+    AddressNameAlert* nameBox;
+    
 }
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 @property (assign) BOOL dirty;
@@ -27,7 +29,7 @@
 @property (nonatomic, strong) NSString* referer;
 @property NSInteger refererTag;
 - (void) loadSearchSuggestions;
-- (IBAction)saveButton:(id)sender;
+- (IBAction)cancelButton:(id)sender;
 - (void) addAnnotations;
 - (IBAction)useThisLocationButton:(id)sender;
 - (void)gotoSubmitJob;

@@ -7,12 +7,12 @@
 //
 
 #import "SubmitClass.h"
-#import "PostNewJob.h"
 #import "AlertBox.h"
 #import "Job.h"
 #import "JobQuery.h"
 #import "GlobalVariables.h"
-
+#import "JobDispatchQuery.h"
+#import "JobCycleQuery.h"
 
 @implementation SubmitClass
 
@@ -27,12 +27,14 @@
     
     self.myBox = newBox;
     
-    PostNewJob *newPostJob = [[PostNewJob alloc]init];
-    job_id = [newPostJob postNewJobwithdriverID:@"0" 
-                     pickupAddress:pickup 
-                destinationAddress:destination];
-    [[GlobalVariables myGlobalVariables] setGJob_id:job_id];
-    [self createCheckTimer];
+    [JobDispatchQuery submitJobWithPickupLocation:pickup Destination:destination TaxiType:0 completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+
+        job_id = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; 
+        [[GlobalVariables myGlobalVariables] setGJob_id:job_id];
+        NSLog(@"%@ - %@ - JobID - %@",self.class,NSStringFromSelector(_cmd), job_id);
+
+        [self createCheckTimer];
+     }];
      
 }
 
@@ -64,50 +66,55 @@
     if (self.myBox.countdownTimer == nil){
         [self stopCheckTimer];
     } else{
-    if (!newJob)
-        newJob = [[Job alloc] init];
-    
-    [newJob getJobInfo_useJobID:job_id];
-    
-    if ([[newJob.jobItem objectForKey:@"accepted"] isEqualToString:@"1"]) {
-        [[GlobalVariables myGlobalVariables] setGDriver_id:[newJob.jobItem objectForKey:@"driver_id"]];
-        [self stopCheckTimer];
-        [self.myBox stopTimer];
-        self.myBox = nil;
-        [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoOnroute" object:nil];
-        NSLog(@"%@ - %@ - Accepted",self.class,NSStringFromSelector(_cmd));    
-
         
-    } else if ([newJob.jobItem objectForKey:@"dcancel"]== @"1") {
-        [self stopCheckTimer];
-        [self.myBox stopTimer];
-        self.myBox = nil;
-    } else {
-    NSLog(@"%@ - %@ - No Response",self.class,NSStringFromSelector(_cmd));    }
-    }
+    //if (!newJob)
+      //  newJob = [[Job alloc] init];
+    
+    //[newJob getJobInfo_useJobID:job_id];
+    
+    [Job getJobInfoAsync_withJobID:job_id completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
+        
+        NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];    
+        
+        NSMutableDictionary *jobInfo = [array objectAtIndex:0];
+        NSLog(@"%@ - %@ - Current Status - %@",self.class,NSStringFromSelector(_cmd), [jobInfo objectForKey:@"jobstatus"]);
+        
+        NSString* jobstatus = [[NSString alloc]initWithFormat:[jobInfo objectForKey:@"jobstatus"]];    
 
+        if ([jobstatus isEqualToString:@"accepted"]){
+            [[GlobalVariables myGlobalVariables] setGDriver_id:[jobInfo objectForKey:@"driver_id"]];
+            [self performSelectorOnMainThread:@selector(jobAccepted) withObject:nil waitUntilDone:YES];
+        } else {
+    NSLog(@"%@ - %@ - No Response",self.class,NSStringFromSelector(_cmd));
+        }
+        
+    }];
+        
+     }   
+
+
+}
+
+- (void) jobAccepted
+{
+    [self stopCheckTimer];
+    [self.myBox stopTimer];
+    self.myBox = nil;
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoOnroute" object:nil];
 }
 
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    
-    
     if (buttonIndex == 0) {
         NSLog(@"%@ - %@ - AlertBox Delegate/Alert Cancelled",self.class,NSStringFromSelector(_cmd));
         
         [self.myBox stopTimer];
         self.myBox = nil;
         [self stopCheckTimer];
-
-        JobQuery* cancelJobQuery = [[JobQuery alloc]init];
         
-        [cancelJobQuery submitJobQuerywithMsgType:@"clientcancel"
-                                           job_id:job_id 
-                                           rating:@"" 
-                                        driver_id:@""];
-        
-    
+        [JobCycleQuery jobExpired_jobID :job_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        }];
     }     
 }
 

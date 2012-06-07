@@ -8,18 +8,19 @@
 
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
-@class DownloadDriverData;
+@class DriverPosition;
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class Job;
 @class JobStatusReceiver;
 @class RatingAlert;
-@class CancelJob;
-@class JobView;
+@class CancelJobAlert;
+@class JobInfoUIVIew;
+
 @interface OnrouteViewController : UIViewController <MKMapViewDelegate> 
 {
     IBOutlet MKMapView	*mapView;
-    DownloadDriverData *downloader;
+    DriverPosition *downloader;
     UserLocationAnnotation* userLocationAnnotation;
     CoreLocationManager *clManager;
     NSMutableArray* driverList;
@@ -29,31 +30,38 @@
     JobStatusReceiver *myStatusReceiver;
     
     RatingAlert *myRatingAlert;
+    CancelJobAlert *confirmCancel;
     
-    CancelJob *confirmCancel;
     
-    JobView *myJobView;
-    IBOutlet UIView *infoView;
-    IBOutlet UIButton *showMoreButton;
-    
-    IBOutlet UILabel *licenseNumber;
-    IBOutlet UILabel *carModel;
+    IBOutlet UILabel *license;
+    IBOutlet UILabel *destination;
+    IBOutlet UILabel *driver;
+    IBOutlet UIView *thisJobInfoUIView;
+    JobInfoUIVIew *myJobInfoUIView;
 
+    IBOutlet UIButton *onBoard;
+    IBOutlet UIButton *cancel;
+
+    IBOutlet UILabel *testStatus;
 }
 @property (nonatomic,strong) IBOutlet MKMapView *mapView;
 
 - (void)registerNotification;
 - (void)getUserLocation;
-- (void)displayInfo;
-- (void)startStatusReceiver;
 - (IBAction)button:(id)sender;
 - (IBAction)confirmCancel:(id)sender;
--(void)backToMain:(NSNotification*)Notification;
--(void)updateUserMarker;
--(IBAction)testPicked:(id)sender;
--(void)actionPickedStatus:(NSNotification *)notification;
+- (void)backToMain:(NSNotification*)Notification;
+- (void)updateUserMarker;
+
+- (IBAction)testPicked:(id)sender;
+- (IBAction)testReached:(id)sender;
+
+
+- (void)actionPickedStatus:(NSNotification *)notification;
 - (void)updateMapMarkers: (NSNotification *) notification;
 
+- (IBAction)onboardButton:(id)sender;
+- (void)onBoard;
 
 
 @end

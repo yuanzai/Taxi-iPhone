@@ -8,7 +8,10 @@
 
 #import "CancelJob.h"
 #import "JobQuery.h"
+
 #import "GlobalVariables.h"
+#import "JobCycleQuery.h"
+
 @implementation CancelJob
 
 

@@ -7,16 +7,14 @@
 //
 
 #import "OnTripViewController.h"
-#import "DownloadDriverData.h"
+#import "DriverPosition.h"
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
 #import "GlobalVariables.h"
 #import "JobStatusReceiver.h"
 #import "RatingAlert.h"
 #import "Job.h"
-#import "DriverInfo.h"
 #import "CancelJob.h"
-#import "JobView.h"
 
 #import "JobQuery.h"
 
@@ -59,18 +57,15 @@
     [super viewDidLoad];
     [self registerNotification];
     [mapView setDelegate:self];
-    downloader = [[DownloadDriverData alloc]init];
-    downloader.driver_id = [[GlobalVariables myGlobalVariables]gDriver_id];
-    [self startStatusReceiver];
+    downloader = [[DriverPosition alloc]initDriverPositionPollWithDriverID:[[GlobalVariables myGlobalVariables]gDriver_id]];
+
+    //myStatusReceiver = [[JobStatusReceiver alloc]initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"driverreached"];
     [self updateUserMarker];
-    [downloader startDriverDataDownloadTimer]; 
     
     myMeter = [[MeterReceiver alloc]init];
     
     myMeter.fareLabel = fareLabel;
     [super viewDidLoad];
-
-
 }
 
 
@@ -85,7 +80,7 @@
 -(void) viewWillDisappear:(BOOL)animated
 {
     
-    [downloader stopDownloadDriverDataTimer];
+    [downloader stopDriverPositionPoll];
     [[NSNotificationCenter defaultCenter] removeObserver:self];    
 }
 
@@ -106,7 +101,7 @@
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(endTrip:)
-     name:@"NotifyDriverreachedStatus"
+     name:@"driverreached"
      object:nil ];    
 
     [[NSNotificationCenter defaultCenter]
@@ -116,15 +111,6 @@
      object:nil ]; 
 }
 
--(void)startStatusReceiver
-{
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    
-    myStatusReceiver = [[JobStatusReceiver alloc]init];
-    myStatusReceiver.job_id = [[GlobalVariables myGlobalVariables]gJob_id];
-    [myStatusReceiver startStatusReceiverTimer];
-    
-}
 
 - (void)updateMapMarkers: (NSNotification *) notification
 {    
@@ -192,7 +178,7 @@
 
 -(IBAction)testReached:(id)sender
 {
-    
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     JobQuery* newQuery =[[JobQuery alloc]init];
     [newQuery submitJobQuerywithMsgType:@"driverreached" job_id:[[GlobalVariables myGlobalVariables]gJob_id] rating:nil driver_id:nil];
 }

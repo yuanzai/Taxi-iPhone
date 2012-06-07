@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@class DownloadDriverData;
+@class DriverPosition;
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class Job;
@@ -19,7 +19,7 @@
 @interface OnTripViewController : UIViewController <MKMapViewDelegate> 
 {
     IBOutlet MKMapView	*mapView;
-    DownloadDriverData *downloader;
+    DriverPosition *downloader;
     UserLocationAnnotation* userLocationAnnotation;
     CoreLocationManager *clManager;
     

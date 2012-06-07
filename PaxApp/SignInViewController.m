@@ -7,7 +7,7 @@
 //
 
 #import "SignInViewController.h"
-
+#import "CustomNavBar.h"
 @implementation SignInViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -36,13 +36,19 @@
 }
 */
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    
+    //set top navBar
+    CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
+    self.navigationItem.titleView = thisNavBar;
+    [thisNavBar setCustomNavBarTitle:@"Welcome" subtitle:@""];
+    [thisNavBar addRightLogo];
+    self.navigationItem.hidesBackButton = YES;
     [super viewDidLoad];
 }
-*/
 
 - (void)viewDidUnload
 {

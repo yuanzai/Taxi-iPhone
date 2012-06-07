@@ -88,12 +88,7 @@
         [negativeBox addButtonWithTitle:@"Driver was late"];
         [negativeBox addButtonWithTitle:@"Driver did not show up"];
         [negativeBox addButtonWithTitle:@"Service was poor"];
-        
-        
-        [negativeBox addButtonWithTitle:@"Back"];
-        
-
-
+        [negativeBox addButtonWithTitle:@"Back"];        
         [negativeBox show];
     } else if (buttonIndex ==0) {
         

@@ -7,6 +7,7 @@
 //
 
 #import "AlertBox.h"
+#import "JobCycleQuery.h"
 
 @implementation AlertBox
 @synthesize countdownTimer, isOpen;
@@ -83,6 +84,7 @@
 {
     [dialog dismissWithClickedButtonIndex:0 animated:NO];
     
+
     [countdownTimer invalidate];
     self.countdownTimer = nil;
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));

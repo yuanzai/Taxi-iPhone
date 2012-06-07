@@ -27,6 +27,7 @@
 - (void)createCheckTimer;
 
 - (void)stopCheckTimer;
+- (void) jobAccepted;
 
 
 

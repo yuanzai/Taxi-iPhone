@@ -9,12 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface Job : NSObject
-{
-    NSDictionary *jobItem;
-}
-
+@property (strong, nonatomic) NSDictionary* jobItem;
 - (void) getJobInfo_useJobID:(NSString*)job_id; 
 - (NSDictionary*) jobItem;
-
++ (void) getJobInfoAsync_withJobID:(NSString*)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 
 @end

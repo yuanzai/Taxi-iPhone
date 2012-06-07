@@ -7,13 +7,15 @@
 //
 
 #import "MainMapViewController.h"
-#import "DownloadDriverData.h"
+#import "DriverPosition.h"
 #import "GlobalVariables.h"
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
 #import "GetETA.h"
 #import "GetGeocodedAddress.h"
-#import "CalloutBar.h"
+
+#import "CustomNavBar.h"
+#import "OtherQuery.h"
 
 static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
@@ -24,33 +26,44 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 @synthesize loading;
 @synthesize suggestions, references;
 
+#pragma mark Initialisation
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Release any cached data, images, etc that aren't in use.
 }
 
-#pragma mark - View lifecycle
-
 - (void)viewDidLoad
 {
     [mapView setDelegate:self];
+    
     [[GlobalVariables myGlobalVariables] clearGlobalData];   
     
     [self registerNotification];
-    downloader = [[DownloadDriverData alloc]init];
-    downloader.driver_id = @"all";
-    myBar = [[CalloutBar alloc]init];
-    myBar.topBar = mainTopBar;
-    myBar.bottomBar = mainBottomBar;
-    
-    [myBar hideUserBar];
+    downloader = [[DriverPosition alloc]initDriverPositionPollWithDriverID:[NSString stringWithFormat:@"all"]];
+
     callGetETA = [[GetETA alloc]init];
     
     [self getUserLocation];
-    [downloader startDriverDataDownloadTimer];
     
+    
+    //set top navBar
+    CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
+    self.navigationItem.titleView = thisNavBar;
+    [thisNavBar setCustomNavBarTitle:@"Current Location" subtitle:@""];
+    [thisNavBar addRightLogo];
     self.navigationItem.hidesBackButton = YES;
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
+
+    
+    //[self.searchDisplayController.searchBar setPositionAdjustment:UIOffsetMake(self.searchDisplayController.searchBar.frame.size.width - 45, 0) forSearchBarIcon:UISearchBarIconSearch];
+    //self.searchDisplayController.searchBar.showsScopeBar = YES;
+    
+    //self.searchDisplayController.searchBar.showsBookmarkButton = YES;
+    //self.searchDisplayController.searchBar.searchTextPositionAdjustment = UIOffsetMake(45 - self.searchDisplayController.searchBar.frame.size.width, 0);
+    
+    //self.searchDisplayController.searchBar.searchFieldBackgroundPositionAdjustment = UIOffsetMake(45 - self.searchDisplayController.searchBar.frame.size.width, 0);
+ 
     
 	// Do any additional setup after loading the view, typically from a nib.
     [super viewDidLoad];
@@ -61,8 +74,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
-    
-
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -78,7 +89,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
-    [downloader stopDownloadDriverDataTimer];
+    [downloader stopDriverPositionPoll];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     newDriverList = nil;
     oldDriverList = nil;
@@ -87,7 +98,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 - (void)viewDidDisappear:(BOOL)animated
 {
 	[super viewDidDisappear:animated];
-
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -98,31 +108,17 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (void)registerNotification
 {
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(updateMapMarkers:)
-     name:@"driverListUpdated"
-     object:nil ];
- 
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(updateUserMarker:)
-     name:@"userLocationUpdated"
-     object:nil ];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMapMarkers:) name:@"driverListUpdated" object:nil];
     
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(updateETA:)
-     name:@"ETA"
-     object:nil ];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateUserMarker:) name:@"userLocationUpdated" object:nil];
     
-    [[NSNotificationCenter defaultCenter]
-     addObserver:self
-     selector:@selector(updateGeoAddress:)
-     name:@"GeoAddress"
-     object:nil ];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateETA:) name:@"ETA" object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGeoAddress:) name:@"GeoAddress" object:nil];
     
 }
+
+#pragma mark Map functions
 
 - (void)updateMapMarkers: (NSNotification *) notification
 {    
@@ -202,6 +198,22 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     
     [userLocationAnnotation setCoordinateWithGV];
     [self addAnnotationUserMarker];
+    
+    [OtherQuery getNearestTimeWithlocation:[[GlobalVariables myGlobalVariables] gUserCoordinate] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    
+            // webservice specific
+        NSMutableDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        NSLog(@"%@",[dict objectForKey:@"time"]);
+        [self performSelectorOnMainThread:@selector(setNearestDriverTimeText:) withObject:[dict objectForKey:@"time"] waitUntilDone:YES];
+    
+    }];
+
+}
+
+- (void) setNearestDriverTimeText:(NSString*) time
+{
+    //nextButton.titleLabel.text =[NSString stringWithFormat: @"Get a cab in %@", time];
+    [nextButton setTitle:[NSString stringWithFormat: @"Get a cab in %@ minutes", time] forState:UIControlStateNormal];
 }
 
 - (void) addAnnotationUserMarker
@@ -220,16 +232,18 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     {
         NSLog(@"MKAnnotationView Called - User Location");
     	MKAnnotationView *annView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"userloc"];
-        annView.image = [UIImage imageNamed:@"userdot"];
+        annView.image = [UIImage imageNamed:@"passengerMarker"];
+        annView.centerOffset = CGPointMake(0, -20);
         annView.draggable = YES;
         annView.canShowCallout = NO;
+        
 
          return annView;
     }else{
         NSLog(@"MKAnnotationView Called - Drivers");
 
         MKAnnotationView *annView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"driverloc"];
-        annView.image = [UIImage imageNamed:@"taxi"];
+        annView.image = [UIImage imageNamed:@"driverMarker"];
         annView.canShowCallout = NO;
         
         
@@ -250,6 +264,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     
 }
 
+/*
 - (void)mapView:(MKMapView *)sender didSelectAnnotationView:(MKAnnotationView *)view
 {
     NSLog(@"Annotation Selected - %@", view.annotation.title);
@@ -272,47 +287,42 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         
 }
 
+
 - (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
 {
     //selectedDriver = nil;
     if (view.annotation.title != @"User Location")
     view.image = [UIImage imageNamed:@"taxi"];
 }
-
+*/
 
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
 {
 }
 
-
+#pragma mark Other Functions
 
 - (void) updateETA: (NSNotification *) notification;
 {
     NSLog(@"%@ - %@ - Updated ETA - %@",self.class,NSStringFromSelector(_cmd),[callGetETA eta]);
-    [myBar showDriverBarWithETA:callGetETA.eta driver_id:nil];
     
 }
 
 - (IBAction) setGDriver_id:(id)sender
 {
-    //BroadCast button
- [[GlobalVariables myGlobalVariables] setGDriver_id:@"0"];  
-    
+    //BroadCast button    
 }
 
 -(void) updateGeoAddress:(NSNotification*) notification
 {
     //[myBar showUserBarWithGeoAddress];
-
-    
     [self.searchDisplayController.searchBar setPlaceholder:[[GlobalVariables myGlobalVariables]gUserAddress]];
 
-    //[mainBottomBar setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];
-    
-    
+    //[mainBottomBar setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];    
 }
 
+#pragma mark Search functions
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
 	if ([searchText length] > 2) {

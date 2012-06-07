@@ -8,18 +8,24 @@
 
 #import <UIKit/UIKit.h>
 @class SubmitClass;
-
+@class TaxiTypePicker;
 @interface SubmitJobViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 {
     IBOutlet UITextField* pickup;
     IBOutlet UITextField* destination;
     IBOutlet UITextField* mapaddress;
+    IBOutlet UITextField* mobileNumber;
+    IBOutlet UITextField* taxiType;
     
     NSString* pickupString;
     NSString* destinationString;
     
     SubmitClass *newSubmitClass;
-    IBOutlet UILabel* geoAddress;
+    
+    TaxiTypePicker* picker;
+    
+    NSString* fare;
+    NSString* distance;
     
 }
 @property (nonatomic, strong) IBOutlet UITextField* pickup;
@@ -41,5 +47,8 @@
 -(IBAction)gotoMain:(id)sender;
 -(IBAction)chooseFavourites:(id)sender;
 
+- (IBAction)chooseTaxiType:(id)sender;
+-(void) setTitle;
+-(void) setFare:(NSMutableDictionary*) dict;
 
 @end

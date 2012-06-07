@@ -11,7 +11,7 @@
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class GetETA;
-@class DownloadDriverData;
+@class DriverPosition;
 @class CalloutBar;
 
 
@@ -28,7 +28,7 @@
     UserLocationAnnotation* userLocationAnnotation;
     CoreLocationManager *clManager;
     GetETA *callGetETA;
-    DownloadDriverData *downloader;
+    DriverPosition *downloader;
     
     IBOutlet UILabel *mainTopBar;
     IBOutlet UILabel *mainBottomBar;
@@ -36,6 +36,8 @@
     
     MKCoordinateRegion region;
     MKCoordinateSpan span;
+    
+    IBOutlet UIButton* nextButton;
 
 }
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
@@ -48,6 +50,7 @@
 - (void) addAnnotationUserMarker;
 
 - (IBAction) setGDriver_id:(id)sender;
+- (void) setNearestDriverTimeText:(NSString*) time;
 
 //choose location 
 @property (assign) BOOL dirty;

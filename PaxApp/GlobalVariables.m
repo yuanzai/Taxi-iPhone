@@ -8,11 +8,9 @@
 
 #import "GlobalVariables.h"
 
-
-
 @implementation GlobalVariables
 
-@synthesize gDriverList, gUserCoordinate, gPickupString, gDestinationString, gDriver_id, gJob_id, gUserAddress, gDriverInfo,gDestiCoordinate;
+@synthesize gDriverList, gUserCoordinate, gPickupString, gDestinationString, gDriver_id, gJob_id, gUserAddress, gDriverInfo,gDestiCoordinate, gTaxiType;
 
 static GlobalVariables* myGlobalVariables;
 
@@ -36,6 +34,7 @@ static GlobalVariables* myGlobalVariables;
     loc.latitude = 0;
     loc.longitude = 0;
     gDestiCoordinate = loc;
+    gTaxiType = nil;
     
     
     
