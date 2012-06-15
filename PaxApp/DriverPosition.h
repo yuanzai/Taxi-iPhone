@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 @class CheckConnection;
+@class DriverPositionModel;
 
 @interface DriverPosition : NSObject
 {
     CheckConnection* myCheckConnection;
     NSString* driver_id;
+    DriverPositionModel* newConnection;
 }
 
 @property (nonatomic,strong) NSTimer *repeatingTimer;

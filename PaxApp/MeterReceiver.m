@@ -34,6 +34,8 @@
 -(void)startMeterReceiverTimer
 {
     JobQuery* newQuery = [[JobQuery alloc]init];
+    
+    
     [newQuery submitJobQuerywithMsgType:@"clientonboard" job_id:job_id rating:nil driver_id:nil];
     
     [self getMeter:nil]; //run get meter immediately before intrval countdown

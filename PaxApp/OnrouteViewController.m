@@ -223,7 +223,7 @@
 
 -(IBAction)onboardButton:(id)sender
 {    
-    [JobCycleQuery onboardJobCalledByPassenger_jobID:[[GlobalVariables myGlobalVariables] gJob_id] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [JobCycleQuery onboardJobCalledByPassengerWithJobID:[[GlobalVariables myGlobalVariables] gJob_id] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         [self performSelectorOnMainThread:@selector(onBoard) withObject:nil waitUntilDone:YES];
     }];
@@ -241,7 +241,7 @@
     testStatus.text = @"Onboard";
 
     
-    [myStatusReceiver startStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"driverreached"];
+    [myStatusReceiver initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"reached"];
 }
 
 -(void)actionPickedStatus:(NSNotification *)notification

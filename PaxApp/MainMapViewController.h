@@ -7,13 +7,14 @@
 //
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
+#import <QuartzCore/QuartzCore.h>
 
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class GetETA;
 @class DriverPosition;
 @class CalloutBar;
-
+@class ActivityProgressView;
 
 @interface MainMapViewController : UIViewController<MKMapViewDelegate> 
 {
@@ -21,8 +22,6 @@
     NSArray *newDriverList;
     IBOutlet MKMapView	*mapView;
     
-    NSString* selectedDriver;
-    NSString* tempSelectedDriver;
     id <MKAnnotation> selectedAnnotation;
     
     UserLocationAnnotation* userLocationAnnotation;
@@ -39,20 +38,25 @@
     
     IBOutlet UIButton* nextButton;
 
+    ActivityProgressView* activityContainer;
 }
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
+
+
 - (void) getUserLocation;
 - (void) registerNotification;
 - (void) updateMapMarkers: (NSNotification *) notification;
 - (void) updateUserMarker: (NSNotification *) notification;
-- (void) updateETA: (NSNotification *) notification;
 - (void) updateGeoAddress:(NSNotification*) notification;
 - (void) addAnnotationUserMarker;
-
-- (IBAction) setGDriver_id:(id)sender;
 - (void) setNearestDriverTimeText:(NSString*) time;
+- (void) showActivityView:(NSNotification*) notification;
+- (void) hideActivityView:(NSNotification*) notification;
 
-//choose location 
+
+
+
+//choose location things
 @property (assign) BOOL dirty;
 @property (assign) BOOL loading;
 @property (nonatomic, strong) NSMutableArray* suggestions;

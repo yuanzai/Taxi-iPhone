@@ -10,9 +10,8 @@
 #import <CoreLocation/CoreLocation.h>
 
 @interface OtherQuery : NSObject
-+ (void) getETAWithlocation:(CLLocationCoordinate2D)location destination:(CLLocationCoordinate2D) destination completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 
-+ (void) getFareWithlocation:(CLLocationCoordinate2D)location destination:(CLLocationCoordinate2D) destination completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
++ (void) getFareWithlocation:(CLLocationCoordinate2D)location destination:(CLLocationCoordinate2D) destination taxitype:(NSString*)taxitype completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 
 + (void) getNearestTimeWithlocation:(CLLocationCoordinate2D)location completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 @end

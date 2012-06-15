@@ -142,7 +142,14 @@ static NSString *kDurationKey = @"CSToastDurationKey";
     [activityContainer setAlpha:1.0];
     [UIView commitAnimations];
     
+    /*
+    */
+    
+    /*
+    */
+    
     [self addSubview:activityContainer];
+
 }
 
 - (void)hideToastActivity {

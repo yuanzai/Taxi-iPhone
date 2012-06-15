@@ -9,8 +9,9 @@
 #import <Foundation/Foundation.h>
 
 @interface JobCycleQuery : NSObject
-+ (void) onboardJobCalledByPassenger_jobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
-+ (void) cancelJobCalledByPassenger_jobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
-+ (void) jobExpired_jobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
++ (void) onboardJobCalledByPassengerWithJobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
++ (void) cancelJobCalledByPassenger_jobID:(NSString *)job_id feedback:(NSString*) feedback completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
++ (void) jobExpiredWithJobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
++ (void) checkJobWithJobID:(NSString*)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 
 @end

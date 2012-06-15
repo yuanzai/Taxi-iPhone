@@ -17,7 +17,7 @@
 {
     confirmBox = [[UIAlertView alloc] init];
     [confirmBox setDelegate:self];
-    [confirmBox setTitle:@"Any reason for cancellation?"];
+    [confirmBox setTitle:@"Are you sure you want to cancel?"];
     [confirmBox addButtonWithTitle:@"OK"];
     [confirmBox setMessage:@"\n"];
     textInput = [[UITextField alloc] initWithFrame:CGRectMake(20.0, 41.0, 245.0, 35.0)];
@@ -31,7 +31,7 @@
     textInput.backgroundColor = [UIColor whiteColor];
     textInput.borderStyle = UITextBorderStyleRoundedRect;
     textInput.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    
+    textInput.placeholder = @"Feedback";
     [textInput setEnabled:YES];
     
     [confirmBox addSubview:textInput];
@@ -63,25 +63,25 @@
 -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(alertView == confirmBox) {
-        switch (buttonIndex) {
-            case 0:
-            {
-                JobQuery *cancelReport = [[JobQuery alloc]init];
-                [cancelReport submitJobQuerywithMsgType:@"clientcancel" 
-                                                 job_id:[[GlobalVariables myGlobalVariables]gJob_id]
-                                                 rating:@"0"
-                                              driver_id:[[GlobalVariables myGlobalVariables]gDriver_id]];
-                [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoMain" object:nil];
-                
-                break;
-            }
-            default:
-            {
-                break;
-            }
+        
+        
+        if (buttonIndex == 0) {
+            [JobCycleQuery cancelJobCalledByPassenger_jobID:[[GlobalVariables myGlobalVariables]gJob_id] feedback:textInput.text completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+                [self performSelectorOnMainThread:@selector(gotoMain) withObject:nil waitUntilDone:YES];
+            }];
+            
+            
+            
         }
     }
 }
+
+- (void) gotoMain
+{
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoMain" object:nil];  
+
+}
+
 
 /*
  -(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex

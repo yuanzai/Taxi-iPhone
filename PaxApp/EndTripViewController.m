@@ -43,7 +43,6 @@
     [super viewDidLoad];
     self.navigationItem.hidesBackButton = YES;
 
-    
     CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
     self.navigationItem.titleView = thisNavBar;
     [thisNavBar setCustomNavBarTitle:@"Thank you!" subtitle:@""];

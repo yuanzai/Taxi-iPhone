@@ -11,37 +11,18 @@
 
 @implementation OtherQuery
 
-+ (void) getETAWithlocation:(CLLocationCoordinate2D)location destination:(CLLocationCoordinate2D) destination completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
-{
-    NSString* postBody = [[NSString alloc] initWithFormat:@"fromLat=%f$fromLongi=%f&toLat=%f&toLongi=%f",location.latitude, location.longitude, destination.latitude, destination.longitude];
-    
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHostSite, kGetETA]]];    
-    NSData *postData = [postBody dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:[NSString stringWithFormat:@"%d", [postData length]] forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setTimeoutInterval:10];
-    [request setHTTPBody:postData];
-    
-    [NSURLConnection sendAsynchronousRequest:request 
-                                       queue:[[NSOperationQueue alloc] init] 
-                           completionHandler:handler];    
-}
-
-+ (void) getFareWithlocation:(CLLocationCoordinate2D)location destination:(CLLocationCoordinate2D) destination completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
++ (void) getFareWithlocation:(CLLocationCoordinate2D)location destination:(CLLocationCoordinate2D) destination taxitype:(NSString*)taxitype completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {    
-    NSString* postBody = [[NSString alloc] initWithFormat:@"fromLat=%f&fromLongi=%f&toLat=%f&toLongi=%f",location.latitude, location.longitude, destination.latitude, destination.longitude];
+    NSString* postBody = [[NSString alloc] initWithFormat:@"pickup_latitude=%f&pickup_longitude=%f&destination_latitude=%f&destination_longitude=%f&taxi_type=%@",location.latitude, location.longitude, destination.latitude, destination.longitude,taxitype];
 
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHostSite, kGetFare]]];    
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/jobs/fare",kHerokuHostSite]]];    
     NSData *postData = [postBody dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     
     
     [request setHTTPMethod:@"POST"];
     [request setValue:[NSString stringWithFormat:@"%d", [postData length]] forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setTimeoutInterval:10];
+    [request setTimeoutInterval:kURLConnTimeOut];
     [request setHTTPBody:postData];
     
     [NSURLConnection sendAsynchronousRequest:request 
@@ -51,61 +32,23 @@
 
 + (void) getNearestTimeWithlocation:(CLLocationCoordinate2D)location completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
-    NSString* postBody = [[NSString alloc] initWithFormat:@"lat=%f&longi=%f",location.latitude, location.longitude];
+    //NSString* getString = [[NSString alloc] initWithFormat:@"latitude=%f&longitude=%f",location.latitude, location.longitude];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHostSite, kGetNearestTime]]];    
-    NSData *postData = [postBody dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:[NSString stringWithFormat:@"%d", [postData length]] forHTTPHeaderField:@"Content-Length"];
+    //NSData *getData = [getString dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     
+    //NSString *getLength = [NSString stringWithFormat:@"%d", [getData length]];
+
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/drivers/nearest",kHerokuHostSite]]];    
+    [request setHTTPMethod:@"GET"];
+    //[request setValue:getLength forHTTPHeaderField:@"Content-Length"];
     [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setTimeoutInterval:10];
-    [request setHTTPBody:postData];
+    [request setTimeoutInterval:kURLConnTimeOut];
+    //[request setHTTPBody:getData];
     
     [NSURLConnection sendAsynchronousRequest:request 
                                        queue:[[NSOperationQueue alloc] init] 
                            completionHandler:handler];
 
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-+ (void) jobExpired_jobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
-{
-    
-    
-    NSString* postBody = [[NSString alloc] initWithFormat:@"msgtype=clientcancel&job_id=%@",job_id];
-    
-    NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
-    
-    //Set URL for post request. Constants from constants file
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHostSite, kJobExpired]]];    
-    
-    
-    NSData *postData = [postBody dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     // postData format - @"key=value&key2=value2"
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setTimeoutInterval:10];
-    [request setHTTPBody:postData];
-    
-    [NSURLConnection sendAsynchronousRequest:request 
-                                       queue:[[NSOperationQueue alloc] init] 
-                           completionHandler:handler];
 }
 
 @end

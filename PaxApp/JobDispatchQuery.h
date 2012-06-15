@@ -10,5 +10,6 @@
 #import <MapKit/MapKit.h>
 
 @interface JobDispatchQuery : NSObject
-+(void) submitJobWithPickupLocation:(NSString*)location Destination:(NSString*) destination TaxiType:(int)taxitype completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
++(void) submitJobWithPickupLocation:(NSString*)location Destination:(NSString*) destination TaxiType:(NSString*)taxitype fare:(NSString*)fare mobile:(NSString*)mobile_number completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
+
 @end

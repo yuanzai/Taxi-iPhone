@@ -16,8 +16,11 @@
 //Host URL
 FOUNDATION_EXPORT NSString *const kHostSite;
 
-//Host URL
+//kHerokuHost URL
 FOUNDATION_EXPORT NSString *const kHerokuHostSite;
+
+//URL Time Out in secs
+FOUNDATION_EXPORT NSTimeInterval const kURLConnTimeOut;
 
 //Download Driver Details URL Extension
 FOUNDATION_EXPORT NSString *const kGetDriverPosition;

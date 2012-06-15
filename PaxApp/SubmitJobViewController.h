@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 @class SubmitClass;
 @class TaxiTypePicker;
+@class CustomNavBar;
 @interface SubmitJobViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
 {
     IBOutlet UITextField* pickup;
@@ -27,6 +28,9 @@
     NSString* fare;
     NSString* distance;
     
+    CustomNavBar *thisNavBar;
+    
+
 }
 @property (nonatomic, strong) IBOutlet UITextField* pickup;
 @property (nonatomic, strong) IBOutlet UITextField* destination;

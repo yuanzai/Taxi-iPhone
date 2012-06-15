@@ -37,8 +37,6 @@
     
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     
-    
-    [self createTimer];
 }
 
 

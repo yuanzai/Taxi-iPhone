@@ -30,7 +30,6 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="setGDriver_id:" destination="to4-FS-rhW" eventType="touchUpInside" id="Psh-ql-HKe"/>
                                     <segue destination="k9X-Uj-u1R" kind="push" id="1jh-lm-kec"/>
                                 </connections>
                             </button>
@@ -1567,6 +1566,115 @@
         <image name="starwhite2.png" width="29" height="28"/>
         <image name="textbox.png" width="573" height="185"/>
     </resources>
+    <classes>
+        <class className="AdvancedMainViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/AdvancedMainViewController.h"/>
+        </class>
+        <class className="ChooseLocationViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ChooseLocationViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="cancelButton:"/>
+                <relationship kind="action" name="useThisLocationButton:"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+        <class className="EndTripViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/EndTripViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="escapeKeyboard:"/>
+                <relationship kind="action" name="touchStar:"/>
+                <relationship kind="outlet" name="review" candidateClass="UITextView"/>
+                <relationship kind="outlet" name="star1" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="star2" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="star3" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="star4" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="star5" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="FavouritesViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/FavouritesViewController.h"/>
+        </class>
+        <class className="JobInfoUIVIew" superclassName="UIView">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/JobInfoUIVIew.h"/>
+            <relationships>
+                <relationship kind="outlet" name="destination" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="driver" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="license" candidateClass="UILabel"/>
+            </relationships>
+        </class>
+        <class className="MainMapViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/MainMapViewController.h"/>
+            <relationships>
+                <relationship kind="outlet" name="mainBottomBar" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mainTopBar" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="nextButton" candidateClass="UIButton"/>
+            </relationships>
+        </class>
+        <class className="ManageAddressesViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ManageAddressesViewController.h"/>
+        </class>
+        <class className="ManageDriversViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ManageDriversViewController.h"/>
+        </class>
+        <class className="OnTripViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OnTripViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="confirmCancel:"/>
+                <relationship kind="action" name="startTrip"/>
+                <relationship kind="action" name="testReached:"/>
+                <relationship kind="outlet" name="fareLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+            </relationships>
+        </class>
+        <class className="OnrouteViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/OnrouteViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="button:"/>
+                <relationship kind="action" name="confirmCancel:"/>
+                <relationship kind="action" name="onboardButton:"/>
+                <relationship kind="action" name="testPicked:"/>
+                <relationship kind="action" name="testReached:"/>
+                <relationship kind="outlet" name="cancel" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="destination" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="driver" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="license" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="mapView" candidateClass="MKMapView"/>
+                <relationship kind="outlet" name="onBoard" candidateClass="UIButton"/>
+                <relationship kind="outlet" name="testStatus" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="thisJobInfoUIView" candidateClass="UIView"/>
+            </relationships>
+        </class>
+        <class className="PaymentViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PaymentViewController.h"/>
+        </class>
+        <class className="PrefsViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/PrefsViewController.h"/>
+        </class>
+        <class className="SignInViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SignInViewController.h"/>
+        </class>
+        <class className="SubmitJobViewController" superclassName="UIViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/SubmitJobViewController.h"/>
+            <relationships>
+                <relationship kind="action" name="chooseFavourites:"/>
+                <relationship kind="action" name="chooseLocation:"/>
+                <relationship kind="action" name="chooseTaxiType:"/>
+                <relationship kind="action" name="escapeKeyboard:"/>
+                <relationship kind="action" name="gotoMain:"/>
+                <relationship kind="action" name="setTextfields:"/>
+                <relationship kind="action" name="testButton:"/>
+                <relationship kind="outlet" name="destination" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="mapaddress" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="mobileNumber" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="pickup" candidateClass="UITextField"/>
+                <relationship kind="outlet" name="taxiType" candidateClass="UITextField"/>
+            </relationships>
+        </class>
+        <class className="TravelHistoryViewController" superclassName="UITableViewController">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/TravelHistoryViewController.h"/>
+        </class>
+    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>

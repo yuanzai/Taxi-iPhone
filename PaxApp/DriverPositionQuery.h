@@ -10,9 +10,13 @@
 
 @interface DriverPositionQuery : NSObject
 
-+(void) getAllDriverPositionsWithcompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 
-+(void) getDriverPositionsWithDriver_id:(NSString*)driver_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
++(void) passengerLoginWithEmail:(NSString*) email; 
+
+
++(void) getDriverPositionsWithCompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
+
++(void) getSpecifiedDriverPositionWithDriverID:(NSString*)driver_id :(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 
 
 @end

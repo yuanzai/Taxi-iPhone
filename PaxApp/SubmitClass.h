@@ -10,6 +10,7 @@
 
 @class Job;
 @class AlertBox;
+@class JobStatusReceiver;
 @interface SubmitClass : NSObject
 {
     NSTimer *checkTimer;
@@ -17,17 +18,21 @@
 
     Job* newJob;
     AlertBox* myBox;
+    JobStatusReceiver *myStatusReceiver;
+
+    
 }
 @property (nonatomic,strong) NSTimer *checkTimer;
 @property (nonatomic,strong) AlertBox* myBox;
 
 
-
-- (void)startSubmitProcesswithdriverID:(NSString*)driver_id pickupAddress:(NSString*)pickup destinationAddress:(NSString *)destination;
+-(void) startSubmitProcesswithdriverID:(NSString*)driver_id pickupAddress:(NSString*)pickup destinationAddress:(NSString *)destination taxitype:(NSString*) taxitype fare:(NSString*) fare mobile:(NSString*) mobile;
 - (void)createCheckTimer;
 
 - (void)stopCheckTimer;
 - (void) jobAccepted;
+- (void)startCountdown;
+- (void) statusCheck:(NSMutableDictionary *) dict;
 
 
 

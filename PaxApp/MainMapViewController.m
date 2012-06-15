@@ -11,11 +11,13 @@
 #import "GlobalVariables.h"
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
-#import "GetETA.h"
 #import "GetGeocodedAddress.h"
 
 #import "CustomNavBar.h"
 #import "OtherQuery.h"
+
+#import "Toast+UIView.h"
+#import "ActivityProgressView.h"
 
 static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
@@ -36,14 +38,13 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 - (void)viewDidLoad
 {
     [mapView setDelegate:self];
+
     
+    //clear global variables
     [[GlobalVariables myGlobalVariables] clearGlobalData];   
     
     [self registerNotification];
-    downloader = [[DriverPosition alloc]initDriverPositionPollWithDriverID:[NSString stringWithFormat:@"all"]];
-
-    callGetETA = [[GetETA alloc]init];
-    
+    downloader = [[DriverPosition alloc]initDriverPositionPollWithDriverID:[NSString stringWithFormat:@"all"]];    
     [self getUserLocation];
     
     
@@ -89,8 +90,14 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 - (void)viewWillDisappear:(BOOL)animated
 {
 	[super viewWillDisappear:animated];
+    
+    // stop downloading driver position
     [downloader stopDriverPositionPoll];
+    
+    //remove notification observers
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+    //clear annotations list
     newDriverList = nil;
     oldDriverList = nil;
 }
@@ -116,27 +123,23 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateGeoAddress:) name:@"GeoAddress" object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showActivityView:) name:@"showProgressActivity" object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideActivityView:) name:@"hideProgressActivity" object:nil];
+
 }
 
 #pragma mark Map functions
 
 - (void)updateMapMarkers: (NSNotification *) notification
 {    
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+    //inserting/updating map annotations
+    //new annotations are checked against current annotations
     
     if (!newDriverList) {
         newDriverList = [[NSArray alloc]init];
     }    
     newDriverList = [[[GlobalVariables myGlobalVariables] gDriverList] allValues]; 
-
-    if (!tempSelectedDriver)
-        tempSelectedDriver = [[NSString alloc]init];
-
-    if (!selectedDriver) 
-        selectedDriver = [[NSString alloc]init];
-    
-    
-    tempSelectedDriver = selectedDriver;
     
     if (!oldDriverList) {
         oldDriverList = [[NSArray alloc]init];
@@ -144,7 +147,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
     
     } else {
-        //[mapView removeAnnotations:oldDriverList];
         
         NSMutableArray *tempAddList = [[NSMutableArray alloc]init];
         NSMutableArray *tempRemoveList = [[NSMutableArray alloc]init];
@@ -163,6 +165,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         }
        
     }
+    // updating the old driver list
     oldDriverList = newDriverList;
 }
 
@@ -177,8 +180,8 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 -(void)updateUserMarker: (NSNotification *) notification
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-
+    //updates user marker + orientates screen to user location
+    
     if (!userLocationAnnotation) {
         userLocationAnnotation = [[UserLocationAnnotation alloc]init];
     } else {
@@ -193,19 +196,21 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     
     [mapView setRegion:region animated:TRUE];
 	[mapView regionThatFits:region];
-    
-    NSLog(@"%@,%@", [NSNumber numberWithDouble:coordinate.latitude], [NSNumber numberWithDouble:coordinate.longitude]);
-    
+        
     [userLocationAnnotation setCoordinateWithGV];
     [self addAnnotationUserMarker];
     
     [OtherQuery getNearestTimeWithlocation:[[GlobalVariables myGlobalVariables] gUserCoordinate] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    
+
+        
             // webservice specific
+        if (data) {
+            NSLog(@"%@ - %@ - getNearest",self.class,NSStringFromSelector(_cmd));
+
         NSMutableDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
         NSLog(@"%@",[dict objectForKey:@"time"]);
         [self performSelectorOnMainThread:@selector(setNearestDriverTimeText:) withObject:[dict objectForKey:@"time"] waitUntilDone:YES];
-    
+        }
     }];
 
 }
@@ -226,100 +231,60 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation
 {
-    selectedDriver = tempSelectedDriver;
-    
+    //set annotation views for user
     if (annotation.title == @"User Location")
     {
-        NSLog(@"MKAnnotationView Called - User Location");
     	MKAnnotationView *annView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"userloc"];
         annView.image = [UIImage imageNamed:@"passengerMarker"];
         annView.centerOffset = CGPointMake(0, -20);
         annView.draggable = YES;
-        annView.canShowCallout = NO;
-        
-
+        annView.canShowCallout = NO;        
          return annView;
     }else{
-        NSLog(@"MKAnnotationView Called - Drivers");
+    //set annotation views for driver
 
         MKAnnotationView *annView = [[MKAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:@"driverloc"];
         annView.image = [UIImage imageNamed:@"driverMarker"];
         annView.canShowCallout = NO;
-        
-        
-        if ([annotation.title isEqualToString:selectedDriver]) {
-            
-            selectedAnnotation = annotation;
-            
-        }
         	return annView;
 
     }
 }
-
-- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
-{
-
-        [self.mapView selectAnnotation:selectedAnnotation animated:NO];   
-    
-}
-
-/*
-- (void)mapView:(MKMapView *)sender didSelectAnnotationView:(MKAnnotationView *)view
-{
-    NSLog(@"Annotation Selected - %@", view.annotation.title);
-    
-    if (view.annotation.title != @"User Location") {
-        
-        [callGetETA startETAThread:view.annotation];
-        
-        if (!selectedDriver)
-            selectedDriver = [[NSString alloc]init ];
-        
-        view.image = [UIImage imageNamed:@"selected"];
-        selectedDriver = view.annotation.title;      
-        
-        
-    }else {
-        NSLog(@"No ETA");
-        
-    }
-        
-}
-
-
-- (void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
-{
-    //selectedDriver = nil;
-    if (view.annotation.title != @"User Location")
-    view.image = [UIImage imageNamed:@"taxi"];
-}
-*/
 
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
 {
 }
 
-#pragma mark Other Functions
+#pragma mark Downloading Drivers Position
+-(void) showActivityView:(NSNotification*) notification
+{    
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
 
-- (void) updateETA: (NSNotification *) notification;
-{
-    NSLog(@"%@ - %@ - Updated ETA - %@",self.class,NSStringFromSelector(_cmd),[callGetETA eta]);
+    // disable get cab button
+    [nextButton setUserInteractionEnabled:NO];
     
+    // Spinning thingy code 
+    activityContainer = [[ActivityProgressView alloc] initWithFrame:CGRectMake(0, 0, 200, 80)];
+    [self.view addSubview:activityContainer];
 }
 
-- (IBAction) setGDriver_id:(id)sender
+-(void) hideActivityView:(NSNotification*) notification
 {
-    //BroadCast button    
+    // enable get cab button
+    [nextButton setUserInteractionEnabled:YES];
+    
+    // Stop spinning thingy code
+    if (activityContainer)
+        [activityContainer removeFromSuperview];
 }
+
+#pragma mark Other Functions
 
 -(void) updateGeoAddress:(NSNotification*) notification
 {
-    //[myBar showUserBarWithGeoAddress];
+    // change text in search bar to reverse geocoded address
     [self.searchDisplayController.searchBar setPlaceholder:[[GlobalVariables myGlobalVariables]gUserAddress]];
-
-    //[mainBottomBar setText:[NSString stringWithFormat:[[GlobalVariables myGlobalVariables]gUserAddress]]];    
 }
 
 #pragma mark Search functions
@@ -334,13 +299,10 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 	}
 }
 
-
-
 - (BOOL)searchDisplayController:(UISearchDisplayController *)controller shouldReloadTableForSearchString:(NSString *)searchString
 {
 	return NO;
 }
-
 
 - (void) loadSearchSuggestions {
 	loading = YES;
@@ -360,8 +322,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         NSDictionary* tester = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil]; 
         NSArray* testArray = [tester objectForKey:@"predictions"];
         
-        for (NSDictionary *result in testArray) {
-            
+        for (NSDictionary *result in testArray) {            
             
             NSArray* terms = [result objectForKey:@"terms"];
             NSDictionary *term0 = [terms objectAtIndex:0];
@@ -371,8 +332,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
             NSLog(@"%@",resultname);
             [sug addObject:resultname];
             [ref addObject:[result objectForKey:@"reference"]];
-        }
-        
+        }        
         
         self.suggestions = sug;
         self.references = ref;
@@ -391,14 +351,12 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (UITableViewCell *)tableView:(UITableView *)table cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *cellIdentifier = @"suggest";
-	
+	static NSString *cellIdentifier = @"suggest";	
 	UITableViewCell *cell = [table dequeueReusableCellWithIdentifier:cellIdentifier];
     
 	if (cell == nil) 
 	{
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier] ;
-        
 		cell.textLabel.lineBreakMode = UILineBreakModeWordWrap;
 		cell.textLabel.numberOfLines = 0;
 		cell.textLabel.font = [UIFont fontWithName:@"Helvetica" size:12.0];

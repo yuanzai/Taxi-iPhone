@@ -7,7 +7,7 @@
 //
 
 #import "JobStatusReceiver.h"
-#import "Job.h"
+#import "JobCycleQuery.h"
 
 @implementation JobStatusReceiver
 @synthesize repeatingTimer, job_id, targettedStatus;
@@ -19,14 +19,14 @@
     if (!jobInfo)
         jobInfo = [[NSMutableDictionary alloc]init];
         
-    [Job getJobInfoAsync_withJobID:job_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-
-        NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];    
+    [JobCycleQuery checkJobWithJobID:job_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
-        jobInfo = [array objectAtIndex:0];
-        NSLog(@"%@ - %@ - Current Status - %@",self.class,NSStringFromSelector(_cmd), [jobInfo objectForKey:@"jobstatus"]);
+        if (data){
+        jobInfo = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];    
         
-        NSString* jobstatus = [[NSString alloc]initWithFormat:[jobInfo objectForKey:@"jobstatus"]];    
+               NSLog(@"%@ - %@ - Current Status - %@",self.class,NSStringFromSelector(_cmd), [jobInfo objectForKey:@"job_status"]);
+        
+        NSString* jobstatus = [[NSString alloc]initWithFormat:[jobInfo objectForKey:@"job_status"]];    
         
         if ([jobstatus isEqualToString:targettedStatus]){
             NSLog(@"%@ - %@ - Status changed to %@",self.class,NSStringFromSelector(_cmd), jobstatus);
@@ -36,6 +36,7 @@
         } else {
             
             //cancelcodes
+        }
         }
     }];
 }

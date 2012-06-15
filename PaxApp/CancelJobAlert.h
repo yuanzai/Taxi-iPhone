@@ -17,4 +17,6 @@
 
 -(void) launchConfirmBox;
 -(void) launchNoShowBox;
+-(void) gotoMain;
+
 @end

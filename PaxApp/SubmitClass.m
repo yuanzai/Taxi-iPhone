@@ -14,28 +14,40 @@
 #import "JobDispatchQuery.h"
 #import "JobCycleQuery.h"
 
+#import "JobStatusReceiver.h"
+
 @implementation SubmitClass
 
 @synthesize checkTimer, myBox;
 
--(void) startSubmitProcesswithdriverID:(NSString*)driver_id pickupAddress:(NSString*)pickup destinationAddress:(NSString *)destination
+-(void) startSubmitProcesswithdriverID:(NSString*)driver_id pickupAddress:(NSString*)pickup destinationAddress:(NSString *)destination taxitype:(NSString*) taxitype fare:(NSString*) fare mobile:(NSString*) mobile
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    
-    AlertBox *newBox = [[AlertBox alloc]init];
-    [newBox launchAlertBox:self];
-    
-    self.myBox = newBox;
-    
-    [JobDispatchQuery submitJobWithPickupLocation:pickup Destination:destination TaxiType:0 completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            myBox = [[AlertBox alloc]init];
+    [myBox launchAlertBox:self];
 
+    
+    
+    [JobDispatchQuery submitJobWithPickupLocation:pickup Destination:destination TaxiType:taxitype fare:fare mobile:mobile completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (data) {
         job_id = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; 
         [[GlobalVariables myGlobalVariables] setGJob_id:job_id];
         NSLog(@"%@ - %@ - JobID - %@",self.class,NSStringFromSelector(_cmd), job_id);
+        [self performSelectorOnMainThread:@selector(startCountdown) withObject:nil waitUntilDone:YES];
 
-        [self createCheckTimer];
+        }
      }];
      
+
+    
+}
+
+- (void)startCountdown
+{
+    [myBox createTimer];
+    //myStatusReceiver = [[JobStatusReceiver alloc]initStatusReceiverTimerWithJobID:job_id TargettedStatus:@"accepted"];
+
+    [self createCheckTimer];
 }
 
 - (void)createCheckTimer 
@@ -66,41 +78,36 @@
     if (self.myBox.countdownTimer == nil){
         [self stopCheckTimer];
     } else{
-        
-    //if (!newJob)
-      //  newJob = [[Job alloc] init];
-    
-    //[newJob getJobInfo_useJobID:job_id];
-    
-    [Job getJobInfoAsync_withJobID:job_id completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
-        
-        NSArray *array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];    
-        
-        NSMutableDictionary *jobInfo = [array objectAtIndex:0];
-        NSLog(@"%@ - %@ - Current Status - %@",self.class,NSStringFromSelector(_cmd), [jobInfo objectForKey:@"jobstatus"]);
-        
-        NSString* jobstatus = [[NSString alloc]initWithFormat:[jobInfo objectForKey:@"jobstatus"]];    
 
-        if ([jobstatus isEqualToString:@"accepted"]){
-            [[GlobalVariables myGlobalVariables] setGDriver_id:[jobInfo objectForKey:@"driver_id"]];
-            [self performSelectorOnMainThread:@selector(jobAccepted) withObject:nil waitUntilDone:YES];
-        } else {
-    NSLog(@"%@ - %@ - No Response",self.class,NSStringFromSelector(_cmd));
+    [JobCycleQuery checkJobWithJobID:job_id completionHandler: ^(NSURLResponse *response, NSData *data, NSError *error) {
+        if (data){
+        NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+        
+        [self performSelectorOnMainThread:@selector(statusCheck:) withObject:dict waitUntilDone:YES];
+
         }
-        
     }];
-        
      }   
-
-
 }
-
-- (void) jobAccepted
+     
+- (void) statusCheck:(NSMutableDictionary *) dict
 {
-    [self stopCheckTimer];
-    [self.myBox stopTimer];
-    self.myBox = nil;
-    [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoOnroute" object:nil];
+    NSString* jobstatus = [[NSString alloc]initWithFormat:[dict objectForKey:@"job_status"]];    
+    
+    if ([jobstatus isEqualToString:@"accepted"]){
+        
+        NSLog(@"%@ - %@ - Accepted",self.class,NSStringFromSelector(_cmd));
+
+        [[GlobalVariables myGlobalVariables] setGDriver_id:[dict objectForKey:@"driver_id"]];
+        [self stopCheckTimer];
+        [self.myBox stopTimer];
+        self.myBox = nil;
+        [[NSNotificationCenter defaultCenter]postNotificationName:@"gotoOnroute" object:nil];
+        
+    } else if ([jobstatus isEqualToString:@"open"]){
+        
+        NSLog(@"%@ - %@ - No Response",self.class,NSStringFromSelector(_cmd));
+    }   
 }
 
 
@@ -113,7 +120,7 @@
         self.myBox = nil;
         [self stopCheckTimer];
         
-        [JobCycleQuery jobExpired_jobID :job_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [JobCycleQuery jobExpiredWithJobID :job_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         }];
     }     
 }

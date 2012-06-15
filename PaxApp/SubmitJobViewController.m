@@ -20,6 +20,7 @@
 //remove after testing
 #import "JobQuery.h"
 
+
 @implementation SubmitJobViewController
 @synthesize pickupString, destinationString, pickup, destination, mapaddress;
 
@@ -54,7 +55,12 @@
 - (void)viewDidLoad
 {
     //Custom Navbar
-        [self setTitle];
+    thisNavBar = [[CustomNavBar alloc] initTwoRowBar];
+    self.navigationItem.titleView = thisNavBar;
+    self.navigationItem.hidesBackButton = YES;
+    [self setTitle];
+    
+    //Set textboxes
     if ([[GlobalVariables myGlobalVariables]gPickupString]){
         pickup.text =[[GlobalVariables myGlobalVariables] gPickupString];
     } else {
@@ -141,8 +147,12 @@
     
     [newSubmitClass startSubmitProcesswithdriverID:[[GlobalVariables myGlobalVariables] gDriver_id]
                                      pickupAddress:[[GlobalVariables myGlobalVariables] gPickupString] 
-                                destinationAddress:[[GlobalVariables myGlobalVariables] gDestinationString]];
-    
+                                destinationAddress:[[GlobalVariables myGlobalVariables] gDestinationString] 
+                                          taxitype:[[GlobalVariables myGlobalVariables] gTaxiType]
+                                              fare:fare 
+                                            mobile:mobileNumber.text];
+        
+        
     NSLog(@"%@ - pickup: %@, destination: %@",self.class,pickup.text, destination.text);
     }
 }
@@ -206,14 +216,14 @@
 }
 
 #pragma mark Simulate Conditions
+
 -(IBAction)testButton:(id)sender
 {
+/*
     if (![[GlobalVariables myGlobalVariables] gDestinationString])
         [[GlobalVariables myGlobalVariables]setGDestinationString:@"Somewhere over the rainbow!"];
-    
-    
-    
-    [JobDispatchQuery submitJobWithPickupLocation:[[GlobalVariables myGlobalVariables] gPickupString] Destination:[[GlobalVariables myGlobalVariables] gDestinationString] TaxiType:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+ 
+    //[JobDispatchQuery submitJobWithPickupLocation:[[GlobalVariables myGlobalVariables] gPickupString] Destination:[[GlobalVariables myGlobalVariables] gDestinationString] TaxiType:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         [[GlobalVariables myGlobalVariables] setGJob_id:[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]];
         JobQuery *newQuery=[[JobQuery alloc]init];
@@ -222,10 +232,9 @@
         [newQuery submitJobQuerywithMsgType:@"driveraccept" job_id:[[GlobalVariables myGlobalVariables]gJob_id] rating:nil driver_id:@"1"];
         [self performSelectorOnMainThread:@selector(gotoOnroute:) withObject:nil waitUntilDone:YES];
     }];
-    
-
-    
+*/
 }
+
 
 #pragma mark Functional Methods
 
@@ -306,19 +315,17 @@
 
 -(void) setTitle
 {
-    if([[GlobalVariables myGlobalVariables]gUserAddress] && ([[GlobalVariables myGlobalVariables]gDestinationString] || [[GlobalVariables myGlobalVariables] gDestiCoordinate].latitude != 0.000000 ||[[GlobalVariables myGlobalVariables] gDestiCoordinate].longitude != 0.000000) ) {
+    if([[GlobalVariables myGlobalVariables]gUserAddress] && ([[GlobalVariables myGlobalVariables]gDestinationString] || [[GlobalVariables myGlobalVariables] gDestiCoordinate].latitude != 0.000000 ||[[GlobalVariables myGlobalVariables] gDestiCoordinate].longitude != 0.000000) && [[GlobalVariables myGlobalVariables]gTaxiType]) {
         
-
-        
-        [OtherQuery getFareWithlocation:[[GlobalVariables myGlobalVariables]gUserCoordinate] destination:[[GlobalVariables myGlobalVariables]gDestiCoordinate] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [OtherQuery getFareWithlocation:[[GlobalVariables myGlobalVariables]gUserCoordinate] destination:[[GlobalVariables myGlobalVariables]gDestiCoordinate] taxitype:[[GlobalVariables myGlobalVariables]gTaxiType] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             
             NSMutableDictionary* olddict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];  
 
             NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
             
-            [dict setObject:[NSString stringWithFormat:@"Fare: RM  %.02f", [[olddict objectForKey:@"fare"]floatValue]] forKey:@"fare"];
+            [dict setObject:[NSString stringWithFormat:@"Fare: %@", [[olddict objectForKey:@"fare"]floatValue]] forKey:@"fare"];
              
-            [dict setObject:[NSString stringWithFormat:@"Distance: %@ KM",[olddict objectForKey:@"distance"]] forKey:@"distance"];
+            [dict setObject:[NSString stringWithFormat:@"Distance: %@",[olddict objectForKey:@"distance"]] forKey:@"distance"];
             
             
             [self performSelectorOnMainThread:@selector(setFare:) withObject:dict waitUntilDone:YES];
@@ -338,10 +345,8 @@
 -(void) setFare:(NSMutableDictionary*) dict
 {
 
-    
-    CustomNavBar *thisNavBar = [[CustomNavBar alloc] initTwoRowBar];    
-    self.navigationItem.titleView = thisNavBar;
     [thisNavBar setCustomNavBarTitle:[dict objectForKey:@"fare"] subtitle:[dict objectForKey:@"distance"]];
+    fare = [dict objectForKey:@"fare"];
     self.navigationItem.hidesBackButton = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
 }

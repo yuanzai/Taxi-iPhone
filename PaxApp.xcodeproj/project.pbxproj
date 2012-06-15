@@ -53,6 +53,7 @@
 		8F590E79157DFA5A0074884A /* CancelJobAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F590E78157DFA5A0074884A /* CancelJobAlert.m */; };
 		8F590E7E157E069F0074884A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2C4281157AB40B0037D47C /* QuartzCore.framework */; };
 		8F590E8C157E3E030074884A /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F590E8B157E3E030074884A /* Toast+UIView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		8F590E901588C0320074884A /* ActivityProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F590E8F1588C0310074884A /* ActivityProgressView.m */; };
 		8F5EC549154960470096D741 /* CancelJob.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5EC548154960470096D741 /* CancelJob.m */; };
 		8F5EC54B1549CD880096D741 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EC54A1549CD880096D741 /* profile.png */; };
 		8F80A40D154D4B12000F536E /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A40C154D4B12000F536E /* PaymentViewController.m */; };
@@ -198,6 +199,8 @@
 		8F590E78157DFA5A0074884A /* CancelJobAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelJobAlert.m; sourceTree = "<group>"; };
 		8F590E8A157E3E020074884A /* Toast+UIView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Toast+UIView.h"; sourceTree = "<group>"; };
 		8F590E8B157E3E030074884A /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
+		8F590E8E1588C0310074884A /* ActivityProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityProgressView.h; sourceTree = "<group>"; };
+		8F590E8F1588C0310074884A /* ActivityProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityProgressView.m; sourceTree = "<group>"; };
 		8F5EC547154960470096D741 /* CancelJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelJob.h; sourceTree = "<group>"; };
 		8F5EC548154960470096D741 /* CancelJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelJob.m; sourceTree = "<group>"; };
 		8F5EC54A1549CD880096D741 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
@@ -344,8 +347,6 @@
 			children = (
 				8F0CE31C1545EDF300CC19CC /* AlertBox.h */,
 				8F0CE31D1545EDF300CC19CC /* AlertBox.m */,
-				8F80A412154DC80B000F536E /* CountdownAlert.h */,
-				8F80A413154DC80B000F536E /* CountdownAlert.m */,
 				8F0CE3281546B13500CC19CC /* SubmitClass.h */,
 				8F0CE3291546B13500CC19CC /* SubmitClass.m */,
 				8F84D0EA157A840500B2C27D /* TaxiTypePicker.h */,
@@ -361,8 +362,6 @@
 				8F512F3C1547B3B90083A2CE /* RatingAlert.m */,
 				8F590E77157DFA5A0074884A /* CancelJobAlert.h */,
 				8F590E78157DFA5A0074884A /* CancelJobAlert.m */,
-				8F5EC547154960470096D741 /* CancelJob.h */,
-				8F5EC548154960470096D741 /* CancelJob.m */,
 			);
 			name = Onroute;
 			sourceTree = "<group>";
@@ -445,8 +444,6 @@
 		8F3FC47B157784B900115DC1 /* New Query Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8F0CE325154697A000CC19CC /* Job.h */,
-				8F0CE326154697A000CC19CC /* Job.m */,
 				8F3FC47C1577852B00115DC1 /* DriverPositionQuery.h */,
 				8F3FC47D1577852B00115DC1 /* DriverPositionQuery.m */,
 				8F3FC47F1577854F00115DC1 /* JobDispatchQuery.h */,
@@ -514,6 +511,21 @@
 			name = star;
 			sourceTree = "<group>";
 		};
+		8F590E8D1581B3950074884A /* Unused Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8FAA7ADD154176FC00CC6435 /* GetETA.h */,
+				8FAA7ADE154176FC00CC6435 /* GetETA.m */,
+				8F5EC547154960470096D741 /* CancelJob.h */,
+				8F5EC548154960470096D741 /* CancelJob.m */,
+				8F80A412154DC80B000F536E /* CountdownAlert.h */,
+				8F80A413154DC80B000F536E /* CountdownAlert.m */,
+				8F0CE325154697A000CC19CC /* Job.h */,
+				8F0CE326154697A000CC19CC /* Job.m */,
+			);
+			name = "Unused Classes";
+			sourceTree = "<group>";
+		};
 		8F80A40E154DAE85000F536E /* OnTrip */ = {
 			isa = PBXGroup;
 			children = (
@@ -569,6 +581,7 @@
 		8FAA7AA015415E0300CC6435 /* PaxApp */ = {
 			isa = PBXGroup;
 			children = (
+				8F590E8D1581B3950074884A /* Unused Classes */,
 				8FAA7AA915415E0300CC6435 /* AppDelegate.h */,
 				8FAA7AAA15415E0300CC6435 /* AppDelegate.m */,
 				8FAA7AAC15415E0300CC6435 /* MainStoryboard.storyboard */,
@@ -619,12 +632,12 @@
 		8FAA7ACF15415E6300CC6435 /* MainMap */ = {
 			isa = PBXGroup;
 			children = (
-				8FAA7ADD154176FC00CC6435 /* GetETA.h */,
-				8FAA7ADE154176FC00CC6435 /* GetETA.m */,
 				8FAA7AE01541774A00CC6435 /* GetGeocodedAddress.h */,
 				8FAA7AE11541774A00CC6435 /* GetGeocodedAddress.m */,
 				8F841414154B242F004C6F2E /* CalloutBar.h */,
 				8F841415154B242F004C6F2E /* CalloutBar.m */,
+				8F590E8E1588C0310074884A /* ActivityProgressView.h */,
+				8F590E8F1588C0310074884A /* ActivityProgressView.m */,
 			);
 			name = MainMap;
 			sourceTree = "<group>";
@@ -956,6 +969,7 @@
 				8F2C429D157AD1310037D47C /* AdvancedMainViewController.m in Sources */,
 				8F590E79157DFA5A0074884A /* CancelJobAlert.m in Sources */,
 				8F590E8C157E3E030074884A /* Toast+UIView.m in Sources */,
+				8F590E901588C0320074884A /* ActivityProgressView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

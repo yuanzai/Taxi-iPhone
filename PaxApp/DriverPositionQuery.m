@@ -11,28 +11,20 @@
 
 @implementation DriverPositionQuery
 
-+(void) getAllDriverPositionsWithcompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
++(void) passengerLoginWithEmail:(NSString*) email 
+{
+    
+}
+
++(void) getDriverPositionsWithCompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
     
-    //Set URL for post request. Constants from constants file
-
-    
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@",kHostSite, kGetDriverPosition]]];    
-    
-    NSString* postBody = [[NSString alloc] initWithFormat:@"driver_id=all"];
-    
-    NSData *postData = [postBody dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     // postData format - @"key=value&key2=value2"
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setTimeoutInterval:10];
-    [request setHTTPBody:postData];
-    
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/drivers",kHerokuHostSite]]];    
+    [request setHTTPMethod:@"GET"];
+    [request setTimeoutInterval:kURLConnTimeOut];
     
     [NSURLConnection sendAsynchronousRequest:request 
                                        queue:[[NSOperationQueue alloc] init] 
@@ -40,26 +32,15 @@
 }
 
 
-+(void) getDriverPositionsWithDriver_id:(NSString*)driver_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
++(void) getSpecifiedDriverPositionWithDriverID:(NSString*)driver_id JobID:(NSString*) job_id CompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    
-    
+    NSLog(@"%@ - %@ - driverID %@ - jobID %@",self.class,NSStringFromSelector(_cmd),driver_id,job_id);
+
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
-    
-    //Set URL for post request. Constants from constants file
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",kHostSite, kGetDriverPosition]]];    
-    
-    NSString* postBody = [[NSString alloc] initWithFormat:@"driver_id=%@",driver_id];
-    
-    NSData *postData = [postBody dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:YES];     // postData format - @"key=value&key2=value2"
-    NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:postLength forHTTPHeaderField:@"Content-Length"];
-    [request setValue:@"application/x-www-form-urlencoded" forHTTPHeaderField:@"Content-Type"];
-    [request setTimeoutInterval:10];
-    [request setHTTPBody:postData];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/drivers/%@/jobs/%@/position",kHerokuHostSite, driver_id,job_id]]];
+
+    [request setHTTPMethod:@"GET"];
+    [request setTimeoutInterval:kURLConnTimeOut];
     
     [NSURLConnection sendAsynchronousRequest:request 
                                        queue:[[NSOperationQueue alloc] init] 
