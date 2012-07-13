@@ -20,7 +20,7 @@
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,strong) NSString *geoAddress;
 
--(id)initWithCoordinate:(CLLocationCoordinate2D) c;
+-(void)initWithCoordinate:(CLLocationCoordinate2D) c;
 -(id)setCoordinateWithGV;
 -(void)setCoordinate:(CLLocationCoordinate2D)newCoordinate;
 

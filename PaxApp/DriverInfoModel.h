@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 @interface DriverInfoModel : NSObject
-- (void) getDriverInfoWithDriverID:(NSString*) driver_id;
++ (void) getDriverInfo;
 
 @end

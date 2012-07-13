@@ -12,13 +12,12 @@
 
 
 NSString *const kHostSite = @"http://localhost/taxi/";
-NSString *const kHerokuHostSite = @"http://hopcabapi.herokuapp.com/";
+NSString *const kHerokuHostSite = @"http://hopcabapi.herokuapp.com/api/passengers/";
 NSTimeInterval const kURLConnTimeOut = 10.0;
-
-
-
-
-
+NSTimeInterval const kCountDownTime = 60.0;
+NSTimeInterval const kStatusReceiverInterval = 15.0;
+NSTimeInterval const kDownloadPositionsInterval = 10.0;
+NSTimeInterval const kActiveJobAgeLimit = 3600.0;
 
 
 NSString *const kGetDriverPosition = @"drivers.php";

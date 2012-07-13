@@ -10,7 +10,8 @@
 @class SubmitClass;
 @class TaxiTypePicker;
 @class CustomNavBar;
-@interface SubmitJobViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate>
+@class SubmitForm;
+@interface SubmitJobViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDelegate>
 {
     IBOutlet UITextField* pickup;
     IBOutlet UITextField* destination;
@@ -22,6 +23,7 @@
     NSString* destinationString;
     
     SubmitClass *newSubmitClass;
+    SubmitForm *thisForm;
     
     TaxiTypePicker* picker;
     
@@ -29,6 +31,7 @@
     NSString* distance;
     
     CustomNavBar *thisNavBar;
+    
     
 
 }
@@ -41,12 +44,12 @@
 @property (nonatomic,strong) NSString* destinationString;
 
 - (IBAction)escapeKeyboard:(id)sender;
-- (IBAction)setTextfields:(id)sender;
+//- (IBAction)setTextfields:(id)sender;
 
 - (void)registerNotifications;
--(void)gotoOnroute:(NSNotification *)notification;
--(IBAction)testButton:(id)sender;
--(void) updateGeoAddress;
+- (void)gotoOnroute:(NSNotification *)notification;
+
+
 -(IBAction)chooseLocation:(id)sender;
 -(IBAction)gotoMain:(id)sender;
 -(IBAction)chooseFavourites:(id)sender;
@@ -54,5 +57,9 @@
 - (IBAction)chooseTaxiType:(id)sender;
 -(void) setTitle;
 -(void) setFare:(NSMutableDictionary*) dict;
+
+- (void) setInitialTextfields;
+
+
 
 @end

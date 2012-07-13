@@ -40,16 +40,15 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     //set top navBar
     CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
     self.navigationItem.titleView = thisNavBar;
-    self.navigationItem.hidesBackButton = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
     
-    if (refererTag == 11) {
+    if (refererTag == 11 || refererTag == 31) {
     
     
         self.title = @"Pick up";
         [thisNavBar setCustomNavBarTitle:@"Pick up" subtitle:@""];
 
-    } else if (refererTag == 12) {
+    } else if (refererTag == 12 || refererTag == 32) {
         self.title =@"Destination";
         [thisNavBar setCustomNavBarTitle:@"Destination" subtitle:@""];
 
@@ -149,6 +148,9 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     //NSData *responseData = 
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
         
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        
+        if([httpResponse statusCode] == 200) {     
         NSMutableArray *sug =[[NSMutableArray alloc]initWithCapacity:5 ];
         NSMutableArray *ref =[[NSMutableArray alloc]initWithCapacity:5];
         
@@ -183,49 +185,9 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
             dirty = NO;
             [self loadSearchSuggestions];
         }
+        }
     }];
-    
-    
-    /*
-     
-     AFJSONRequestOperation *operation = [AFJSONRequestOperation JSONRequestOperationWithRequest:request success:^(NSURLRequest *request, NSHTTPURLResponse *response, id JSON) {
-     NSMutableArray* sug = [[NSMutableArray alloc] init];
-     
-     NSArray* placemarks = [JSON objectForKey:@"Placemark"];
-     
-     for (NSDictionary* placemark in placemarks) {
-     NSString* address = [placemark objectForKey:@"address"];
-     
-     NSDictionary* point = [placemark objectForKey:@"Point"];
-     NSArray* coordinates = [point objectForKey:@"coordinates"];
-     NSNumber* lon = [coordinates objectAtIndex:0];
-     NSNumber* lat = [coordinates objectAtIndex:1];
-     
-     MKPointAnnotation* place = [[MKPointAnnotation alloc] init];
-     place.title = address;
-     CLLocationCoordinate2D c = CLLocationCoordinate2DMake([lat doubleValue], [lon doubleValue]);
-     place.coordinate = c;
-     [sug addObject:place];
-     [place release];
-     }
-     
-     self.suggestions = sug;
-     [sug release];
-     
-     [self.searchDisplayController.searchResultsTableView reloadData];
-     loading = NO;
-     
-     if (dirty) {
-     dirty = NO;
-     [self loadSearchSuggestions];
-     }
-     } failure:^(NSURLRequest *request, NSHTTPURLResponse *response, NSError *error) {
-     NSLog(@"failure %@", [error localizedDescription]);
-     loading = NO;
-     }];
-     operation.acceptableContentTypes = [NSSet setWithObjects:@"application/json", @"text/json", @"text/javascript", nil];
-     [operation start];
-     */
+
 }
 
 #pragma mark -
@@ -265,6 +227,9 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
         
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+
+        if ([httpResponse statusCode] ==200) {
         
         NSDictionary* tester = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil]; 
         NSDictionary* result = [tester objectForKey:@"result"];
@@ -297,6 +262,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         lastPlace = [suggestions objectAtIndex:[indexPath row]];
         
         [self performSelectorOnMainThread:@selector(addAnnotations) withObject:nil waitUntilDone:YES];
+        }
     }];
     
     
@@ -324,7 +290,12 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 - (IBAction)cancelButton:(id)sender
 {
     
-    [self gotoSubmitJob];
+    if (refererTag == 11 || refererTag == 12) {
+        [self gotoSubmitJob];
+        
+    } else if (refererTag == 31 || refererTag == 32) {
+        [self gotoAdvanced];        
+    }
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
@@ -381,23 +352,53 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         if (refererTag == 12){
             NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
             [[GlobalVariables myGlobalVariables] setGDestiCoordinate:myAA.coordinate];
+            
             [[GlobalVariables myGlobalVariables] setGDestinationString:myAA.subtitle];
+            
+            // bookingform
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"destination_latitude"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"destination_longitude"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%@", myAA.subtitle] forKey:@"destination_address"];
+            
             [self gotoSubmitJob];
         } else if (refererTag == 11){
             NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
             [[GlobalVariables myGlobalVariables] setGUserCoordinate:myAA.coordinate];
             [[GlobalVariables myGlobalVariables] setGUserAddress:myAA.subtitle];
+            
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"pickup_latitude"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"pickup_longitude"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%@", myAA.subtitle] forKey:@"pickup_address"];
+            
             [self gotoSubmitJob];
+        } else if (refererTag == 32){
+            NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
+            NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
+            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"dropoff_latitude"];
+            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"dropoff_longitude"];            
+            [bookingForm setObject:myAA.subtitle forKey:@"dropoff_address"];
+            [[GlobalVariables myGlobalVariables] setGAdvancedForm:bookingForm];
+        } else if (refererTag == 31){
+            NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
+            NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
+            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"pickup_latitude"];
+            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"pickup_longitude"];            
+            [bookingForm setObject:myAA.subtitle forKey:@"pickup_address"];
+            [[GlobalVariables myGlobalVariables] setGAdvancedForm:bookingForm];
         }
         
         
     }
-    
-    
+}
+- (void) gotoAdvanced
+{
+    [self performSegueWithIdentifier:@"gotoAdvanced" sender:nil];
+
 }
 
 -(void)gotoSubmitJob
 {
+    
     [self performSegueWithIdentifier:@"gotoSubmitJob" sender:nil];
 }
 

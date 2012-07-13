@@ -14,11 +14,8 @@
 		8F0CE2FF1545689700CC19CC /* CheckConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE2FE1545689700CC19CC /* CheckConnection.m */; };
 		8F0CE30315458FB300CC19CC /* SubmitJobViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE30215458FB300CC19CC /* SubmitJobViewController.m */; };
 		8F0CE3061545909700CC19CC /* OnrouteViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE3051545909700CC19CC /* OnrouteViewController.m */; };
-		8F0CE30A154590B700CC19CC /* PrefsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE309154590B700CC19CC /* PrefsViewController.m */; };
-		8F0CE31E1545EDF400CC19CC /* AlertBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE31D1545EDF300CC19CC /* AlertBox.m */; };
-		8F0CE32415467B9000CC19CC /* JobQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE32315467B8F00CC19CC /* JobQuery.m */; };
-		8F0CE327154697A100CC19CC /* Job.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE326154697A000CC19CC /* Job.m */; };
-		8F0CE32A1546B13500CC19CC /* SubmitClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F0CE3291546B13500CC19CC /* SubmitClass.m */; };
+		8F22BE73159B537E00C9A6B4 /* SubmitForm.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F22BE72159B537E00C9A6B4 /* SubmitForm.m */; };
+		8F22BE76159DF4F200C9A6B4 /* CountDownBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F22BE75159DF4F200C9A6B4 /* CountDownBox.m */; };
 		8F2C4284157ABA2D0037D47C /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F2C4283157ABA2C0037D47C /* Default.png */; };
 		8F2C428A157AC89B0037D47C /* Advanced.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F2C4286157AC89B0037D47C /* Advanced.png */; };
 		8F2C428B157AC89B0037D47C /* Book.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F2C4287157AC89B0037D47C /* Book.png */; };
@@ -32,7 +29,6 @@
 		8F2C4299157ACA010037D47C /* Book4.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F2C4298157ACA010037D47C /* Book4.png */; };
 		8F2C429D157AD1310037D47C /* AdvancedMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F2C429C157AD1310037D47C /* AdvancedMainViewController.m */; };
 		8F3FC42E15763BF100115DC1 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F3FC42D15763BF100115DC1 /* Constants.m */; };
-		8F3FC4311577149600115DC1 /* ScheduledTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F3FC4301577149500115DC1 /* ScheduledTimer.m */; };
 		8F3FC47E1577852B00115DC1 /* DriverPositionQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F3FC47D1577852B00115DC1 /* DriverPositionQuery.m */; };
 		8F3FC4811577854F00115DC1 /* JobDispatchQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F3FC4801577854F00115DC1 /* JobDispatchQuery.m */; };
 		8F3FC4841577856400115DC1 /* JobCycleQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F3FC4831577856400115DC1 /* JobCycleQuery.m */; };
@@ -43,7 +39,12 @@
 		8F3FC4BC1578F5E400115DC1 /* CustomNavBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F3FC4BB1578F5E400115DC1 /* CustomNavBar.m */; };
 		8F512F3D1547B3B90083A2CE /* RatingAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F3C1547B3B90083A2CE /* RatingAlert.m */; };
 		8F512F4015484B840083A2CE /* DriverInfoQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F3F15484B840083A2CE /* DriverInfoQuery.m */; };
-		8F512F4315484E8E0083A2CE /* JobStatusReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F4215484E8E0083A2CE /* JobStatusReceiver.m */; };
+		8F512F4315484E8E0083A2CE /* JobStatusPoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F512F4215484E8E0083A2CE /* JobStatusPoller.m */; };
+		8F576EDA158F759500F07506 /* AdvancedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F576ED9158F759500F07506 /* AdvancedViewController.m */; };
+		8F576EDE158F75AF00F07506 /* AirportTransferViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F576EDD158F75AF00F07506 /* AirportTransferViewController.m */; };
+		8F576EE1158F75C100F07506 /* HourlyBookingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F576EE0158F75C100F07506 /* HourlyBookingViewController.m */; };
+		8F576EE4158F796300F07506 /* DateTimePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F576EE3158F796300F07506 /* DateTimePicker.m */; };
+		8F576EE71598AB0A00F07506 /* AdvancedBookingQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F576EE61598AB0900F07506 /* AdvancedBookingQuery.m */; };
 		8F590E6B157B4DC70074884A /* line.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F590E6A157B4DC70074884A /* line.png */; };
 		8F590E6D157B4E620074884A /* textbox.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F590E6C157B4E620074884A /* textbox.png */; };
 		8F590E71157B4F310074884A /* stargreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F590E6F157B4F310074884A /* stargreen.png */; };
@@ -54,28 +55,20 @@
 		8F590E7E157E069F0074884A /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8F2C4281157AB40B0037D47C /* QuartzCore.framework */; };
 		8F590E8C157E3E030074884A /* Toast+UIView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F590E8B157E3E030074884A /* Toast+UIView.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		8F590E901588C0320074884A /* ActivityProgressView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F590E8F1588C0310074884A /* ActivityProgressView.m */; };
-		8F5EC549154960470096D741 /* CancelJob.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F5EC548154960470096D741 /* CancelJob.m */; };
 		8F5EC54B1549CD880096D741 /* profile.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F5EC54A1549CD880096D741 /* profile.png */; };
-		8F80A40D154D4B12000F536E /* PaymentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A40C154D4B12000F536E /* PaymentViewController.m */; };
-		8F80A411154DAECB000F536E /* MeterReceiver.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A410154DAECB000F536E /* MeterReceiver.m */; };
-		8F80A414154DC80B000F536E /* CountdownAlert.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A413154DC80B000F536E /* CountdownAlert.m */; };
 		8F80A47E154F50A9000F536E /* SignInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A47D154F50A8000F536E /* SignInViewController.m */; };
-		8F80A481154F50BE000F536E /* RegisterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A480154F50BE000F536E /* RegisterViewController.m */; };
 		8F80A484154F50F5000F536E /* ManageAddressesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A483154F50F5000F536E /* ManageAddressesViewController.m */; };
-		8F80A487154F510C000F536E /* ManageDriversViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A486154F510B000F536E /* ManageDriversViewController.m */; };
 		8F80A48A154F5125000F536E /* TravelHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A489154F5124000F536E /* TravelHistoryViewController.m */; };
-		8F80A48D154F5143000F536E /* ManageAccountViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F80A48C154F5143000F536E /* ManageAccountViewController.m */; };
 		8F841416154B242F004C6F2E /* CalloutBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F841415154B242F004C6F2E /* CalloutBar.m */; };
-		8F84141A154BCC55004C6F2E /* PostMethodAsync.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F841419154BCC54004C6F2E /* PostMethodAsync.m */; };
 		8F8414B2154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 8F8414B1154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg */; };
 		8F8414B4154C6931004C6F2E /* no pic profile.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = 8F8414B3154C6931004C6F2E /* no pic profile.jpeg */; };
-		8F8414BA154C9433004C6F2E /* OnTripViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F8414B9154C9433004C6F2E /* OnTripViewController.m */; };
 		8F84D0E9157A824400B2C27D /* rightarrow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F84D0E8157A824400B2C27D /* rightarrow.png */; };
 		8F84D0EC157A840500B2C27D /* TaxiTypePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F84D0EB157A840500B2C27D /* TaxiTypePicker.m */; };
 		8F84D0EE157A98D100B2C27D /* jobInfoRow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F84D0ED157A98D100B2C27D /* jobInfoRow.png */; };
 		8F84D0F0157A98FE00B2C27D /* selectedDriverMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F84D0EF157A98FE00B2C27D /* selectedDriverMarker.png */; };
 		8F84D0F2157A990700B2C27D /* call.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F84D0F1157A990700B2C27D /* call.png */; };
 		8F84D0F4157AB29A00B2C27D /* redbutton2.png in Resources */ = {isa = PBXBuildFile; fileRef = 8F84D0F3157AB29A00B2C27D /* redbutton2.png */; };
+		8F859CD0158B7F70006E305A /* ProfileViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F859CCF158B7F70006E305A /* ProfileViewController.m */; };
 		8F86BB12155415020083E540 /* ChooseLocationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB11155415010083E540 /* ChooseLocationViewController.m */; };
 		8F86BB1A155417B90083E540 /* AddressAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB19155417B90083E540 /* AddressAnnotation.m */; };
 		8F86BB1D15569E680083E540 /* DriverPositionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8F86BB1C15569E680083E540 /* DriverPositionModel.m */; };
@@ -97,9 +90,7 @@
 		8FAA7AC315415E0300CC6435 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8FAA7AC115415E0300CC6435 /* InfoPlist.strings */; };
 		8FAA7AC615415E0300CC6435 /* PaxAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AC515415E0300CC6435 /* PaxAppTests.m */; };
 		8FAA7AD61541760700CC6435 /* DriverAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AD51541760700CC6435 /* DriverAnnotation.m */; };
-		8FAA7AD91541762E00CC6435 /* PostMethod.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AD81541762E00CC6435 /* PostMethod.m */; };
-		8FAA7ADC154176EC00CC6435 /* DriverPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7ADB154176EC00CC6435 /* DriverPosition.m */; };
-		8FAA7ADF154176FC00CC6435 /* GetETA.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7ADE154176FC00CC6435 /* GetETA.m */; };
+		8FAA7ADC154176EC00CC6435 /* DriverPositionPoller.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7ADB154176EC00CC6435 /* DriverPositionPoller.m */; };
 		8FAA7AE21541774A00CC6435 /* GetGeocodedAddress.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AE11541774A00CC6435 /* GetGeocodedAddress.m */; };
 		8FAA7AE5154177A700CC6435 /* GlobalVariables.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AE4154177A700CC6435 /* GlobalVariables.m */; };
 		8FAA7AEB15417DF900CC6435 /* UserLocationAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FAA7AEA15417DF900CC6435 /* UserLocationAnnotation.m */; };
@@ -115,6 +106,11 @@
 		8FACB6A8157A51FE00A5D136 /* chooselocation.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FACB6A7157A51FE00A5D136 /* chooselocation.png */; };
 		8FACB6AB157A521800A5D136 /* radialyellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FACB6AA157A521800A5D136 /* radialyellow.png */; };
 		8FE56526156CC72B00607EAB /* magglass.png in Resources */ = {isa = PBXBuildFile; fileRef = 8FE56525156CC72B00607EAB /* magglass.png */; };
+		8FED06C915A7F8C1003BD231 /* TaxiTypePickerDataDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FED06C815A7F8C1003BD231 /* TaxiTypePickerDataDelegate.m */; };
+		8FED06CC15A7FED2003BD231 /* LoginModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FED06CB15A7FED2003BD231 /* LoginModel.m */; };
+		8FED06D215AA5D6F003BD231 /* MyTripsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FED06D115AA5D6E003BD231 /* MyTripsViewController.m */; };
+		8FED06D515AB0B51003BD231 /* FakeMyTripsArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FED06D415AB0B51003BD231 /* FakeMyTripsArray.m */; };
+		8FED06DA15ADCCE1003BD231 /* FareModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FED06D915ADCCE0003BD231 /* FareModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -139,16 +135,10 @@
 		8F0CE30215458FB300CC19CC /* SubmitJobViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitJobViewController.m; sourceTree = "<group>"; };
 		8F0CE3041545909700CC19CC /* OnrouteViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnrouteViewController.h; sourceTree = "<group>"; };
 		8F0CE3051545909700CC19CC /* OnrouteViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnrouteViewController.m; sourceTree = "<group>"; };
-		8F0CE308154590B700CC19CC /* PrefsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefsViewController.h; sourceTree = "<group>"; };
-		8F0CE309154590B700CC19CC /* PrefsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrefsViewController.m; sourceTree = "<group>"; };
-		8F0CE31C1545EDF300CC19CC /* AlertBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AlertBox.h; sourceTree = "<group>"; };
-		8F0CE31D1545EDF300CC19CC /* AlertBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AlertBox.m; sourceTree = "<group>"; };
-		8F0CE32215467B8E00CC19CC /* JobQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobQuery.h; sourceTree = "<group>"; };
-		8F0CE32315467B8F00CC19CC /* JobQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobQuery.m; sourceTree = "<group>"; };
-		8F0CE325154697A000CC19CC /* Job.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Job.h; sourceTree = "<group>"; };
-		8F0CE326154697A000CC19CC /* Job.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Job.m; sourceTree = "<group>"; };
-		8F0CE3281546B13500CC19CC /* SubmitClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitClass.h; sourceTree = "<group>"; };
-		8F0CE3291546B13500CC19CC /* SubmitClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitClass.m; sourceTree = "<group>"; };
+		8F22BE71159B537E00C9A6B4 /* SubmitForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubmitForm.h; sourceTree = "<group>"; };
+		8F22BE72159B537E00C9A6B4 /* SubmitForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SubmitForm.m; sourceTree = "<group>"; };
+		8F22BE74159DF4F200C9A6B4 /* CountDownBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountDownBox.h; sourceTree = "<group>"; };
+		8F22BE75159DF4F200C9A6B4 /* CountDownBox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountDownBox.m; sourceTree = "<group>"; };
 		8F2C4281157AB40B0037D47C /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8F2C4283157ABA2C0037D47C /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = "../../../XWQW/New UI_2012-04-24/Hipinspire/UI_2012_03_05/Default.png"; sourceTree = "<group>"; };
 		8F2C4286157AC89B0037D47C /* Advanced.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Advanced.png; path = png/tabbar/Advanced.png; sourceTree = SOURCE_ROOT; };
@@ -165,8 +155,6 @@
 		8F2C429C157AD1310037D47C /* AdvancedMainViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedMainViewController.m; sourceTree = "<group>"; };
 		8F3FC42C15763BF100115DC1 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		8F3FC42D15763BF100115DC1 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
-		8F3FC42F1577149500115DC1 /* ScheduledTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScheduledTimer.h; sourceTree = "<group>"; };
-		8F3FC4301577149500115DC1 /* ScheduledTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScheduledTimer.m; sourceTree = "<group>"; };
 		8F3FC47C1577852B00115DC1 /* DriverPositionQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverPositionQuery.h; sourceTree = "<group>"; };
 		8F3FC47D1577852B00115DC1 /* DriverPositionQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverPositionQuery.m; sourceTree = "<group>"; };
 		8F3FC47F1577854F00115DC1 /* JobDispatchQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobDispatchQuery.h; sourceTree = "<group>"; };
@@ -187,8 +175,18 @@
 		8F512F3C1547B3B90083A2CE /* RatingAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RatingAlert.m; sourceTree = "<group>"; };
 		8F512F3E15484B840083A2CE /* DriverInfoQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverInfoQuery.h; sourceTree = "<group>"; };
 		8F512F3F15484B840083A2CE /* DriverInfoQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverInfoQuery.m; sourceTree = "<group>"; };
-		8F512F4115484E8E0083A2CE /* JobStatusReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobStatusReceiver.h; sourceTree = "<group>"; };
-		8F512F4215484E8E0083A2CE /* JobStatusReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobStatusReceiver.m; sourceTree = "<group>"; };
+		8F512F4115484E8E0083A2CE /* JobStatusPoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobStatusPoller.h; sourceTree = "<group>"; };
+		8F512F4215484E8E0083A2CE /* JobStatusPoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JobStatusPoller.m; sourceTree = "<group>"; };
+		8F576ED8158F759500F07506 /* AdvancedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedViewController.h; sourceTree = "<group>"; };
+		8F576ED9158F759500F07506 /* AdvancedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedViewController.m; sourceTree = "<group>"; };
+		8F576EDC158F75AF00F07506 /* AirportTransferViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AirportTransferViewController.h; sourceTree = "<group>"; };
+		8F576EDD158F75AF00F07506 /* AirportTransferViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AirportTransferViewController.m; sourceTree = "<group>"; };
+		8F576EDF158F75C100F07506 /* HourlyBookingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HourlyBookingViewController.h; sourceTree = "<group>"; };
+		8F576EE0158F75C100F07506 /* HourlyBookingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HourlyBookingViewController.m; sourceTree = "<group>"; };
+		8F576EE2158F796300F07506 /* DateTimePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DateTimePicker.h; sourceTree = "<group>"; };
+		8F576EE3158F796300F07506 /* DateTimePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DateTimePicker.m; sourceTree = "<group>"; };
+		8F576EE51598AB0900F07506 /* AdvancedBookingQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdvancedBookingQuery.h; sourceTree = "<group>"; };
+		8F576EE61598AB0900F07506 /* AdvancedBookingQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AdvancedBookingQuery.m; sourceTree = "<group>"; };
 		8F590E6A157B4DC70074884A /* line.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = line.png; path = png/background/line.png; sourceTree = SOURCE_ROOT; };
 		8F590E6C157B4E620074884A /* textbox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = textbox.png; path = png/background/textbox.png; sourceTree = SOURCE_ROOT; };
 		8F590E6F157B4F310074884A /* stargreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = stargreen.png; path = png/star/stargreen.png; sourceTree = SOURCE_ROOT; };
@@ -201,35 +199,17 @@
 		8F590E8B157E3E030074884A /* Toast+UIView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Toast+UIView.m"; sourceTree = "<group>"; };
 		8F590E8E1588C0310074884A /* ActivityProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActivityProgressView.h; sourceTree = "<group>"; };
 		8F590E8F1588C0310074884A /* ActivityProgressView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityProgressView.m; sourceTree = "<group>"; };
-		8F5EC547154960470096D741 /* CancelJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CancelJob.h; sourceTree = "<group>"; };
-		8F5EC548154960470096D741 /* CancelJob.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CancelJob.m; sourceTree = "<group>"; };
 		8F5EC54A1549CD880096D741 /* profile.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = profile.png; sourceTree = "<group>"; };
-		8F80A40B154D4B12000F536E /* PaymentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaymentViewController.h; sourceTree = "<group>"; };
-		8F80A40C154D4B12000F536E /* PaymentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaymentViewController.m; sourceTree = "<group>"; };
-		8F80A40F154DAECB000F536E /* MeterReceiver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeterReceiver.h; sourceTree = "<group>"; };
-		8F80A410154DAECB000F536E /* MeterReceiver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MeterReceiver.m; sourceTree = "<group>"; };
-		8F80A412154DC80B000F536E /* CountdownAlert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CountdownAlert.h; sourceTree = "<group>"; };
-		8F80A413154DC80B000F536E /* CountdownAlert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountdownAlert.m; sourceTree = "<group>"; };
 		8F80A47C154F50A8000F536E /* SignInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignInViewController.h; sourceTree = "<group>"; };
 		8F80A47D154F50A8000F536E /* SignInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignInViewController.m; sourceTree = "<group>"; };
-		8F80A47F154F50BD000F536E /* RegisterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RegisterViewController.h; sourceTree = "<group>"; };
-		8F80A480154F50BE000F536E /* RegisterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RegisterViewController.m; sourceTree = "<group>"; };
 		8F80A482154F50F5000F536E /* ManageAddressesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageAddressesViewController.h; sourceTree = "<group>"; };
 		8F80A483154F50F5000F536E /* ManageAddressesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageAddressesViewController.m; sourceTree = "<group>"; };
-		8F80A485154F510B000F536E /* ManageDriversViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageDriversViewController.h; sourceTree = "<group>"; };
-		8F80A486154F510B000F536E /* ManageDriversViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageDriversViewController.m; sourceTree = "<group>"; };
 		8F80A488154F5123000F536E /* TravelHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TravelHistoryViewController.h; sourceTree = "<group>"; };
 		8F80A489154F5124000F536E /* TravelHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TravelHistoryViewController.m; sourceTree = "<group>"; };
-		8F80A48B154F5142000F536E /* ManageAccountViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ManageAccountViewController.h; sourceTree = "<group>"; };
-		8F80A48C154F5143000F536E /* ManageAccountViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ManageAccountViewController.m; sourceTree = "<group>"; };
 		8F841414154B242F004C6F2E /* CalloutBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalloutBar.h; sourceTree = "<group>"; };
 		8F841415154B242F004C6F2E /* CalloutBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalloutBar.m; sourceTree = "<group>"; };
-		8F841418154BCC54004C6F2E /* PostMethodAsync.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostMethodAsync.h; sourceTree = "<group>"; };
-		8F841419154BCC54004C6F2E /* PostMethodAsync.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostMethodAsync.m; sourceTree = "<group>"; };
 		8F8414B1154C68B8004C6F2E /* 2011-BMW-5-Series-M-Sport-450x314.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "2011-BMW-5-Series-M-Sport-450x314.jpg"; sourceTree = "<group>"; };
 		8F8414B3154C6931004C6F2E /* no pic profile.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "no pic profile.jpeg"; sourceTree = "<group>"; };
-		8F8414B8154C9432004C6F2E /* OnTripViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OnTripViewController.h; sourceTree = "<group>"; };
-		8F8414B9154C9433004C6F2E /* OnTripViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OnTripViewController.m; sourceTree = "<group>"; };
 		8F84D0E8157A824400B2C27D /* rightarrow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rightarrow.png; sourceTree = "<group>"; };
 		8F84D0EA157A840500B2C27D /* TaxiTypePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxiTypePicker.h; sourceTree = "<group>"; };
 		8F84D0EB157A840500B2C27D /* TaxiTypePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxiTypePicker.m; sourceTree = "<group>"; };
@@ -237,6 +217,8 @@
 		8F84D0EF157A98FE00B2C27D /* selectedDriverMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = selectedDriverMarker.png; sourceTree = "<group>"; };
 		8F84D0F1157A990700B2C27D /* call.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = call.png; sourceTree = "<group>"; };
 		8F84D0F3157AB29A00B2C27D /* redbutton2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = redbutton2.png; sourceTree = "<group>"; };
+		8F859CCE158B7F70006E305A /* ProfileViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileViewController.h; sourceTree = "<group>"; };
+		8F859CCF158B7F70006E305A /* ProfileViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileViewController.m; sourceTree = "<group>"; };
 		8F86BB10155415010083E540 /* ChooseLocationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChooseLocationViewController.h; sourceTree = "<group>"; };
 		8F86BB11155415010083E540 /* ChooseLocationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChooseLocationViewController.m; sourceTree = "<group>"; };
 		8F86BB18155417B90083E540 /* AddressAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddressAnnotation.h; sourceTree = "<group>"; };
@@ -270,12 +252,8 @@
 		8FAA7AC515415E0300CC6435 /* PaxAppTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PaxAppTests.m; sourceTree = "<group>"; };
 		8FAA7AD41541760700CC6435 /* DriverAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverAnnotation.h; sourceTree = "<group>"; };
 		8FAA7AD51541760700CC6435 /* DriverAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverAnnotation.m; sourceTree = "<group>"; };
-		8FAA7AD71541762E00CC6435 /* PostMethod.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostMethod.h; sourceTree = "<group>"; };
-		8FAA7AD81541762E00CC6435 /* PostMethod.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostMethod.m; sourceTree = "<group>"; };
-		8FAA7ADA154176EC00CC6435 /* DriverPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverPosition.h; sourceTree = "<group>"; };
-		8FAA7ADB154176EC00CC6435 /* DriverPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverPosition.m; sourceTree = "<group>"; };
-		8FAA7ADD154176FC00CC6435 /* GetETA.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetETA.h; sourceTree = "<group>"; };
-		8FAA7ADE154176FC00CC6435 /* GetETA.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetETA.m; sourceTree = "<group>"; };
+		8FAA7ADA154176EC00CC6435 /* DriverPositionPoller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DriverPositionPoller.h; sourceTree = "<group>"; };
+		8FAA7ADB154176EC00CC6435 /* DriverPositionPoller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DriverPositionPoller.m; sourceTree = "<group>"; };
 		8FAA7AE01541774A00CC6435 /* GetGeocodedAddress.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GetGeocodedAddress.h; sourceTree = "<group>"; };
 		8FAA7AE11541774A00CC6435 /* GetGeocodedAddress.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GetGeocodedAddress.m; sourceTree = "<group>"; };
 		8FAA7AE3154177A700CC6435 /* GlobalVariables.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GlobalVariables.h; sourceTree = "<group>"; };
@@ -295,6 +273,16 @@
 		8FACB6A7157A51FE00A5D136 /* chooselocation.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = chooselocation.png; sourceTree = "<group>"; };
 		8FACB6AA157A521800A5D136 /* radialyellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = radialyellow.png; sourceTree = "<group>"; };
 		8FE56525156CC72B00607EAB /* magglass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = magglass.png; sourceTree = "<group>"; };
+		8FED06C715A7F8C1003BD231 /* TaxiTypePickerDataDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaxiTypePickerDataDelegate.h; sourceTree = "<group>"; };
+		8FED06C815A7F8C1003BD231 /* TaxiTypePickerDataDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaxiTypePickerDataDelegate.m; sourceTree = "<group>"; };
+		8FED06CA15A7FED2003BD231 /* LoginModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginModel.h; sourceTree = "<group>"; };
+		8FED06CB15A7FED2003BD231 /* LoginModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginModel.m; sourceTree = "<group>"; };
+		8FED06D015AA5D6D003BD231 /* MyTripsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyTripsViewController.h; sourceTree = "<group>"; };
+		8FED06D115AA5D6E003BD231 /* MyTripsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyTripsViewController.m; sourceTree = "<group>"; };
+		8FED06D315AB0B51003BD231 /* FakeMyTripsArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeMyTripsArray.h; sourceTree = "<group>"; };
+		8FED06D415AB0B51003BD231 /* FakeMyTripsArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeMyTripsArray.m; sourceTree = "<group>"; };
+		8FED06D815ADCCE0003BD231 /* FareModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FareModel.h; sourceTree = "<group>"; };
+		8FED06D915ADCCE0003BD231 /* FareModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FareModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -345,12 +333,14 @@
 		8F0CE30015458F7E00CC19CC /* SubmitJob */ = {
 			isa = PBXGroup;
 			children = (
-				8F0CE31C1545EDF300CC19CC /* AlertBox.h */,
-				8F0CE31D1545EDF300CC19CC /* AlertBox.m */,
-				8F0CE3281546B13500CC19CC /* SubmitClass.h */,
-				8F0CE3291546B13500CC19CC /* SubmitClass.m */,
+				8F22BE74159DF4F200C9A6B4 /* CountDownBox.h */,
+				8F22BE75159DF4F200C9A6B4 /* CountDownBox.m */,
+				8F22BE71159B537E00C9A6B4 /* SubmitForm.h */,
+				8F22BE72159B537E00C9A6B4 /* SubmitForm.m */,
 				8F84D0EA157A840500B2C27D /* TaxiTypePicker.h */,
 				8F84D0EB157A840500B2C27D /* TaxiTypePicker.m */,
+				8FED06C715A7F8C1003BD231 /* TaxiTypePickerDataDelegate.h */,
+				8FED06C815A7F8C1003BD231 /* TaxiTypePickerDataDelegate.m */,
 			);
 			name = SubmitJob;
 			sourceTree = "<group>";
@@ -358,10 +348,14 @@
 		8F0CE30B154590C300CC19CC /* Onroute */ = {
 			isa = PBXGroup;
 			children = (
+				8F3FC4A21577B9C500115DC1 /* JobInfoUIVIew.h */,
+				8F3FC4A31577B9C600115DC1 /* JobInfoUIVIew.m */,
 				8F512F3B1547B3B90083A2CE /* RatingAlert.h */,
 				8F512F3C1547B3B90083A2CE /* RatingAlert.m */,
 				8F590E77157DFA5A0074884A /* CancelJobAlert.h */,
 				8F590E78157DFA5A0074884A /* CancelJobAlert.m */,
+				8F3FC4B01578947700115DC1 /* DriverInfoModel.h */,
+				8F3FC4B11578947700115DC1 /* DriverInfoModel.m */,
 			);
 			name = Onroute;
 			sourceTree = "<group>";
@@ -388,6 +382,10 @@
 			children = (
 				8F2C429B157AD1310037D47C /* AdvancedMainViewController.h */,
 				8F2C429C157AD1310037D47C /* AdvancedMainViewController.m */,
+				8F576EDF158F75C100F07506 /* HourlyBookingViewController.h */,
+				8F576EE0158F75C100F07506 /* HourlyBookingViewController.m */,
+				8F576EDC158F75AF00F07506 /* AirportTransferViewController.h */,
+				8F576EDD158F75AF00F07506 /* AirportTransferViewController.m */,
 			);
 			name = "Advanced Booking";
 			sourceTree = "<group>";
@@ -406,26 +404,22 @@
 		8F3FC47915777B0F00115DC1 /* Secondary ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				8F3FC4A21577B9C500115DC1 /* JobInfoUIVIew.h */,
-				8F3FC4A31577B9C600115DC1 /* JobInfoUIVIew.m */,
-				8F0CE308154590B700CC19CC /* PrefsViewController.h */,
-				8F0CE309154590B700CC19CC /* PrefsViewController.m */,
+				8F576ED8158F759500F07506 /* AdvancedViewController.h */,
+				8F576ED9158F759500F07506 /* AdvancedViewController.m */,
 				8F80A47C154F50A8000F536E /* SignInViewController.h */,
 				8F80A47D154F50A8000F536E /* SignInViewController.m */,
-				8F80A47F154F50BD000F536E /* RegisterViewController.h */,
-				8F80A480154F50BE000F536E /* RegisterViewController.m */,
-				8F80A482154F50F5000F536E /* ManageAddressesViewController.h */,
-				8F80A483154F50F5000F536E /* ManageAddressesViewController.m */,
-				8F80A485154F510B000F536E /* ManageDriversViewController.h */,
-				8F80A486154F510B000F536E /* ManageDriversViewController.m */,
-				8F80A488154F5123000F536E /* TravelHistoryViewController.h */,
-				8F80A489154F5124000F536E /* TravelHistoryViewController.m */,
-				8F80A48B154F5142000F536E /* ManageAccountViewController.h */,
-				8F80A48C154F5143000F536E /* ManageAccountViewController.m */,
 				8F86BB10155415010083E540 /* ChooseLocationViewController.h */,
 				8F86BB11155415010083E540 /* ChooseLocationViewController.m */,
 				8FA78163157484DB00129B13 /* FavouritesViewController.h */,
 				8FA78164157484DB00129B13 /* FavouritesViewController.m */,
+				8F859CCE158B7F70006E305A /* ProfileViewController.h */,
+				8F859CCF158B7F70006E305A /* ProfileViewController.m */,
+				8F80A482154F50F5000F536E /* ManageAddressesViewController.h */,
+				8F80A483154F50F5000F536E /* ManageAddressesViewController.m */,
+				8F80A488154F5123000F536E /* TravelHistoryViewController.h */,
+				8F80A489154F5124000F536E /* TravelHistoryViewController.m */,
+				8FED06D015AA5D6D003BD231 /* MyTripsViewController.h */,
+				8FED06D115AA5D6E003BD231 /* MyTripsViewController.m */,
 			);
 			name = "Secondary ViewControllers";
 			sourceTree = "<group>";
@@ -433,8 +427,6 @@
 		8F3FC47A15777BB900115DC1 /* Derivative Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8F3FC42F1577149500115DC1 /* ScheduledTimer.h */,
-				8F3FC4301577149500115DC1 /* ScheduledTimer.m */,
 				8FAA7AF61541981500CC6435 /* CoreLocationManager.h */,
 				8FAA7AF71541981500CC6435 /* CoreLocationManager.m */,
 			);
@@ -454,6 +446,8 @@
 				8F3FC4861577857300115DC1 /* OtherQuery.m */,
 				8F512F3E15484B840083A2CE /* DriverInfoQuery.h */,
 				8F512F3F15484B840083A2CE /* DriverInfoQuery.m */,
+				8F576EE51598AB0900F07506 /* AdvancedBookingQuery.h */,
+				8F576EE61598AB0900F07506 /* AdvancedBookingQuery.m */,
 			);
 			name = "New Query Classes";
 			sourceTree = "<group>";
@@ -461,10 +455,12 @@
 		8F3FC488157798EB00115DC1 /* Model Classes */ = {
 			isa = PBXGroup;
 			children = (
+				8FED06D815ADCCE0003BD231 /* FareModel.h */,
+				8FED06D915ADCCE0003BD231 /* FareModel.m */,
 				8F86BB1B15569E670083E540 /* DriverPositionModel.h */,
 				8F86BB1C15569E680083E540 /* DriverPositionModel.m */,
-				8F3FC4B01578947700115DC1 /* DriverInfoModel.h */,
-				8F3FC4B11578947700115DC1 /* DriverInfoModel.m */,
+				8FED06CA15A7FED2003BD231 /* LoginModel.h */,
+				8FED06CB15A7FED2003BD231 /* LoginModel.m */,
 			);
 			name = "Model Classes";
 			sourceTree = "<group>";
@@ -472,10 +468,10 @@
 		8F3FC4891577991300115DC1 /* Polling/Receiver Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8F512F4115484E8E0083A2CE /* JobStatusReceiver.h */,
-				8F512F4215484E8E0083A2CE /* JobStatusReceiver.m */,
-				8FAA7ADA154176EC00CC6435 /* DriverPosition.h */,
-				8FAA7ADB154176EC00CC6435 /* DriverPosition.m */,
+				8F512F4115484E8E0083A2CE /* JobStatusPoller.h */,
+				8F512F4215484E8E0083A2CE /* JobStatusPoller.m */,
+				8FAA7ADA154176EC00CC6435 /* DriverPositionPoller.h */,
+				8FAA7ADB154176EC00CC6435 /* DriverPositionPoller.m */,
 			);
 			name = "Polling/Receiver Classes";
 			sourceTree = "<group>";
@@ -483,10 +479,6 @@
 		8F3FC4A11577ADA200115DC1 /* Old PaymentVC */ = {
 			isa = PBXGroup;
 			children = (
-				8F80A40B154D4B12000F536E /* PaymentViewController.h */,
-				8F80A40C154D4B12000F536E /* PaymentViewController.m */,
-				8F8414B8154C9432004C6F2E /* OnTripViewController.h */,
-				8F8414B9154C9433004C6F2E /* OnTripViewController.m */,
 			);
 			name = "Old PaymentVC";
 			sourceTree = "<group>";
@@ -514,14 +506,6 @@
 		8F590E8D1581B3950074884A /* Unused Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8FAA7ADD154176FC00CC6435 /* GetETA.h */,
-				8FAA7ADE154176FC00CC6435 /* GetETA.m */,
-				8F5EC547154960470096D741 /* CancelJob.h */,
-				8F5EC548154960470096D741 /* CancelJob.m */,
-				8F80A412154DC80B000F536E /* CountdownAlert.h */,
-				8F80A413154DC80B000F536E /* CountdownAlert.m */,
-				8F0CE325154697A000CC19CC /* Job.h */,
-				8F0CE326154697A000CC19CC /* Job.m */,
 			);
 			name = "Unused Classes";
 			sourceTree = "<group>";
@@ -529,8 +513,6 @@
 		8F80A40E154DAE85000F536E /* OnTrip */ = {
 			isa = PBXGroup;
 			children = (
-				8F80A40F154DAECB000F536E /* MeterReceiver.h */,
-				8F80A410154DAECB000F536E /* MeterReceiver.m */,
 			);
 			name = OnTrip;
 			sourceTree = "<group>";
@@ -592,6 +574,7 @@
 				8F0CE30015458F7E00CC19CC /* SubmitJob */,
 				8F0CE30B154590C300CC19CC /* Onroute */,
 				8F80A40E154DAE85000F536E /* OnTrip */,
+				8FED06D615AB0B59003BD231 /* MyTrips */,
 				8F86BB221558E4AE0083E540 /* Profile */,
 				8FAA7AD3154175B900CC6435 /* SharedClasses */,
 				8FAA7AA115415E0300CC6435 /* Supporting Files */,
@@ -734,8 +717,6 @@
 		8FD44199154957E500605B0D /* Query */ = {
 			isa = PBXGroup;
 			children = (
-				8F0CE32215467B8E00CC19CC /* JobQuery.h */,
-				8F0CE32315467B8F00CC19CC /* JobQuery.m */,
 			);
 			name = Query;
 			sourceTree = "<group>";
@@ -754,20 +735,27 @@
 		8FD4419B154958F100605B0D /* BasicClasses */ = {
 			isa = PBXGroup;
 			children = (
+				8F576EE2158F796300F07506 /* DateTimePicker.h */,
+				8F576EE3158F796300F07506 /* DateTimePicker.m */,
 				8F590E8A157E3E020074884A /* Toast+UIView.h */,
 				8F590E8B157E3E030074884A /* Toast+UIView.m */,
 				8FAA7AD41541760700CC6435 /* DriverAnnotation.h */,
 				8FAA7AD51541760700CC6435 /* DriverAnnotation.m */,
 				8FAA7AE915417DF900CC6435 /* UserLocationAnnotation.h */,
 				8FAA7AEA15417DF900CC6435 /* UserLocationAnnotation.m */,
-				8FAA7AD71541762E00CC6435 /* PostMethod.h */,
-				8FAA7AD81541762E00CC6435 /* PostMethod.m */,
-				8F841418154BCC54004C6F2E /* PostMethodAsync.h */,
-				8F841419154BCC54004C6F2E /* PostMethodAsync.m */,
 				8F86BB18155417B90083E540 /* AddressAnnotation.h */,
 				8F86BB19155417B90083E540 /* AddressAnnotation.m */,
 			);
 			name = BasicClasses;
+			sourceTree = "<group>";
+		};
+		8FED06D615AB0B59003BD231 /* MyTrips */ = {
+			isa = PBXGroup;
+			children = (
+				8FED06D315AB0B51003BD231 /* FakeMyTripsArray.h */,
+				8FED06D415AB0B51003BD231 /* FakeMyTripsArray.m */,
+			);
+			name = MyTrips;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -918,9 +906,7 @@
 				8FAA7AAB15415E0300CC6435 /* AppDelegate.m in Sources */,
 				8FAA7AB115415E0300CC6435 /* MainMapViewController.m in Sources */,
 				8FAA7AD61541760700CC6435 /* DriverAnnotation.m in Sources */,
-				8FAA7AD91541762E00CC6435 /* PostMethod.m in Sources */,
-				8FAA7ADC154176EC00CC6435 /* DriverPosition.m in Sources */,
-				8FAA7ADF154176FC00CC6435 /* GetETA.m in Sources */,
+				8FAA7ADC154176EC00CC6435 /* DriverPositionPoller.m in Sources */,
 				8FAA7AE21541774A00CC6435 /* GetGeocodedAddress.m in Sources */,
 				8FAA7AE5154177A700CC6435 /* GlobalVariables.m in Sources */,
 				8FAA7AEB15417DF900CC6435 /* UserLocationAnnotation.m in Sources */,
@@ -929,34 +915,19 @@
 				8F0CE2FF1545689700CC19CC /* CheckConnection.m in Sources */,
 				8F0CE30315458FB300CC19CC /* SubmitJobViewController.m in Sources */,
 				8F0CE3061545909700CC19CC /* OnrouteViewController.m in Sources */,
-				8F0CE30A154590B700CC19CC /* PrefsViewController.m in Sources */,
-				8F0CE31E1545EDF400CC19CC /* AlertBox.m in Sources */,
-				8F0CE32415467B9000CC19CC /* JobQuery.m in Sources */,
-				8F0CE327154697A100CC19CC /* Job.m in Sources */,
-				8F0CE32A1546B13500CC19CC /* SubmitClass.m in Sources */,
 				8F512F3D1547B3B90083A2CE /* RatingAlert.m in Sources */,
 				8F512F4015484B840083A2CE /* DriverInfoQuery.m in Sources */,
-				8F512F4315484E8E0083A2CE /* JobStatusReceiver.m in Sources */,
-				8F5EC549154960470096D741 /* CancelJob.m in Sources */,
+				8F512F4315484E8E0083A2CE /* JobStatusPoller.m in Sources */,
 				8F841416154B242F004C6F2E /* CalloutBar.m in Sources */,
-				8F84141A154BCC55004C6F2E /* PostMethodAsync.m in Sources */,
-				8F8414BA154C9433004C6F2E /* OnTripViewController.m in Sources */,
-				8F80A40D154D4B12000F536E /* PaymentViewController.m in Sources */,
-				8F80A411154DAECB000F536E /* MeterReceiver.m in Sources */,
-				8F80A414154DC80B000F536E /* CountdownAlert.m in Sources */,
 				8F80A47E154F50A9000F536E /* SignInViewController.m in Sources */,
-				8F80A481154F50BE000F536E /* RegisterViewController.m in Sources */,
 				8F80A484154F50F5000F536E /* ManageAddressesViewController.m in Sources */,
-				8F80A487154F510C000F536E /* ManageDriversViewController.m in Sources */,
 				8F80A48A154F5125000F536E /* TravelHistoryViewController.m in Sources */,
-				8F80A48D154F5143000F536E /* ManageAccountViewController.m in Sources */,
 				8F86BB12155415020083E540 /* ChooseLocationViewController.m in Sources */,
 				8F86BB1A155417B90083E540 /* AddressAnnotation.m in Sources */,
 				8F86BB1D15569E680083E540 /* DriverPositionModel.m in Sources */,
 				8F86BB251558E4F10083E540 /* AddressNameAlert.m in Sources */,
 				8FA78165157484DB00129B13 /* FavouritesViewController.m in Sources */,
 				8F3FC42E15763BF100115DC1 /* Constants.m in Sources */,
-				8F3FC4311577149600115DC1 /* ScheduledTimer.m in Sources */,
 				8F3FC47E1577852B00115DC1 /* DriverPositionQuery.m in Sources */,
 				8F3FC4811577854F00115DC1 /* JobDispatchQuery.m in Sources */,
 				8F3FC4841577856400115DC1 /* JobCycleQuery.m in Sources */,
@@ -970,6 +941,19 @@
 				8F590E79157DFA5A0074884A /* CancelJobAlert.m in Sources */,
 				8F590E8C157E3E030074884A /* Toast+UIView.m in Sources */,
 				8F590E901588C0320074884A /* ActivityProgressView.m in Sources */,
+				8F859CD0158B7F70006E305A /* ProfileViewController.m in Sources */,
+				8F576EDA158F759500F07506 /* AdvancedViewController.m in Sources */,
+				8F576EDE158F75AF00F07506 /* AirportTransferViewController.m in Sources */,
+				8F576EE1158F75C100F07506 /* HourlyBookingViewController.m in Sources */,
+				8F576EE4158F796300F07506 /* DateTimePicker.m in Sources */,
+				8F576EE71598AB0A00F07506 /* AdvancedBookingQuery.m in Sources */,
+				8F22BE73159B537E00C9A6B4 /* SubmitForm.m in Sources */,
+				8F22BE76159DF4F200C9A6B4 /* CountDownBox.m in Sources */,
+				8FED06C915A7F8C1003BD231 /* TaxiTypePickerDataDelegate.m in Sources */,
+				8FED06CC15A7FED2003BD231 /* LoginModel.m in Sources */,
+				8FED06D215AA5D6F003BD231 /* MyTripsViewController.m in Sources */,
+				8FED06D515AB0B51003BD231 /* FakeMyTripsArray.m in Sources */,
+				8FED06DA15ADCCE1003BD231 /* FareModel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1070,7 +1054,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PaxApp/PaxApp-Prefix.pch";
 				INFOPLIST_FILE = "PaxApp/PaxApp-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PaxApp;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1081,7 +1065,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PaxApp/PaxApp-Prefix.pch";
 				INFOPLIST_FILE = "PaxApp/PaxApp-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PaxApp;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1097,7 +1081,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PaxApp/PaxApp-Prefix.pch";
 				INFOPLIST_FILE = "PaxAppTests/PaxAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PaxAppTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};
@@ -1114,7 +1098,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PaxApp/PaxApp-Prefix.pch";
 				INFOPLIST_FILE = "PaxAppTests/PaxAppTests-Info.plist";
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = PaxAppTests;
 				TEST_HOST = "$(BUNDLE_LOADER)";
 				WRAPPER_EXTENSION = octest;
 			};

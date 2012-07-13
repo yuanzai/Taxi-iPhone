@@ -25,8 +25,9 @@
 @property BOOL isOpen;
 
 -(void) launchAlertBox: (id)setDelegate;
-- (void) createTimer;
+- (void) createTimer:(int)countDownTime;
 - (void) timerExpired;
 - (void) stopTimer;
+- (void) hideAlertBox;
 
 @end

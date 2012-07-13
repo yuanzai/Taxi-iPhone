@@ -8,32 +8,34 @@
 
 #import "TaxiTypePicker.h"
 #import "GlobalVariables.h"
+#import "TaxiTypePickerDataDelegate.h"
 
 @implementation TaxiTypePicker
+@synthesize pickerDelegate;
 
-- (void) newPickerWithTarget:(UIViewController*)setTarget
+-(id) initWithTarget:(UIViewController*)targetVC dataSource:(id) targetData delegate:(id)delegate
 {
+    pickerData = [[TaxiTypePickerDataDelegate alloc]init];
     
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    sourceController = setTarget;
+    self = [super init];
+    if (self) {
+
+    sourceController = targetVC;
     screenRect = sourceController.view.frame;
-    myPickerView = [[UIPickerView alloc] initWithFrame:CGRectMake(0, screenRect.size.height, 0, 0)];
-    myPickerView.delegate = self;
-    myPickerView.showsSelectionIndicator = YES;
-    myPickerView.dataSource = self;
-
-    
-
-    
-    
-
+    //self.frame = CGRectMake(0, 0, 0, 0);
+    self.delegate = delegate;
+    self.showsSelectionIndicator = YES;
+    self.dataSource = pickerData;
+    } return self;
 
 }
 
 -(void) showPicker
 {
-    
-    CGSize pickerSize = [myPickerView sizeThatFits:CGSizeZero];
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+
+    CGSize pickerSize = [self sizeThatFits:CGSizeZero];
     
     CGRect startRect = CGRectMake(0.0,
                                    screenRect.size.height,
@@ -46,24 +48,26 @@
                                    pickerSize.width,
                                    pickerSize.height);
     
-    myPickerView.frame = startRect;
-    [sourceController.view addSubview:myPickerView];
+    self.frame = startRect;
+    [sourceController.view addSubview:self];
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3f];
     [UIView setAnimationDelegate:self];
     
-    myPickerView.frame = pickerRect;
+    self.frame = pickerRect;
     [UIView commitAnimations];  
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+
     
 }
 
 
 -(void) hidePicker
 {
-    CGSize pickerSize = [myPickerView sizeThatFits:CGSizeZero];
+    CGSize pickerSize = [self sizeThatFits:CGSizeZero];
 
-    if (myPickerView.frame.origin.y == screenRect.size.height - pickerSize.height) {
+    if (self.frame.origin.y == screenRect.size.height - pickerSize.height) {
         
     
     CGRect startRect = CGRectMake(0.0,
@@ -77,53 +81,18 @@
                                    pickerSize.width,
                                    pickerSize.height);
     
-    myPickerView.frame = pickerRect;
-    [sourceController.view addSubview:myPickerView];
+    self.frame = pickerRect;
+    [sourceController.view addSubview:self];
     
     [UIView beginAnimations:nil context:nil];
     [UIView setAnimationDuration:0.3f];
     [UIView setAnimationDelegate:self];
     
-    myPickerView.frame = startRect;
+    self.frame = startRect;
     [UIView commitAnimations];  
     }
 }
 
 
-- (void)pickerView:(UIPickerView *)pickerView didSelectRow: (NSInteger)row inComponent:(NSInteger)component {
-    [[GlobalVariables myGlobalVariables] setGTaxiType:[NSString stringWithFormat:@"%i",row]];
-    //[self hidePicker];
-}
-
-
-#pragma mark PickerView DataSource
-
-- (NSInteger)numberOfComponentsInPickerView:
-(UIPickerView *)pickerView
-{
-    return 1;
-}
-
-- (NSInteger)pickerView:(UIPickerView *)pickerView
-numberOfRowsInComponent:(NSInteger)component
-{
-    
-    
-    return 2;
-}
-- (NSString *)pickerView:(UIPickerView *)pickerView
-             titleForRow:(NSInteger)row
-            forComponent:(NSInteger)component
-{
-    
-    if (row == 0){
-        return [NSString stringWithFormat: @"1"];
-    } else{
-        return [NSString stringWithFormat: @"2"];
-    }
-     
-    
-    
-} 
 
 @end

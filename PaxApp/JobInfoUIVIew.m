@@ -16,13 +16,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        
-
-        
-        
         destination.text = [[GlobalVariables myGlobalVariables] gDestinationString];
-        
-        
         NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));    }
     return self;
 }
@@ -34,13 +28,12 @@
 
 }
 
-
 - (void) updateDriver
 {
-    driver.text = [[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"name"];
-    license.text = [[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"license"];
+    driver.text = [[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"driver_name"];
+    license.text = [[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"license_plate_number"];
 
     [[NSNotificationCenter defaultCenter]removeObserver:self];
-
 }
+
 @end

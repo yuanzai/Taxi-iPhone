@@ -19,10 +19,11 @@
 +(void) getDriverPositionsWithCompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+    NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
     
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
     
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/drivers",kHerokuHostSite]]];    
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@drivers?auth_token=%@",kHerokuHostSite,[preferences objectForKey:@"ClientAuth"]]]];    
     [request setHTTPMethod:@"GET"];
     [request setTimeoutInterval:kURLConnTimeOut];
     
@@ -35,9 +36,10 @@
 +(void) getSpecifiedDriverPositionWithDriverID:(NSString*)driver_id JobID:(NSString*) job_id CompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@ - driverID %@ - jobID %@",self.class,NSStringFromSelector(_cmd),driver_id,job_id);
+    NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
 
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@api/drivers/%@/jobs/%@/position",kHerokuHostSite, driver_id,job_id]]];
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@jobs/%@/driver_position?auth_token=%@",kHerokuHostSite,job_id,[preferences objectForKey:@"ClientAuth"]]]];
 
     [request setHTTPMethod:@"GET"];
     [request setTimeoutInterval:kURLConnTimeOut];

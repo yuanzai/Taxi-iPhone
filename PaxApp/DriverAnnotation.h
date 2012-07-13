@@ -14,6 +14,6 @@
 @property (nonatomic,copy) NSString *title;
 @property (nonatomic,strong) NSDictionary *driverInfo;
 
--(id)initWithCoordinate:(CLLocationCoordinate2D) c;
+-(void)initWithCoordinate:(CLLocationCoordinate2D) c;
 
 @end

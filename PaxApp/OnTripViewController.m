@@ -7,11 +7,11 @@
 //
 
 #import "OnTripViewController.h"
-#import "DriverPosition.h"
+#import "DriverPositionPoller.h"
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
 #import "GlobalVariables.h"
-#import "JobStatusReceiver.h"
+#import "JobStatusPoller.h"
 #import "RatingAlert.h"
 #import "Job.h"
 #import "CancelJob.h"
@@ -57,7 +57,7 @@
     [super viewDidLoad];
     [self registerNotification];
     [mapView setDelegate:self];
-    downloader = [[DriverPosition alloc]initDriverPositionPollWithDriverID:[[GlobalVariables myGlobalVariables]gDriver_id]];
+    downloader = [[DriverPositionPoller alloc]initDriverPositionPollWithDriverID:[[GlobalVariables myGlobalVariables]gDriver_id]];
 
     //myStatusReceiver = [[JobStatusReceiver alloc]initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"driverreached"];
     [self updateUserMarker];

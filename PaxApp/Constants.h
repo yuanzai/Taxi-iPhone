@@ -22,6 +22,18 @@ FOUNDATION_EXPORT NSString *const kHerokuHostSite;
 //URL Time Out in secs
 FOUNDATION_EXPORT NSTimeInterval const kURLConnTimeOut;
 
+//Count Down Time for submitjob in secs
+FOUNDATION_EXPORT NSTimeInterval const kCountDownTime;
+
+//Time interval for Status Receiver
+FOUNDATION_EXPORT NSTimeInterval const kStatusReceiverInterval;
+
+//Existing Job Age Limit
+FOUNDATION_EXPORT NSTimeInterval const kActiveJobAgeLimit;
+
+//Time interval for driver position downloads
+FOUNDATION_EXPORT NSTimeInterval const kDownloadPositionsInterval;
+
 //Download Driver Details URL Extension
 FOUNDATION_EXPORT NSString *const kGetDriverPosition;
 

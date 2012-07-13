@@ -9,23 +9,23 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 
-@class DriverPosition;
+@class DriverPositionPoller;
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class Job;
-@class JobStatusReceiver;
+@class JobStatusPoller;
 @class CancelJob;
 @class MeterReceiver;
 @interface OnTripViewController : UIViewController <MKMapViewDelegate> 
 {
     IBOutlet MKMapView	*mapView;
-    DriverPosition *downloader;
+    DriverPositionPoller *downloader;
     UserLocationAnnotation* userLocationAnnotation;
     CoreLocationManager *clManager;
     
     Job *currentJob;
     
-    JobStatusReceiver *myStatusReceiver;
+    JobStatusPoller *myStatusReceiver;
     
     CancelJob *confirmCancel;
     MeterReceiver *myMeter;

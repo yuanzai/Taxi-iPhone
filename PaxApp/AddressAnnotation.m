@@ -8,7 +8,7 @@
 -(id)initWithCoordinate:(CLLocationCoordinate2D) c
 {
 	coordinate=c;    
-	return self;
+    return self;
 }
 
 @end

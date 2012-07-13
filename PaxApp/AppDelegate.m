@@ -7,6 +7,7 @@
 //
 
 #import "AppDelegate.h"
+//#import "GlobalVariables.h"
 
 @implementation AppDelegate
 
@@ -14,10 +15,59 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
+    /*
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    
+    UILocalNotification *localNotif = [launchOptions
+                                       objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]; 
+    
+    if (localNotif) {
+        // has notifications
+    }
+    else {
+        [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    }
+    [_window makeKeyAndVisible];
+*/
     return YES;
 }
-							
+/*
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
+    NSLog(@"application: didReceiveLocalNotification:");
+    
+}
+
+// Delegation methods
+- (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)devToken {
+    
+    NSMutableString *deviceID = [NSMutableString string];
+    
+    // iterate through the bytes and convert to hex
+    unsigned char *ptr = (unsigned char *)[devToken bytes];
+    
+    for (NSInteger i=0; i < 32; ++i) {
+        [deviceID appendString:[NSString stringWithFormat:@"%02x", ptr[i]]];
+    }
+    
+    
+    NSLog(@"%@", deviceID);
+    [[GlobalVariables myGlobalVariables]setGDeviceToken:deviceID];
+    
+    
+}
+
+- (void)application:(UIApplication *)app didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
+    NSLog(@"Error in registration. Error: %@", err);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    NSLog(@"Push Notification Received");
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"CheckJobNotification" object:nil];
+    
+    
+}
+*/
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*
@@ -29,16 +79,31 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
     /*
-     Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later. 
-     If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+    if ([[GlobalVariables myGlobalVariables] gIsOnJob]){
+    UILocalNotification *localNotif = [[UILocalNotification alloc] init];
+    localNotif.fireDate = [NSDate date]; // show now, but you can set other date to schedule
+    
+    localNotif.alertBody = @"You have an open taxi booking!";
+    localNotif.alertAction = @"Go back"; // action button title
+    
+    localNotif.soundName = UILocalNotificationDefaultSoundName;
+    
+    // keep some info for later use
+  	NSDictionary *infoDict = [NSDictionary dictionaryWithObjectsAndKeys:@"item-one",@"item", nil];
+    localNotif.userInfo = infoDict;
+    
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
+    }
      */
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     /*
-     Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
-     */
+    //submitjobview specific
+    NSLog(@"OPEN APP AGAIN");
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"ReturnToForeground" object:nil];
+    */
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

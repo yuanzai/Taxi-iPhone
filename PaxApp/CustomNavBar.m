@@ -36,7 +36,7 @@
         titleView.textColor = [UIColor whiteColor];
         titleView.shadowColor = [UIColor darkGrayColor];
         titleView.shadowOffset = CGSizeMake(0, -1);
-        titleView.text = @"top";
+        titleView.text = @"";
         titleView.adjustsFontSizeToFitWidth = YES;
         [self addSubview:titleView];
         
@@ -49,7 +49,7 @@
         subtitleView.textColor = [UIColor whiteColor];
         subtitleView.shadowColor = [UIColor darkGrayColor];
         subtitleView.shadowOffset = CGSizeMake(0, -1);
-        subtitleView.text = @"bot";
+        subtitleView.text = @"";
         subtitleView.adjustsFontSizeToFitWidth = YES;
         [self addSubview:subtitleView];
         

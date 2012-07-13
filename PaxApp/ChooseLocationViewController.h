@@ -33,6 +33,7 @@
 - (void) addAnnotations;
 - (IBAction)useThisLocationButton:(id)sender;
 - (void)gotoSubmitJob;
+- (void) gotoAdvanced;
 
 
 @end

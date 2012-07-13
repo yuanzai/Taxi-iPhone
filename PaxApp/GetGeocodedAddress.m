@@ -28,6 +28,7 @@
              geoaddress = [thisPlacemark.addressDictionary objectForKey:@"Name"];
              
              //Global Var 
+             [[[GlobalVariables myGlobalVariables]gCurrentForm] setObject:geoaddress forKey:@"pickup_address"];
              [[GlobalVariables myGlobalVariables]setGUserAddress:geoaddress];
              [[NSNotificationCenter defaultCenter]postNotificationName:@"GeoAddress" object:nil];
              

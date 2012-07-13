@@ -10,8 +10,9 @@
 }
 - (void) getAllDriverPositionsWithDriverID;
 - (void) getDriverPositionsWithDriverID:(NSString*) driver_id;
--(void) updateDriverListWithData:(NSData*) data;
--(void) updateSingleDriverListWithData:(NSData*) data;
+- (void) updateDriverListWithData:(NSData*) data;
+- (void) updateSingleDriverListWithData:(NSData*) data;
+- (void) updateListWithArray:(NSDictionary*) rawDriverItem;
 
 
 @end

@@ -8,7 +8,7 @@
 
 #import "FavouritesViewController.h"
 #import "GlobalVariables.h"
-
+#import "CustomNavBar.h"
 @implementation FavouritesViewController
 @synthesize refererTag;
 
@@ -46,6 +46,21 @@
     NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
     addressList = [[NSMutableArray alloc]initWithArray:[preferences arrayForKey:@"ClientSavedAddress"]];
 
+    //set top navBar
+    CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
+    self.navigationItem.titleView = thisNavBar;
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
+    
+    
+    if (refererTag == 21 || refererTag == 41) {
+        self.title = @"Pick up";
+        [thisNavBar setCustomNavBarTitle:@"Pick up" subtitle:@""];
+        
+    } else if (refererTag == 22 || refererTag == 42) {
+        self.title =@"Destination";
+        [thisNavBar setCustomNavBarTitle:@"Destination" subtitle:@""];
+        
+    }
 }
 
 
@@ -126,15 +141,38 @@
     
     
     if (refererTag == 21) {
-        [[GlobalVariables myGlobalVariables] setGUserCoordinate:myLoc];
-        [[GlobalVariables myGlobalVariables] setGUserAddress:addressString];
+        
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f",myLoc.latitude] forKey:@"pickup_latitude"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f",myLoc.longitude] forKey:@"pickup_longitude"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:addressString forKey:@"pickup_address"];
+        
         [self gotoSubmitJob];
     } else if (refererTag == 22) {
-        [[GlobalVariables myGlobalVariables] setGDestiCoordinate:myLoc];
-        [[GlobalVariables myGlobalVariables] setGDestinationString:addressString];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f",myLoc.latitude] forKey:@"dropoff_latitude"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f",myLoc.longitude] forKey:@"dropoff_longitude"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:addressString forKey:@"dropoff_address"];
         [self gotoSubmitJob];
-
+    } else if (refererTag == 41) {
+        NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
+        if (!bookingForm)
+        //    bookingForm = [[NSMutableDictionary alloc]init];
         
+        
+        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.latitude] forKey:@"pickup_latitude"];
+        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.longitude] forKey:@"pickup_longitude"];            
+        [bookingForm setObject:addressString forKey:@"pickup_address"];   
+        [[GlobalVariables myGlobalVariables]setGAdvancedForm:bookingForm];
+        [self gotoAdvanced];
+    } else if (refererTag == 42) {
+        NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
+        if (!bookingForm)
+        //    bookingForm = [[NSMutableDictionary alloc]init];
+        
+        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.latitude] forKey:@"dropoff_latitude"];
+        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.longitude] forKey:@"dropoff_longitude"];            
+        [bookingForm setObject:addressString forKey:@"dropoff_address"];      
+        [[GlobalVariables myGlobalVariables]setGAdvancedForm:bookingForm];
+        [self gotoAdvanced];
     }
                                      
     }                             
@@ -150,5 +188,11 @@
 -(void)gotoSubmitJob
 {
     [self performSegueWithIdentifier:@"gotoSubmitJob" sender:nil];
+}
+
+-(void)gotoAdvanced
+{
+    [self performSegueWithIdentifier:@"gotoAdvanced" sender:nil];
+    
 }
 @end

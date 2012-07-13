@@ -24,12 +24,27 @@
     NSMutableDictionary* gDriverInfo;
     
     NSString* gTaxiType;
-
-
+    
+    NSString* gDeviceToken;
+    NSDate* gJobTime;
+    BOOL gIsOnJob;
+    
+    NSMutableDictionary* gAdvancedForm;
+    NSMutableDictionary* gCurrentForm;
+    NSString* gGoto;
 }
+
+//goto view controller
+@property (nonatomic,strong) NSString* gGoto;
+
+//device token
+@property (nonatomic,strong) NSString* gDeviceToken;
 
 //driver list generated for map markers
 @property (nonatomic, strong) NSMutableDictionary* gDriverList; 
+
+// Job start time
+@property (nonatomic,strong) NSDate* gJobTime;
 
 //user location per corelocation
 @property CLLocationCoordinate2D gUserCoordinate;
@@ -57,6 +72,15 @@
 
 //taxitype selected
 @property (nonatomic,strong) NSString* gTaxiType;
+
+// is on JOB?
+@property BOOL gIsOnJob;
+
+//advanced booking form
+@property (nonatomic,strong) NSMutableDictionary* gAdvancedForm;
+
+//current booking form
+@property (nonatomic,strong) NSMutableDictionary* gCurrentForm;
 
 
 + (GlobalVariables*)myGlobalVariables;

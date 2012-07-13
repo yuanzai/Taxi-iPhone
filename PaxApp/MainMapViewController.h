@@ -12,7 +12,7 @@
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class GetETA;
-@class DriverPosition;
+@class DriverPositionPoller;
 @class CalloutBar;
 @class ActivityProgressView;
 
@@ -27,7 +27,7 @@
     UserLocationAnnotation* userLocationAnnotation;
     CoreLocationManager *clManager;
     GetETA *callGetETA;
-    DriverPosition *downloader;
+    DriverPositionPoller *downloader;
     
     IBOutlet UILabel *mainTopBar;
     IBOutlet UILabel *mainBottomBar;
@@ -44,7 +44,6 @@
 
 
 - (void) getUserLocation;
-- (void) registerNotification;
 - (void) updateMapMarkers: (NSNotification *) notification;
 - (void) updateUserMarker: (NSNotification *) notification;
 - (void) updateGeoAddress:(NSNotification*) notification;
@@ -52,7 +51,7 @@
 - (void) setNearestDriverTimeText:(NSString*) time;
 - (void) showActivityView:(NSNotification*) notification;
 - (void) hideActivityView:(NSNotification*) notification;
-
+- (void) registerNotification;
 
 
 

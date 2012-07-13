@@ -9,24 +9,32 @@
 #import "DriverInfoModel.h"
 #import "DriverInfoQuery.h"
 #import "GlobalVariables.h"
+#import "JobCycleQuery.h"
 
 @implementation DriverInfoModel
 
-- (void) getDriverInfoWithDriverID:(NSString*) driver_id
-{
-    
-    [DriverInfoQuery getDriverInfoAsync_withDriverID:driver_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        NSArray* array = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
++ (void) getDriverInfo
+{    
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));        
+
+    [JobCycleQuery checkJobWithJobID:[[GlobalVariables myGlobalVariables] gJob_id] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
-        NSMutableDictionary *dict = [array objectAtIndex:0];
-        [[GlobalVariables myGlobalVariables] setGDriverInfo:dict];
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"driverInfoUpdated" object:nil];
-        
-        
+        if (response && data){
+            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+            NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
+            if ([httpResponse statusCode]== 200) {
+                
+                 NSMutableDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                
+                [[GlobalVariables myGlobalVariables] setGDriverInfo:dict];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"driverInfoUpdated" object:nil];
+            
+            } else {
+                NSLog(@"%@ - %@ - No response from server",self.class,NSStringFromSelector(_cmd));
+            }
+        }
     }];
     
-    
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));        
 }
 
 @end

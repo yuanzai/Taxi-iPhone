@@ -7,14 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-
-@interface TaxiTypePicker : UIView <UIPickerViewDataSource, UIPickerViewDelegate>
+@interface TaxiTypePicker : UIPickerView <UIPickerViewDelegate>
 {
-    UIPickerView *myPickerView;
+    id <UIPickerViewDataSource> pickerData;    
     CGRect screenRect;
     UIViewController* sourceController;
+    NSString* taxiType;
 }
-- (void) newPickerWithTarget:(UIViewController*)setTarget;
+@property (nonatomic, strong) id<UIPickerViewDelegate> pickerDelegate;
+
+-(id) initWithTarget:(UIViewController*)targetVC dataSource:(id) targetData delegate:(id)delegate;
 - (void) showPicker;
 - (void) hidePicker;
 

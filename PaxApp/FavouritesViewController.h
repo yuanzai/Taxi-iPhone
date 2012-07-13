@@ -17,5 +17,6 @@
 
 @property NSInteger refererTag;
 -(void)gotoSubmitJob;
+-(void)gotoAdvanced;
 
 @end

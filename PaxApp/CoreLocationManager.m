@@ -62,7 +62,8 @@
     
     //Writing location to global variable
     [[GlobalVariables myGlobalVariables] setGUserCoordinate:newLocation.coordinate];
-    
+    [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", newLocation.coordinate.latitude] forKey:@"pickup_latitude"];
+    [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", newLocation.coordinate.longitude] forKey:@"pickup_longitude"];
     
     GetGeocodedAddress *getGeo = [[GetGeocodedAddress alloc]init];
     [getGeo geocodeLocation:newLocation];

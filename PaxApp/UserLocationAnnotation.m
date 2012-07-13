@@ -18,6 +18,13 @@
 
     NSLog(@"New marker position");   
     coordinate=newCoordinate;
+    
+
+    
+    [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", newCoordinate.latitude] forKey:@"pickup_latitude"];
+    [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", newCoordinate.longitude] forKey:@"pickup_longitude"];
+
+    
     [[GlobalVariables myGlobalVariables] setGUserCoordinate:newCoordinate];
     GetGeocodedAddress *getGeo = [[GetGeocodedAddress alloc]init];
     [getGeo geocodeLocation:[[CLLocation alloc] initWithLatitude:newCoordinate.latitude longitude:newCoordinate.longitude]];
@@ -31,11 +38,11 @@
 }
 
 
--(id)initWithCoordinate:(CLLocationCoordinate2D) c
+-(void)initWithCoordinate:(CLLocationCoordinate2D) c
 {
 	coordinate=c;
 	//NSLog(@"%f,%f",c.latitude,c.longitude);
-    return self;
+    //return self;
 }
 
 

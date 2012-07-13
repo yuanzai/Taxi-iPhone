@@ -6,7 +6,7 @@
 @synthesize driver_id, driverInfo;
 
 
--(id)initWithCoordinate:(CLLocationCoordinate2D) c
+-(void)initWithCoordinate:(CLLocationCoordinate2D) c
 {
     [self willChangeValueForKey:@"coordinate"];
 	coordinate=c;
@@ -14,7 +14,6 @@
     
     [self didChangeValueForKey:@"coordinate"];
 
-	return self;
 }
 
 

@@ -7,11 +7,11 @@
 //
 
 #import "OnrouteViewController.h"
-#import "DriverPosition.h"
+#import "DriverPositionPoller.h"
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
 #import "GlobalVariables.h"
-#import "JobStatusReceiver.h"
+#import "JobStatusPoller.h"
 #import "RatingAlert.h"
 #import "Job.h"
 #import "CancelJobAlert.h"
@@ -68,16 +68,14 @@
     [myJobInfoUIView setDriver:driver];
     [myJobInfoUIView setLabels];
 
-    DriverInfoModel *getDriverInfo = [[DriverInfoModel alloc]init];
-    [getDriverInfo getDriverInfoWithDriverID:[[GlobalVariables myGlobalVariables]gDriver_id]];
-     
+    [self registerNotification];
+    [DriverInfoModel getDriverInfo];
     
 
-    [self registerNotification];
     [mapView setDelegate:self];
     
-    downloader = [[DriverPosition alloc]initDriverPositionPollWithDriverID:[[GlobalVariables myGlobalVariables]gDriver_id]];
-    myStatusReceiver = [[JobStatusReceiver alloc]initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"picked"];
+    downloader = [[DriverPositionPoller alloc]initDriverPositionPollWithDriverID:[[GlobalVariables myGlobalVariables]gDriver_id]];
+    myStatusReceiver = [[JobStatusPoller alloc]initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"picked"];
 
     //Custom Navbar
     CustomNavBar *thisNavBar = [[CustomNavBar alloc] initTwoRowBar];    
@@ -208,6 +206,7 @@
     [confirmCancel launchConfirmBox];
 }
 
+/*
 -(IBAction)testPicked:(id)sender
 {
     JobQuery *newQuery=[[JobQuery alloc]init];
@@ -220,13 +219,21 @@
     JobQuery *newQuery=[[JobQuery alloc]init];
     [newQuery submitJobQuerywithMsgType:@"driverreached" job_id:[[GlobalVariables myGlobalVariables]gJob_id] rating:nil driver_id:nil];    
 }
-
+*/
+ 
 -(IBAction)onboardButton:(id)sender
 {    
     [JobCycleQuery onboardJobCalledByPassengerWithJobID:[[GlobalVariables myGlobalVariables] gJob_id] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         [self performSelectorOnMainThread:@selector(onBoard) withObject:nil waitUntilDone:YES];
     }];
+}
+
+-(IBAction)callButton:(id)sender
+{
+    if ([[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"driver_number"])
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"driver_number"]]];
+    
 }
 
 -(void)onBoard
@@ -239,7 +246,6 @@
     }
 
     testStatus.text = @"Onboard";
-
     
     [myStatusReceiver initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"reached"];
 }

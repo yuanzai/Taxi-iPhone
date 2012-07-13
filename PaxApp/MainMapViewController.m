@@ -7,7 +7,7 @@
 //
 
 #import "MainMapViewController.h"
-#import "DriverPosition.h"
+#import "DriverPositionPoller.h"
 #import "GlobalVariables.h"
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
@@ -21,12 +21,9 @@
 
 static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
-@implementation MainMapViewController
-@synthesize mapView;
 
-@synthesize dirty;
-@synthesize loading;
-@synthesize suggestions, references;
+@implementation MainMapViewController
+@synthesize mapView, dirty, loading, suggestions, references;
 
 #pragma mark Initialisation
 - (void)didReceiveMemoryWarning
@@ -37,16 +34,32 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (void)viewDidLoad
 {
-    [mapView setDelegate:self];
 
+/*
+    NSLog(@"Booking Form - %@",[[GlobalVariables myGlobalVariables]gCurrentForm]);
+    if ([[GlobalVariables myGlobalVariables] gIsOnJob]){
+        [self performSegueWithIdentifier:@"gotoSubmitJob" sender:self];
+        NSLog(@"is on job!");
+        return;
+    }
+  */  
+    //use when loginmodel is active
+    
+     if ([[GlobalVariables myGlobalVariables] gGoto]){
+        [self performSegueWithIdentifier:@"gotoSubmitJob" sender:self];
+        NSLog(@"goto Submit job activated");
+        return;
+    }
+    
+    
+    [mapView setDelegate:self];
     
     //clear global variables
     [[GlobalVariables myGlobalVariables] clearGlobalData];   
     
     [self registerNotification];
-    downloader = [[DriverPosition alloc]initDriverPositionPollWithDriverID:[NSString stringWithFormat:@"all"]];    
-    [self getUserLocation];
-    
+    downloader = [[DriverPositionPoller alloc]initDriverPositionPollWithDriverID:[NSString stringWithFormat:@"all"]];    
+    [self getUserLocation];    
     
     //set top navBar
     CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
@@ -55,17 +68,8 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [thisNavBar addRightLogo];
     self.navigationItem.hidesBackButton = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
+    
 
-    
-    //[self.searchDisplayController.searchBar setPositionAdjustment:UIOffsetMake(self.searchDisplayController.searchBar.frame.size.width - 45, 0) forSearchBarIcon:UISearchBarIconSearch];
-    //self.searchDisplayController.searchBar.showsScopeBar = YES;
-    
-    //self.searchDisplayController.searchBar.showsBookmarkButton = YES;
-    //self.searchDisplayController.searchBar.searchTextPositionAdjustment = UIOffsetMake(45 - self.searchDisplayController.searchBar.frame.size.width, 0);
-    
-    //self.searchDisplayController.searchBar.searchFieldBackgroundPositionAdjustment = UIOffsetMake(45 - self.searchDisplayController.searchBar.frame.size.width, 0);
- 
-    
 	// Do any additional setup after loading the view, typically from a nib.
     [super viewDidLoad];
 }
@@ -84,7 +88,9 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (void)viewDidAppear:(BOOL)animated
 {
+
     [super viewDidAppear:animated];
+    
 }
 
 - (void)viewWillDisappear:(BOOL)animated
@@ -127,6 +133,12 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hideActivityView:) name:@"hideProgressActivity" object:nil];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundNotification:) name:UIApplicationWillEnterForegroundNotification object:nil];
+}
+
+- (void) appWillEnterForegroundNotification: (NSNotification*) notification
+{
+    [self getUserLocation];    
 }
 
 #pragma mark Map functions
@@ -148,8 +160,8 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     
     } else {
         
-        NSMutableArray *tempAddList = [[NSMutableArray alloc]init];
-        NSMutableArray *tempRemoveList = [[NSMutableArray alloc]init];
+        NSMutableArray *tempAddList;
+        NSMutableArray *tempRemoveList;
         tempAddList = [NSMutableArray arrayWithArray:newDriverList];
         tempRemoveList = [NSMutableArray arrayWithArray:oldDriverList];
 
@@ -178,7 +190,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [clManager startLocationManager:nil];
 }
 
--(void)updateUserMarker: (NSNotification *) notification
+- (void)updateUserMarker: (NSNotification *) notification
 {
     //updates user marker + orientates screen to user location
     
@@ -204,12 +216,16 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
         
             // webservice specific
-        if (data) {
-            NSLog(@"%@ - %@ - getNearest",self.class,NSStringFromSelector(_cmd));
+        if (data) {            
+            
+            NSMutableDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSString* timeString = [dict objectForKey:@"time"];
+            NSLog(@"%@ - %@ - getNearest - %@",self.class,NSStringFromSelector(_cmd), timeString);
 
-        NSMutableDictionary * dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"%@",[dict objectForKey:@"time"]);
-        [self performSelectorOnMainThread:@selector(setNearestDriverTimeText:) withObject:[dict objectForKey:@"time"] waitUntilDone:YES];
+            
+            int timeInt = [timeString intValue];
+            if (timeInt != 0)
+                [self performSelectorOnMainThread:@selector(setNearestDriverTimeText:) withObject:[dict objectForKey:@"time"] waitUntilDone:YES];
         }
     }];
 
@@ -250,7 +266,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
     }
 }
-
 
 - (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)annotationView didChangeDragState:(MKAnnotationViewDragState)newState fromOldState:(MKAnnotationViewDragState)oldState
 {
@@ -379,6 +394,11 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     
     NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:urlString]];
     [NSURLConnection sendAsynchronousRequest:request queue:[[NSOperationQueue alloc] init] completionHandler:^(NSURLResponse *response, NSData *responseData, NSError *error) {
+        
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        
+        if ([httpResponse statusCode] ==200) {
+            
         NSDictionary* tester = [NSJSONSerialization JSONObjectWithData:responseData options:NSJSONReadingMutableLeaves error:nil]; 
         NSDictionary* result = [tester objectForKey:@"result"];
         NSDictionary* geo = [result objectForKey:@"geometry"];
@@ -399,6 +419,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         
         
         [mapView performSelectorOnMainThread:@selector(addAnnotations:) withObject:[[[GlobalVariables myGlobalVariables]gDriverList]allValues] waitUntilDone:YES];
+        }
 
     }];
 }
