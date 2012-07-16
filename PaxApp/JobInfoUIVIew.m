@@ -16,7 +16,7 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        destination.text = [[GlobalVariables myGlobalVariables] gDestinationString];
+        destination.text = [[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"dropoff_address"];
         NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));    }
     return self;
 }
@@ -24,7 +24,7 @@
 - (void) setLabels
 {
     
-    destination.text = [[GlobalVariables myGlobalVariables] gDestinationString];
+    destination.text = [[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"dropoff_address"];
 
 }
 

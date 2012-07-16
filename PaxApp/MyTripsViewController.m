@@ -40,7 +40,17 @@
     [thisNavBar addRightLogo];
     self.navigationItem.hidesBackButton = YES;
     
-    myArray = [[FakeMyTripsArray alloc]init];
+    NSDictionary* dict1 = [[NSDictionary alloc]initWithObjectsAndKeys:
+                           @"Jalan Wakaff", @"pickup_address",
+                           @"Toa Payoh", @"destination_address",
+                           @"21 March 2012 9:00 am", @"pickup_datetime",
+                           @"Pending", @"job_status",
+                           @"Mr Driver", @"driver_name",
+                           @"SBC 1234", @"driver_license",
+                           @"1234567", @"driver_number",
+                           nil];
+    
+    myArray = [[NSArray alloc]initWithObjects:dict1, nil];
     
     
     [super viewDidLoad];
@@ -113,6 +123,7 @@
     static NSString *CellIdentifier = @"MyTripsCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+
     if (cell == nil) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         

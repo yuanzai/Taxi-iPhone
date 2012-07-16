@@ -11,11 +11,7 @@
 
 @interface GlobalVariables : NSObject{
     NSMutableDictionary* gDriverList;
-    CLLocationCoordinate2D gUserCoordinate;
-    CLLocationCoordinate2D gDestiCoordinate;
-    
-    NSString* gPickupString;
-    NSString* gDestinationString;
+    CLLocationCoordinate2D gUserCoordinate;    
     
     NSString* gDriver_id;
     NSString* gJob_id;
@@ -48,15 +44,6 @@
 
 //user location per corelocation
 @property CLLocationCoordinate2D gUserCoordinate;
-
-//destination location as defined in submitjobVC. Can be 0,0 ie nil
-@property CLLocationCoordinate2D gDestiCoordinate;
-
-//pickup location details. entered in submitjobVC
-@property (nonatomic,strong) NSString* gPickupString;
-
-//manually input in submitjobVC or selected through choose location to reflect google places location
-@property (nonatomic,strong) NSString* gDestinationString;
 
 //selected driver discovered in submitjobVC after submitting job and retrieving from server
 @property (nonatomic,strong) NSString* gDriver_id;

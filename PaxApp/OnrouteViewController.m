@@ -247,7 +247,9 @@
 
     testStatus.text = @"Onboard";
     
-    [myStatusReceiver initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"reached"];
+    myStatusReceiver =nil;
+    
+    myStatusReceiver = [[JobStatusPoller alloc] initStatusReceiverTimerWithJobID:[[GlobalVariables myGlobalVariables]gJob_id] TargettedStatus:@"reached"];
 }
 
 -(void)actionPickedStatus:(NSNotification *)notification

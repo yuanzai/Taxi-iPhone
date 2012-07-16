@@ -34,15 +34,8 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (void)viewDidLoad
 {
-
-/*
-    NSLog(@"Booking Form - %@",[[GlobalVariables myGlobalVariables]gCurrentForm]);
-    if ([[GlobalVariables myGlobalVariables] gIsOnJob]){
-        [self performSegueWithIdentifier:@"gotoSubmitJob" sender:self];
-        NSLog(@"is on job!");
-        return;
-    }
-  */  
+    [super viewDidLoad];
+    
     //use when loginmodel is active
     
      if ([[GlobalVariables myGlobalVariables] gGoto]){
@@ -68,10 +61,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [thisNavBar addRightLogo];
     self.navigationItem.hidesBackButton = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
-    
-
-	// Do any additional setup after loading the view, typically from a nib.
-    [super viewDidLoad];
 }
 
 - (void)viewDidUnload

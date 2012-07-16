@@ -10,7 +10,7 @@
 
 @implementation GlobalVariables
 
-@synthesize gDriverList, gUserCoordinate, gPickupString, gDestinationString, gDriver_id, gJob_id, gUserAddress, gDriverInfo,gDestiCoordinate, gTaxiType, gDeviceToken, gJobTime, gIsOnJob, gAdvancedForm, gCurrentForm, gGoto;
+@synthesize gDriverList, gUserCoordinate, gDriver_id, gJob_id, gUserAddress, gDriverInfo, gTaxiType, gDeviceToken, gJobTime, gIsOnJob, gAdvancedForm, gCurrentForm, gGoto;
 
 static GlobalVariables* myGlobalVariables;
 
@@ -30,10 +30,7 @@ static GlobalVariables* myGlobalVariables;
     gDriver_id = nil;
     gJob_id = nil;
     gUserAddress = @"";
-    CLLocationCoordinate2D loc;
-    loc.latitude = 0;
-    loc.longitude = 0;
-    gDestiCoordinate = loc;
+
     gTaxiType = nil;
     gJobTime = nil;
     gDriverInfo = nil;

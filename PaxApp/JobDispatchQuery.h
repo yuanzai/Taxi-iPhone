@@ -11,7 +11,5 @@
 
 @interface JobDispatchQuery : NSObject
 
-+(void) submitJobWithPickupLocation:(NSString*)location Destination:(NSString*) destination TaxiType:(NSString*)taxitype fare:(NSString*)fare mobile:(NSString*)mobile_number completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
-
 +(void) submitJobWithDictionary:(NSDictionary*)dictdata completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
 @end

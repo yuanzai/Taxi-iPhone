@@ -7,7 +7,7 @@
 //
 
 #import "AppDelegate.h"
-//#import "GlobalVariables.h"
+#import "GlobalVariables.h"
 
 @implementation AppDelegate
 
@@ -15,7 +15,7 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    /*
+    
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     
     UILocalNotification *localNotif = [launchOptions
@@ -28,10 +28,10 @@
         [[UIApplication sharedApplication] cancelAllLocalNotifications];
     }
     [_window makeKeyAndVisible];
-*/
+
     return YES;
 }
-/*
+
 - (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notif {
     NSLog(@"application: didReceiveLocalNotification:");
     
@@ -67,7 +67,7 @@
     
     
 }
-*/
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     /*
@@ -78,7 +78,7 @@
 
 - (void)applicationDidEnterBackground:(UIApplication *)application
 {
-    /*
+    
     if ([[GlobalVariables myGlobalVariables] gIsOnJob]){
     UILocalNotification *localNotif = [[UILocalNotification alloc] init];
     localNotif.fireDate = [NSDate date]; // show now, but you can set other date to schedule
@@ -94,16 +94,16 @@
     
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotif];
     }
-     */
+     
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    /*
+    
     //submitjobview specific
     NSLog(@"OPEN APP AGAIN");
     [[NSNotificationCenter defaultCenter]postNotificationName:@"ReturnToForeground" object:nil];
-    */
+    
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application

@@ -351,9 +351,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     } else {
         if (refererTag == 12){
             NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
-            [[GlobalVariables myGlobalVariables] setGDestiCoordinate:myAA.coordinate];
-            
-            [[GlobalVariables myGlobalVariables] setGDestinationString:myAA.subtitle];
             
             // bookingform
             [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"destination_latitude"];

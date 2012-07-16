@@ -476,13 +476,6 @@
 			name = "Polling/Receiver Classes";
 			sourceTree = "<group>";
 		};
-		8F3FC4A11577ADA200115DC1 /* Old PaymentVC */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "Old PaymentVC";
-			sourceTree = "<group>";
-		};
 		8F3FC4B91578F5C200115DC1 /* Custom NavBars */ = {
 			isa = PBXGroup;
 			children = (
@@ -639,7 +632,6 @@
 				8F0CE3051545909700CC19CC /* OnrouteViewController.m */,
 				8F3FC4B31578A49E00115DC1 /* EndTripViewController.h */,
 				8F3FC4B41578A4A100115DC1 /* EndTripViewController.m */,
-				8F3FC4A11577ADA200115DC1 /* Old PaymentVC */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";

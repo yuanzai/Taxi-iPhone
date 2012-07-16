@@ -73,11 +73,6 @@
 
     NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
     NSLog(@"Last start time - %@", [preferences objectForKey:@"JobStartTime"]);
-
-    if ([[GlobalVariables myGlobalVariables]gIsOnJob]){
-            [thisForm startCountdownWithJobID:[preferences valueForKey:@"LastJob"]];
-        
-    }
     
     /*use when loginmodel is active
      if ([[GlobalVariables myGlobalVariables] gGoto]){
@@ -193,16 +188,6 @@
     
     [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:pickup.text forKey:@"pickup_point"];
 }
-/*
-- (IBAction)setTextfields:(id)sender
-{
-    [sender resignFirstResponder];    
-    
-    [[GlobalVariables myGlobalVariables] setGPickupString:pickup.text];
-    [[GlobalVariables myGlobalVariables] setGDestinationString:destination.text];    
-}
-
-*/
 
 -(void)gotoOnroute:(NSNotification *)notification
 {
