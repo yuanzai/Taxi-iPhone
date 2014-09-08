@@ -10,6 +10,8 @@
 #import "Constants.h"
 
 @implementation AdvancedBookingQuery
+
+//done
 +(void) submitJobWithDictionary:(NSDictionary*)dictdata completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
@@ -24,7 +26,7 @@
     NSData* postData = [NSJSONSerialization dataWithJSONObject:maindict options:0 error:nil];
     NSMutableURLRequest* request = [[NSMutableURLRequest alloc]init];
     
-    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@jobs?auth_token=%@",kHerokuHostSite,[preferences objectForKey:@"ClientAuth"]]]]; 
+    [request setURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@advanced_jobs?auth_token=%@",kHerokuHostSite,[preferences objectForKey:@"ClientAuth"]]]]; 
     NSString *postLength = [NSString stringWithFormat:@"%d", [postData length]];
     
     [request setHTTPMethod:@"POST"];

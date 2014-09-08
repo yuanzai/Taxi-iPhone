@@ -21,27 +21,17 @@
     //myCheckConnection = [[CheckConnection alloc]init];
     
     if (!newConnection)
-    newConnection= [[DriverPositionModel alloc]init];
-    
-    NSLog(@"%@ - %@ driver_id = %@",self.class,NSStringFromSelector(_cmd),driver_id);
-
-    
+        newConnection= [[DriverPositionModel alloc]init];    
     if ([[NSString stringWithFormat:@"%@", driver_id] isEqualToString:@"all"]) {
-        NSLog(@"%@ - %@ - All drivers location",self.class,NSStringFromSelector(_cmd));
-
         [newConnection getAllDriverPositionsWithDriverID];
     } else {
-        NSLog(@"%@ - %@ - Single driver location",self.class,NSStringFromSelector(_cmd));
-
-    [newConnection getDriverPositionsWithDriverID:driver_id];
+        [newConnection getDriverPositionsWithDriverID:driver_id];
     }
 }
 
 
 -(id)initDriverPositionPollWithDriverID:(NSString*)driverID
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-
     if (self = [super init])
     {
         driver_id = driverID;        
@@ -56,11 +46,8 @@
 }
 
 - (void)stopDriverPositionPoll
-{
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    
-    //[myCheckConnection stopConnectionCheck];
-    
+{    
+    //[myCheckConnection stopConnectionCheck];    
     [repeatingTimer invalidate];
     self.repeatingTimer = nil;
 }

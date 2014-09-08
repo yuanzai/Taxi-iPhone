@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "SubmitForm.h"
+
 @class SubmitClass;
 @class TaxiTypePicker;
 @class CustomNavBar;
 @class SubmitForm;
-@interface SubmitJobViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDelegate>
+@interface SubmitJobViewController : UIViewController <UITextFieldDelegate, UIAlertViewDelegate, UIPickerViewDelegate, SubmitFormDelegate>
 {
     IBOutlet UITextField* pickup;
     IBOutlet UITextField* destination;
@@ -32,7 +34,7 @@
     
     CustomNavBar *thisNavBar;
     
-    
+    IBOutlet UIButton* escapeButton;
 
 }
 @property (nonatomic, strong) IBOutlet UITextField* pickup;
@@ -44,20 +46,16 @@
 @property (nonatomic,strong) NSString* destinationString;
 
 - (IBAction)escapeKeyboard:(id)sender;
-//- (IBAction)setTextfields:(id)sender;
 
-- (void)registerNotifications;
 - (void)gotoOnroute:(NSNotification *)notification;
 
 
--(IBAction)chooseLocation:(id)sender;
--(IBAction)gotoMain:(id)sender;
--(IBAction)chooseFavourites:(id)sender;
-
+- (IBAction)chooseLocation:(id)sender;
+- (IBAction)gotoMain:(id)sender;
+- (IBAction)chooseFavourites:(id)sender;
 - (IBAction)chooseTaxiType:(id)sender;
--(void) setTitle;
--(void) setFare:(NSMutableDictionary*) dict;
-
+- (void) setTitle;
+- (void) setFare:(NSMutableDictionary*) dict;
 - (void) setInitialTextfields;
 
 

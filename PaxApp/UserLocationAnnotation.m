@@ -24,16 +24,21 @@
     [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", newCoordinate.latitude] forKey:@"pickup_latitude"];
     [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", newCoordinate.longitude] forKey:@"pickup_longitude"];
 
+    [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f", newCoordinate.latitude] forKey:@"pickup_latitude"];
+    [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f", newCoordinate.longitude] forKey:@"pickup_longitude"];
     
-    [[GlobalVariables myGlobalVariables] setGUserCoordinate:newCoordinate];
     GetGeocodedAddress *getGeo = [[GetGeocodedAddress alloc]init];
     [getGeo geocodeLocation:[[CLLocation alloc] initWithLatitude:newCoordinate.latitude longitude:newCoordinate.longitude]];
-    
 }
 
 -(id)setCoordinateWithGV
 {
-    coordinate=[[GlobalVariables myGlobalVariables] gUserCoordinate];
+    CLLocationCoordinate2D loc;
+    loc.latitude = [[[[GlobalVariables myGlobalVariables] gCurrentForm]objectForKey:@"pickup_latitude"]floatValue];
+    loc.longitude = [[[[GlobalVariables myGlobalVariables] gCurrentForm]objectForKey:@"pickup_longitude"]floatValue];
+    
+    
+    coordinate=loc;
     return self;
 }
 

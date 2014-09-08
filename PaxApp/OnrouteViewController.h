@@ -8,6 +8,9 @@
 
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
+#import <AudioToolbox/AudioToolbox.h>
+#import "JobStatusPoller.h"
+
 @class DriverPositionPoller;
 @class UserLocationAnnotation;
 @class CoreLocationManager;
@@ -17,7 +20,7 @@
 @class CancelJobAlert;
 @class JobInfoUIVIew;
 
-@interface OnrouteViewController : UIViewController <MKMapViewDelegate> 
+@interface OnrouteViewController : UIViewController <MKMapViewDelegate, UIAlertViewDelegate, JobStatusDelegate>
 {
     IBOutlet MKMapView	*mapView;
     DriverPositionPoller *downloader;
@@ -38,11 +41,17 @@
     IBOutlet UILabel *driver;
     IBOutlet UIView *thisJobInfoUIView;
     JobInfoUIVIew *myJobInfoUIView;
-
+    
     IBOutlet UIButton *onBoard;
     IBOutlet UIButton *cancel;
-
+    
     IBOutlet UILabel *testStatus;
+    
+    UIAlertView* cancelBox;
+    
+    SystemSoundID mySound;
+    
+    BOOL driverIsHere;
 }
 @property (nonatomic,strong) IBOutlet MKMapView *mapView;
 
@@ -51,11 +60,15 @@
 - (void)updateUserMarker;
 
 
-- (void)actionPickedStatus:(NSNotification *)notification;
+- (void)actionArrivedStatus:(NSNotification *)notification;
 - (void)updateMapMarkers: (NSNotification *) notification;
 
 - (IBAction)onboardButton:(id)sender;
-- (void)onBoard;
+- (void) closeBox;
+- (IBAction)gotoEndtrip:(id)sender;
+- (void) gotoMain;
+- (SystemSoundID) createSoundID: (NSString*)name;
+- (void) playSound;
 
 
 @end

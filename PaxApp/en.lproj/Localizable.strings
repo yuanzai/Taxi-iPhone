@@ -1,0 +1,89 @@
+/* 
+  Localizable.strings
+  
+
+  Created by Junyuan Lau on 16/09/2012.
+
+*/
+
+"Testtest" = "english test";
+
+//Main Map View
+"Current Location" = "Current Location";
+
+// Submit Job
+"Fare: - " = "Fare: - ";
+
+"Please enter dropoff address" = "Please enter dropoff address";
+"Fare: %@ %@" = "Fare: %@ %@";
+"Distance: %@" = "Distance: %@";
+"Please enter an address" = "Please enter an address";
+"Please enter a pickup location" = "Please enter a pickup location";
+"Please enter a destination" = "Please enter a destination";
+
+"Please enter your current address!" = "Please enter your current address!";
+"Please enter your destination!" = "Please enter your destination!";
+"Please enter your mobile number!" = "Please enter your mobile number!";
+
+//Onroute
+"Cannot connect to server" = "Cannot connect to server";
+"\n\nCancelling..." = "\n\nCancelling...";
+"Your driver is here!" = "Your driver is here!";
+"Please proceed to pickup point" = "Please proceed to pickup point";
+
+//End Trip
+"You paid %@ %@ by cash" = "You paid %@ %@ by cash";
+"Connecting..." = "Connecting...";
+
+//Advanced
+"Advanced Booking" = "Advanced Booking";
+"Please enter your pickup date and time!" = "Please enter your pickup date and time!";
+"\nYour booking has been submitted.\nPlease see the My Trips tab for booking information." = "\nYour booking has been submitted.\nPlease see the My Trips tab for booking information.";
+"Your booking was not submited.\nPlease try again." = "Your booking was not submited.\nPlease try again.";
+"Cancel" = "Cancel";
+
+//Chooselocation
+"Pick up" = "Pick up";
+"Destination" = "Destination";
+"No location selected!" = "No location selected!";
+
+//Fave
+"No saved addresses" = "No saved addresses";
+
+
+//Profile
+"Please enter your name!" = "Please enter your name!";
+"Please enter your email!" = "Please enter your email!";
+"Please enter your password!" = "Please enter your password!";
+"There are no changes in your profile!" = "There are no changes in your profile!";
+"\n\nSaving..." = "\n\nSaving...";
+"Profile" = "Profile";
+
+
+
+//My Trips
+"Future Trips" = "Future Trips";
+"Past Trips" = "Past Trips";
+"No trips yet" = "No trips yet";
+"To" = "To";
+"Error" = "Error";
+
+"Pending" = "Pending";
+"Selected Trip" = "Selected Trip";
+
+"Address Name" = "Address Name";
+
+"\n\nConnecting to server..." = "\n\nConnecting to server...";
+
+"Waiting for driver reply" = "Waiting for driver reply";
+"Fields incomplete" = "Fields incomplete";
+
+"Do you want to cancel?" = "Do you want to cancel?";
+"Feedback" = "Feedback";
+"Do you want to report a driver no show?" = "Do you want to report a driver no show?";
+"Yes" = "Yes";
+"No" = "No";
+"My Trips" = "My Trips";
+
+
+

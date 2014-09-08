@@ -17,7 +17,7 @@
 {    
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));        
 
-    [JobCycleQuery checkJobWithJobID:[[GlobalVariables myGlobalVariables] gJob_id] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [JobCycleQuery checkJobWithJobID:[[[GlobalVariables myGlobalVariables] gCurrentForm]objectForKey:@"id"] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         
         if (response && data){
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;

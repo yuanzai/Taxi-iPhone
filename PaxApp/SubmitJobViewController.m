@@ -20,21 +20,14 @@
 //remove after testing
 #import "Constants.h"
 #import "SubmitForm.h"
+#import "CountDownBox.h"
+#import "HTTPQueryModel.h"
 
 
 @implementation SubmitJobViewController
 @synthesize pickupString, destinationString, pickup, destination, mapaddress;
 
 #pragma mark Initialisation
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -55,34 +48,39 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    [super viewDidLoad];
+    
+    if ([[[GlobalVariables myGlobalVariables] gGoto] isEqualToString:@"gotoOnroute"]){
+        [self gotoOnroute:nil];
+        return;
+    } else {
+        [[GlobalVariables myGlobalVariables]setGGoto:nil];
+    }
+    
     NSLog(@"Booking Form - %@",[[GlobalVariables myGlobalVariables]gCurrentForm]);
 
     //Custom Navbar
     thisNavBar = [[CustomNavBar alloc] initTwoRowBar];
     self.navigationItem.titleView = thisNavBar;
     self.navigationItem.hidesBackButton = YES;
+    self.tabBarController.tabBar.userInteractionEnabled = NO;
 
+    
     [self setInitialTextfields];
-    [self setTitle];
-    [self registerNotifications];
     if (!thisForm)
         thisForm = [[SubmitForm alloc]initWithData];
+    thisForm.delegate = self;
     
-    //check if there is an open job
-    
+    [pickup setDelegate:self];
 
-    NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
-    NSLog(@"Last start time - %@", [preferences objectForKey:@"JobStartTime"]);
-    
-    /*use when loginmodel is active
-     if ([[GlobalVariables myGlobalVariables] gGoto]){
-     [self performSegueWithIdentifier:@"gotoSubmitJob" sender:self];
-     [thisForm startCountdownWithJobID:[bookingForm objectForKey:@"id"]];
+    //use when loginmodel is active
+     if ([[[GlobalVariables myGlobalVariables] gGoto] isEqualToString:@"gotoSubmitJob"]){
+         [thisForm startCountdownWithJobID:[[[GlobalVariables myGlobalVariables]gCurrentForm] objectForKey:@"id"]];
+         [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:@"" forKey:@"starttime"];    
      }     
-     */
+     [self setTitle];
+    escapeButton.enabled = NO;
     
-    [destination setDelegate:self];
-    [super viewDidLoad];
 }
 
 - (void)viewDidUnload
@@ -100,7 +98,6 @@
 
 -(void)viewWillDisappear:(BOOL)animated
 {
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -109,39 +106,38 @@
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-- (void)registerNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gotoOnroute:) name:@"accepted" object:nil];
-
-}
-
 - (void) setInitialTextfields
 {
     //Set textboxes
     if ([[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_address"]){
         mapaddress.text=[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_address"];
     } else {
-        mapaddress.placeholder = @"Please enter an address";
+        mapaddress.placeholder = NSLocalizedString(@"Please enter an address", @"");
     }
     
     if ([[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_point"]){
         pickup.text =[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_point"];
     } else {
-        pickup.placeholder = @"Please enter a pickup location";
+        pickup.placeholder = NSLocalizedString(@"Please enter a pickup location", @"");
     }
     
     if ([[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"dropoff_address"]) {
         destination.text =[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"dropoff_address"];
     } else {
-        destination.placeholder = @"Please enter a destination";
+        destination.placeholder = NSLocalizedString(@"Please enter a destination", @"");
     }
     
     taxiType.enabled = NO;
     taxiType.text = @"Budget";
+    if(![[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"taxi_type"]) {
+    [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:@"Budget" forKey:@"taxi_type"];
+    }
     
     NSUserDefaults *preferences = [[NSUserDefaults alloc]init];
-    if ([preferences objectForKey:@"ClientNumber"])
-    mobileNumber.text = [preferences objectForKey:@"ClientNumber"];
+    if ([preferences objectForKey:@"ClientNumber"]){
+        mobileNumber.text = [preferences objectForKey:@"ClientNumber"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:mobileNumber.text forKey:@"mobile_number"];
+    }
     
 }
 
@@ -153,24 +149,19 @@
     [pickup resignFirstResponder]; 
     [destination resignFirstResponder];
     [mapaddress resignFirstResponder];
-    
 
-    if (!fare) 
-        fare = @"";
     
-    NSMutableDictionary* bookingForm =[[GlobalVariables myGlobalVariables]gCurrentForm];
-    [bookingForm setObject:pickup.text forKey:@"pickup_point"];
-    [bookingForm setObject:mobileNumber.text forKey:@"mobile_number"];
-    [bookingForm setObject:fare forKey:@"fare"];
-    [bookingForm setObject:taxiType.text forKey:@"taxitype"];
-    [[GlobalVariables myGlobalVariables]setGCurrentForm:bookingForm];
+    [[[GlobalVariables myGlobalVariables]gCurrentForm] setObject:pickup.text forKey:@"pickup_point"];
+    [[[GlobalVariables myGlobalVariables]gCurrentForm] setObject:mobileNumber.text forKey:@"mobile_number"];
+    //[[[GlobalVariables myGlobalVariables]gCurrentForm] setObject:fare forKey:@"fare"];
+    [[[GlobalVariables myGlobalVariables]gCurrentForm] setObject:taxiType.text forKey:@"taxi_type"];
     
     if ([mapaddress.text isEqualToString:@""] || !(mapaddress.text)){
-        [self.view makeToast:@"Please enter your current address!" duration:1.5 position:@"center"];
+        [self.view makeToast:NSLocalizedString(@"Please enter your current address!", @"") duration:1.5 position:@"center"];
     } else if ([destination.text isEqualToString:@""] || !(destination.text)){
-        [self.view makeToast:@"Please enter a destination!" duration:1.5 position:@"center"];
+        [self.view makeToast:NSLocalizedString(@"Please enter your destination!", @"") duration:1.5 position:@"center"];
     } else if ([mobileNumber.text isEqualToString:@""] || !(mobileNumber.text)){
-        [self.view makeToast:@"Please enter your mobile number!" duration:1.5 position:@"center"];
+        [self.view makeToast:NSLocalizedString(@"Please enter your mobile number!", @"") duration:1.5 position:@"center"];
     } else{
         [thisForm submitForm];
     }
@@ -186,14 +177,19 @@
     if (picker)
         [picker hidePicker];
     
+    if (pickup.text)
     [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:pickup.text forKey:@"pickup_point"];
+    [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:taxiType.text forKey:@"taxi_type"];
+    escapeButton.enabled = NO;
 }
 
 -(void)gotoOnroute:(NSNotification *)notification
 {
-    NSString* driverID = [notification.userInfo objectForKey:@"driver_id"];
-    [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:driverID forKey:@"driver_id"];
-    [thisForm jobAccepted];
+    if ([[[GlobalVariables myGlobalVariables]gGoto] isEqualToString:@"gotoOnroute"]) {
+        [self performSegueWithIdentifier:@"gotoOnroute" sender:nil];
+        return;
+    }
+
     [self performSegueWithIdentifier:@"gotoOnroute" sender:nil];
 }
 
@@ -207,7 +203,6 @@
     [self performSegueWithIdentifier:@"gotoChooseLocation" sender:sender];
 }
 
-
 -(IBAction)chooseFavourites:(id)sender
 {
     [self performSegueWithIdentifier:@"gotoFavourites" sender:sender];
@@ -219,6 +214,7 @@
         picker = [[TaxiTypePicker alloc]initWithTarget:self dataSource:nil delegate:self];
     }
     [picker showPicker];
+    escapeButton.enabled = YES;
 }
 
 
@@ -241,76 +237,46 @@
     }
 }
 
--(void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-    [destination resignFirstResponder];
-    [pickup resignFirstResponder];
-    [mapaddress resignFirstResponder];
-    [mobileNumber resignFirstResponder];
-    if (picker)
-        [picker hidePicker];
-    
-    //taxiType.text = [[GlobalVariables myGlobalVariables] gTaxiType];
-    
-    if (pickup.text)
-    [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:pickup.text forKey:@"pickup_point"];
-    
-}
-
 
 -(void) setTitle
 {
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+    [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:@"" forKey:@"fare"];
+    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
+    [dict setObject:NSLocalizedString(@"Fare: - ", @"") forKey:@"fare"];
+    [dict setObject:NSLocalizedString(@"Please enter dropoff address", @"") forKey:@"distance"];
+    [self performSelectorOnMainThread:@selector(setFare:) withObject:dict waitUntilDone:YES];  
     
-    if([[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_address"] && ([[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_address"] || [[[GlobalVariables myGlobalVariables] gCurrentForm]objectForKey:@"dropoff_address"])) {
+    
+    if([[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_address"] && [[[GlobalVariables myGlobalVariables] gCurrentForm]objectForKey:@"dropoff_address"]) {
+
+        NSMutableDictionary* fareForm = [[NSMutableDictionary alloc] initWithDictionary:[[GlobalVariables myGlobalVariables]gCurrentForm]];
+        [fareForm setObject:@"" forKey:@"starttime"];
+        NSMutableDictionary* dataForm = [[NSMutableDictionary alloc]init];
+        [dataForm setObject:fareForm forKey:@"job"];
         
-        CLLocationCoordinate2D startLoc;
-        CLLocationCoordinate2D endLoc;
-        startLoc.latitude = [[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_latitude"]floatValue];
-        startLoc.longitude = [[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_longitude"]floatValue];
-        endLoc.latitude = [[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"dropoff_latitude"]floatValue];
-        endLoc.longitude = [[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"dropoff_longitude"]floatValue];
-        
-        
-        
-        [OtherQuery getFareWithlocation:startLoc destination:endLoc taxitype:taxiType.text completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            
-            
-            NSLog(@"%@ - %@ - set fare",self.class,NSStringFromSelector(_cmd));
+        HTTPQueryModel* newQuery;
+        newQuery = [[HTTPQueryModel alloc]initURLConnectionWithMethod:@"getFare" Data:dataForm completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
             NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
             
-            if (response && data){            
-                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-                NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
+            if ([httpResponse statusCode] == 200) {
+                NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+                NSMutableDictionary* fareDict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
                 
-                if ([httpResponse statusCode] == 200) {
-                    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-                    NSMutableDictionary* olddict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];  
-                    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-                    [dict setObject:[NSString stringWithFormat:@"Fare: %@", [[olddict objectForKey:@"fare"]floatValue]] forKey:@"fare"];  
-                    [dict setObject:[NSString stringWithFormat:@"Distance: %@",[olddict objectForKey:@"distance"]] forKey:@"distance"];
-                    [self performSelectorOnMainThread:@selector(setFare:) withObject:dict waitUntilDone:YES];
-                } else {
-                    NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-                    [dict setObject:@"Fare: RM 0.00" forKey:@"fare"];
-                    [dict setObject:@"Please enter droppoff address" forKey:@"distance"];
-                    [self performSelectorOnMainThread:@selector(setFare:) withObject:dict waitUntilDone:YES];   
-                }
-            } else {
+                NSLog(@"get Fare - %@",fareDict);
+                
                 NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-                [dict setObject:@"Fare: RM 0.00" forKey:@"fare"];
-                [dict setObject:@"Please enter droppoff address" forKey:@"distance"];
-                [self performSelectorOnMainThread:@selector(setFare:) withObject:dict waitUntilDone:YES];   
-            }
-        }];  
+                [dict setObject:[NSString stringWithFormat:NSLocalizedString(@"Fare: %@ %@", @""), [fareDict objectForKey:@"currency"], [fareDict objectForKey:@"fare"]] forKey:@"fare"];
+                [dict setObject:[NSString stringWithFormat:NSLocalizedString(@"Distance: %@", @""),[fareDict objectForKey:@"distance"]] forKey:@"distance"];
+                [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[fareDict objectForKey:@"fare"] forKey:@"fare"];
+                [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[fareDict objectForKey:@"currency"] forKey:@"currency"];
+                [self performSelectorOnMainThread:@selector(setFare:) withObject:dict waitUntilDone:YES];
+            } 
+
+        } failHandler:^{
+            
+        }];
+
         
-    } else {
-        
-        NSMutableDictionary* dict = [[NSMutableDictionary alloc] init];
-        [dict setObject:@"Fare: RM 0.00" forKey:@"fare"];
-        [dict setObject:@"Please enter droppoff address" forKey:@"distance"];
-        [self performSelectorOnMainThread:@selector(setFare:) withObject:dict waitUntilDone:YES];        
     }
 }
 
@@ -330,7 +296,7 @@
     if (row == 0) {
         taxiType.text = @"Budget";
     } else if (row == 1) {
-        taxiType.text = @"Premium";        
+        taxiType.text = @"Executive";        
     }
 }
 
@@ -344,8 +310,26 @@
         
         return [NSString stringWithFormat: @"Budget"];
     } else{
-        return [NSString stringWithFormat: @"Premium"];
+        return [NSString stringWithFormat: @"Executive"];
     }  
 }
 
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    escapeButton.enabled = NO;
+    [textField resignFirstResponder];
+    return YES;
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    escapeButton.enabled = YES;
+}
+
+-(void)shouldGoToOnRoute:(BOOL)status
+{
+    [self performSegueWithIdentifier:@"gotoOnroute" sender:nil];
+
+}
 @end

@@ -23,6 +23,8 @@
  //clientonboard
  //driverreached
  */
+
+//done
 + (void) cancelJobCalledByPassenger_jobID:(NSString *)job_id feedback:(NSString*) feedback completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {   
     NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
@@ -35,7 +37,7 @@
                            completionHandler:handler];
 }
 
-
+//not used
 + (void) onboardJobCalledByPassengerWithJobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@ - JobID - %@",self.class,NSStringFromSelector(_cmd), job_id);
@@ -51,7 +53,7 @@
                            completionHandler:handler];
 }
     
-    
+//not used
 + (void) jobExpiredWithJobID:(NSString *)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@ - JobID - %@",self.class,NSStringFromSelector(_cmd), job_id);
@@ -67,6 +69,7 @@
                            completionHandler:handler];
 }
 
+//done
 +(void) checkJobWithJobID:(NSString*)job_id completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@ - JobID - %@",self.class,NSStringFromSelector(_cmd), job_id);
@@ -82,6 +85,7 @@
                            completionHandler:handler];    
 }
 
+//not used
 +(NSData*) checkJobSynchronouslyWithJobID:(NSString*) job_id
 {
     NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];

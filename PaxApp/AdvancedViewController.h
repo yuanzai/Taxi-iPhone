@@ -17,6 +17,7 @@
     IBOutlet UIDatePicker *datePicker;
     DateTimePicker* myPicker;
     TaxiTypePicker* taxiPicker;
+    IBOutlet UIButton *escapeButton;
     
     CLLocationCoordinate2D userCoordinates;
     CLLocationCoordinate2D destiCoordinates;
@@ -33,6 +34,8 @@
 
     NSMutableDictionary* bookingForm;
     NSUserDefaults* preferences;
+    
+    
 }
 
 - (IBAction) escapeKeyboard:(id)sender;

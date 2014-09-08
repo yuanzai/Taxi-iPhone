@@ -10,5 +10,10 @@
 #import <QuartzCore/QuartzCore.h>
 
 @interface ActivityProgressView : UIView
+{
+    UIView* innerView;
+    
+}
+- (id)initWithFrame:(CGRect)frame text:(NSString*) text;
 
 @end

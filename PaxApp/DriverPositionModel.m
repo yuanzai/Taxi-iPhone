@@ -3,48 +3,52 @@
 #import "DriverAnnotation.h"
 #import "PostMethodAsync.h"
 #import "GlobalVariables.h"
+#import "HTTPQueryModel.h"
 
 @implementation DriverPositionModel
 
 - (void) getAllDriverPositionsWithDriverID
 {
-    [DriverPositionQuery getDriverPositionsWithCompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        
+    
+    HTTPQueryModel* allDriversQuery;
+    allDriversQuery = [[HTTPQueryModel alloc] initURLConnectionWithMethod:@"getAllDrivers" Data:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
-
-        if(!response || error || [httpResponse statusCode] != 200){
-            NSLog(@"no response - %i", i);
-            NSLog(@"%@",[error localizedDescription]);
-            i++;
-            
-            
-            if (i==2)
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"showProgressActivity" object:nil];
-        }else if ([httpResponse statusCode] == 200) {
+        
+        if ([httpResponse statusCode] == 200) {
             i=0;
             [self performSelectorOnMainThread:@selector(updateDriverListWithData:) withObject:data waitUntilDone:YES];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"hideProgressActivity" object:nil];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"hideProgressActivity" object:nil];
+        } else if(!response || error || [httpResponse statusCode] != 200){
+            NSLog(@"Get all drivers - no response - %i", i);
+            i++;
+            if (i==2)
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"showProgressActivity" object:nil];
         }
+        
+    } failHandler:^{
+        NSLog(@"Get all drivers - no response - %i", i);
+        i++;
+        if (i==2)
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"showProgressActivity" object:nil];
     }];
 }
 
 - (void) getDriverPositionsWithDriverID:(NSString*) driver_id
 {
-    [DriverPositionQuery getSpecifiedDriverPositionWithDriverID:driver_id JobID:[[GlobalVariables myGlobalVariables]gJob_id] CompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    HTTPQueryModel* driverQuery;
+    driverQuery = [[HTTPQueryModel alloc]initURLConnectionWithMethod:@"getDriver" Data:[[NSDictionary alloc]initWithObjectsAndKeys:[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"id"],@"job_id", nil] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-        NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
-
         
-        if(!response || error || [httpResponse statusCode] != 200){
-            NSLog(@"no response");
-            NSLog(@"%@",[error localizedDescription]);
-        }else if ([httpResponse statusCode] == 200){
-            NSLog(@"%@",driver_id);
-            [self performSelectorOnMainThread:@selector(updateSingleDriverListWithData:) withObject:data waitUntilDone:YES];   
+        if ([httpResponse statusCode] == 200){
+            NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+            [self performSelectorOnMainThread:@selector(updateSingleDriverListWithData:) withObject:data waitUntilDone:YES];
+        } else {
+            NSLog(@"%@ - %@ - Fail to get data",self.class,NSStringFromSelector(_cmd));
         }
+    } failHandler:^{
+        NSLog(@"%@ - %@ - Fail to get data",self.class,NSStringFromSelector(_cmd));
     }];
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));        
+
 }
 
 -(void) updateDriverListWithData:(NSData*) data
@@ -55,7 +59,6 @@
     
     newKey = [[NSMutableDictionary alloc]init];
     oldKey = [[GlobalVariables myGlobalVariables]gDriverList];
-    NSLog(@"%@ - %@ - %@",self.class,NSStringFromSelector(_cmd), array);        
     int x = 0;
     while (x<[array count])
     {
@@ -74,15 +77,12 @@
 
 -(void) updateSingleDriverListWithData:(NSData*) data
 {    
+    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));        
     NSDictionary *rawDriverItem = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
     
     newKey = [[NSMutableDictionary alloc]init];
     oldKey = [[GlobalVariables myGlobalVariables]gDriverList];
-    NSLog(@"%@ - %@ - %@",self.class,NSStringFromSelector(_cmd), rawDriverItem);        
-    
-    [self updateListWithArray:rawDriverItem];
-
-    
+    [self updateListWithArray:rawDriverItem];    
     [[GlobalVariables myGlobalVariables] setGDriverList:newKey];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"driverListUpdated" object: nil ];
     newKey = nil;

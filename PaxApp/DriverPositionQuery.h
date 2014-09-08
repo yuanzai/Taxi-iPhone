@@ -10,13 +10,7 @@
 
 @interface DriverPositionQuery : NSObject
 
-
-+(void) passengerLoginWithEmail:(NSString*) email; 
-
-
 +(void) getDriverPositionsWithCompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
-
 +(void) getSpecifiedDriverPositionWithDriverID:(NSString*)driver_id JobID:(NSString*) job_id CompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler;
-
 
 @end

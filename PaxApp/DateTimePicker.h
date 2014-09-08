@@ -17,12 +17,18 @@
     UIView* myView;
     
     NSString* selectedDate;
+    NSString* selectedDateProperString;
+    BOOL isOpen;
+    
 }
-
+@property BOOL isOpen;
 @property (strong, nonatomic) NSString* selectedDate;
+@property (strong, nonatomic) NSString* selectedDateProperString;
 
 - (void) newPickerWithTarget:(UIViewController*)setTarget;
 - (void) showPicker;
 - (void) hidePicker;
 - (void)LabelChange:(id)sender;
+
+
 @end

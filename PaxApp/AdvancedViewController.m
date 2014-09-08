@@ -14,6 +14,9 @@
 #import "GlobalVariables.h"
 #import "ChooseLocationViewController.h"
 #import "FavouritesViewController.h"
+#import "Toast+UIView.h"
+#import "HTTPQueryModel.h"
+
 
 @implementation AdvancedViewController
 
@@ -47,10 +50,14 @@
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad
 {
+    if (![[GlobalVariables myGlobalVariables]gAdvancedForm])
+        [[GlobalVariables myGlobalVariables]setGAdvancedForm:[[NSMutableDictionary alloc]init]];
+    
+    NSLog(@"Advanced Form - %@",[[GlobalVariables myGlobalVariables]gAdvancedForm]);
     //set top navBar
     CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
     self.navigationItem.titleView = thisNavBar;
-    [thisNavBar setCustomNavBarTitle:@"Advanced Booking" subtitle:@""];
+    [thisNavBar setCustomNavBarTitle:NSLocalizedString(@"Advanced Booking", @"") subtitle:@""];
     [thisNavBar addRightLogo];
     self.navigationItem.hidesBackButton = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
@@ -58,10 +65,14 @@
     preferences = [NSUserDefaults standardUserDefaults];
 
     bookingForm = [[NSMutableDictionary alloc] init];
+    escapeButton.enabled = false;
+
+    locationField.delegate = self;
+    mobileField.delegate = self;
+    
     myPicker = [[DateTimePicker alloc]init];
     [myPicker newPickerWithTarget:self];
     
-    taxiPicker = [[TaxiTypePicker alloc]initWithTarget:self dataSource:nil delegate:self];
     
     dateField.enabled = NO;
     
@@ -73,21 +84,46 @@
 
 -(void)viewDidDisappear:(BOOL)animated
 {
-    [[GlobalVariables myGlobalVariables]setGAdvancedForm:bookingForm];
+    bookingForm = nil;
+    myPicker = nil;
+    taxiPicker = nil;
 }
 
 - (void) setFields
 {
-
+    if (![[[GlobalVariables myGlobalVariables]gAdvancedForm]objectForKey:@"pickup_latitude"] && ![[[GlobalVariables myGlobalVariables]gAdvancedForm]objectForKey:@"pickup_longitude"]) {
+        if ( [[GlobalVariables myGlobalVariables]gUserCoordinate].latitude && [[GlobalVariables myGlobalVariables]gUserCoordinate].longitude && [[GlobalVariables myGlobalVariables]gUserAddress]) {
+            pickupField.text = [[[GlobalVariables myGlobalVariables] gAdvancedForm] objectForKey:@"pickup_address"];
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm]setValue:[[GlobalVariables myGlobalVariables]gUserAddress] forKey:@"pickup_address"];
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm]setValue:[NSString stringWithFormat:@"%f", [[GlobalVariables myGlobalVariables]gUserCoordinate].latitude] forKey:@"pickup_latitude"];
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm]setValue:[NSString stringWithFormat:@"%f", [[GlobalVariables myGlobalVariables]gUserCoordinate].longitude] forKey:@"pickup_longitude"];           
+            
+        }
+    
+    } else {
+        if ([[GlobalVariables myGlobalVariables]gUserCoordinate].latitude && [[GlobalVariables myGlobalVariables]gUserCoordinate].longitude && [[GlobalVariables myGlobalVariables]gUserAddress]) {
+            pickupField.text = [[[GlobalVariables myGlobalVariables] gAdvancedForm] objectForKey:@"pickup_address"];
+            float gpsLatitude = [[GlobalVariables myGlobalVariables]gUserCoordinate].latitude;
+            float gpsLongitude = [[GlobalVariables myGlobalVariables]gUserCoordinate].longitude;
+            
+            float savedLatitude = [[[[GlobalVariables myGlobalVariables]gAdvancedForm]objectForKey:@"pickup_latitude"]floatValue];
+            float savedLongitude = [[[[GlobalVariables myGlobalVariables]gAdvancedForm]objectForKey:@"pickup_longitude"]floatValue];
+            
+            if (abs(gpsLatitude - savedLatitude) > 0.002 || abs(gpsLongitude - savedLongitude) > 0.002){
+                
+            }
+        }
+    }
+    
+    
     if ([[GlobalVariables myGlobalVariables] gAdvancedForm]){
-        bookingForm = [[GlobalVariables myGlobalVariables] gAdvancedForm];
+            pickupField.text = [[[GlobalVariables myGlobalVariables] gAdvancedForm] objectForKey:@"pickup_address"];
         
         
-        pickupField.text = [bookingForm valueForKey:@"pickup_address"];
-        locationField.text = [bookingForm valueForKey:@"pickup_point"];
-        dropoffField.text = [bookingForm valueForKey:@"dropoff_address"];
-        taxiType.text = [bookingForm valueForKey:@"taxitype"];
-        dateField.text = [bookingForm valueForKey:@"pickup_datetime"];
+        locationField.text = [[[GlobalVariables myGlobalVariables] gAdvancedForm] objectForKey:@"pickup_point"];
+        dropoffField.text = [[[GlobalVariables myGlobalVariables] gAdvancedForm] objectForKey:@"dropoff_address"];
+        taxiType.text = [[[GlobalVariables myGlobalVariables] gAdvancedForm] objectForKey:@"taxitype"];
+        dateField.text = [[[GlobalVariables myGlobalVariables] gAdvancedForm] objectForKey:@"pickup_datetime"];
         
     }
     
@@ -101,85 +137,67 @@
 -(IBAction) openDatePicker:(id)sender
 {
     [myPicker showPicker];
+    escapeButton.enabled = true;
 }
 
 - (IBAction) escapeKeyboard:(id)sender
 {
-    [pickupField resignFirstResponder];
+    NSLog(@"escapeKeyboard");
     [locationField resignFirstResponder];
-    [dropoffField resignFirstResponder];
-    dateField.text = [myPicker selectedDate];
+    [mobileField resignFirstResponder];
     
+    
+    if (myPicker.isOpen){
     [myPicker hidePicker];
+    dateField.text = [myPicker selectedDate];
+    }
+    
     [taxiPicker hidePicker];
     
 
     if (![preferences objectForKey:@"ClientName"])
         [preferences setObject:@"" forKey:@"ClientName"];
     
-    [bookingForm setObject:[preferences objectForKey:@"ClientName"] forKey:@"passenger_name"];
-    
-    /*
-    @try {
-        [bookingForm setObject:pickupField.text forKey:@"pickup_address"];
-        [bookingForm setObject:dropoffField.text forKey:@"dropoff_address"];
-        [bookingForm setObject:locationField.text forKey:@"pickup_point"];
-        [bookingForm setObject:mobileField.text forKey:@"mobile_number"];
-        [bookingForm setObject:dateField.text forKey:@"pickup_datetime"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:[preferences objectForKey:@"ClientName"] forKey:@"passenger_name"];
 
-    }
-    @catch (NSException * e) {
-        NSLog(@"Exception: %@", e);
-    }
-    */
     
     if (pickupField.text)
-    [bookingForm setObject:pickupField.text forKey:@"pickup_address"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:pickupField.text forKey:@"pickup_address"];
 
     if (dropoffField.text)
-    [bookingForm setObject:dropoffField.text forKey:@"dropoff_address"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:dropoffField.text forKey:@"dropoff_address"];
 
-    [bookingForm setObject:@"ios" forKey:@"platform"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:@"ios" forKey:@"platform"];
 
     if (locationField.text)
-    [bookingForm setObject:locationField.text forKey:@"pickup_point"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:locationField.text forKey:@"pickup_point"];
 
     if (mobileField.text)
-    [bookingForm setObject:mobileField.text forKey:@"mobile_number"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:mobileField.text forKey:@"mobile_number"];
     
-    [bookingForm setObject:@"" forKey:@"fare"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:@"" forKey:@"fare"];
     
-    [bookingForm setObject:taxiType.text forKey:@"taxitype"];
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:taxiType.text forKey:@"taxi_type"];
     
-    if (dateField.text)
-    [bookingForm setObject:dateField.text forKey:@"pickup_datetime"];
+    if ([myPicker selectedDateProperString] && dateField.text)
+    [[[GlobalVariables myGlobalVariables] gAdvancedForm] setObject:[myPicker selectedDateProperString]forKey:@"pickup_datetime"];
 
-    
-    /*
-    [bookingForm setObject:pickup_latitude forKey:@"pickup_latitude"];
-    [bookingForm setObject:pickup_longitude forKey:@"pickup_longitude"];
-    
-    [bookingForm setObject:dropoff_latitude forKey:@"dropoff_latitude"];
-    [bookingForm setObject:dropoff_longitude forKey:@"dropoff_longitude"];
-     */
-    
-    
-    
 
-    [[GlobalVariables myGlobalVariables] setGAdvancedForm:bookingForm];
+    escapeButton.enabled = false;
+    
+    
 
 }
 
 - (IBAction)openTaxiPicker:(id)sender
 {
+    if (!taxiPicker) {
+        taxiPicker = [[TaxiTypePicker alloc]initWithTarget:self dataSource:nil delegate:self];
+    }
     [taxiPicker showPicker];
+    escapeButton.enabled = true;
 }
 
--(BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
-    return YES;
-}
 
 
 - (void)viewDidUnload
@@ -197,29 +215,51 @@
 
 -(IBAction)pressedSubmitButton:(id)sender
 {
+
+    if ([pickupField.text isEqualToString:@""] || !(pickupField.text)){
+        [self.view makeToast:NSLocalizedString(@"Please enter your current address!", @"") duration:1.5 position:@"center"];
+        return;
+    } else if ([dropoffField.text isEqualToString:@""] || !(dropoffField.text)){
+        [self.view makeToast:NSLocalizedString(@"Please enter your destination!", @"") duration:1.5 position:@"center"];
+        return;
+    } else if ([mobileField.text isEqualToString:@""] || !(mobileField.text)){
+        [self.view makeToast:NSLocalizedString(@"Please enter your mobile number!", @"") duration:1.5 position:@"center"];
+        return;
+    } else if ([dateField.text isEqualToString:@""] || !(dateField.text)){
+        [self.view makeToast:NSLocalizedString(@"Please enter your pickup date and time!", @"") duration:1.5 position:@"center"];
+        return;
+    } 
     
+    UIAlertView* submittedAlert = [[UIAlertView alloc] initWithTitle:@"" message:[NSString stringWithFormat:@"\n\n%@",NSLocalizedString(@"Connecting...", @"")] delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+    [submittedAlert show];
     
-    [AdvancedBookingQuery submitJobWithDictionary:bookingForm completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-    NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
-    
-    if ([httpResponse statusCode] == 201) {
-        //NSString* job_id = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]; 
+    NSMutableDictionary* formData = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[[GlobalVariables myGlobalVariables] gAdvancedForm],@"job",nil ] ;
+                                                                                                                                            
+    HTTPQueryModel* myQuery;
+    myQuery = [[HTTPQueryModel alloc] initURLConnectionWithMethod:@"postAdvancedJob" Data:formData completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
         
-        UIAlertView* submittedAlert = [[UIAlertView alloc] initWithTitle:@"Done!" message:@"Your booking has been submited./nPlease check the 'My Trips' tab to check for your driver." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        if ([httpResponse statusCode] == 201) {
+            [submittedAlert dismissWithClickedButtonIndex:0 animated:YES];
+            [[GlobalVariables myGlobalVariables]setGAdvancedForm:[[NSMutableDictionary alloc]init]];
+            UIAlertView* submittedAlert = [[UIAlertView alloc] initWithTitle:@"Submitted" message:NSLocalizedString(@"\nYour booking has been submitted.\nPlease see the My Trips tab for booking information.", @"") delegate:self cancelButtonTitle:@"OK!" otherButtonTitles:nil];
+            [submittedAlert show];
+        } else {
+            NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"Error - %@",dict);
+            
+            [submittedAlert dismissWithClickedButtonIndex:0 animated:YES];
+            
+            UIAlertView* submittedAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:NSLocalizedString(@"Your booking was not submited.\nPlease try again.", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:nil];
+            [submittedAlert show];
+        }
+    } failHandler:^{
+        [submittedAlert dismissWithClickedButtonIndex:0 animated:YES];
+        
+        UIAlertView* submittedAlert = [[UIAlertView alloc] initWithTitle:@"Error" message:NSLocalizedString(@"Your booking was not submited.\nPlease try again.", @"") delegate:self cancelButtonTitle:NSLocalizedString(@"Cancel", @"") otherButtonTitles:nil];
         [submittedAlert show];
-        
-        [[GlobalVariables myGlobalVariables]setGAdvancedForm:nil];
-        
-    } else if ([httpResponse statusCode] == 422) {
-        NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-        NSLog(@"Error - %@",dict);
-        UIAlertView* submittedAlert = [[UIAlertView alloc] initWithTitle:@"Failed!" message:@"Your booking was not submited./nPlease try again." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        [submittedAlert show];
-    } else {
-    }
-    
-}]; 
+    }];
 }
 
 -(IBAction)chooseLocation:(id)sender
@@ -256,7 +296,7 @@
     if (row == 0) {
         taxiType.text = @"Budget";
     } else if (row == 1) {
-        taxiType.text = @"Premium";        
+        taxiType.text = @"Executive";        
     }
 }
 
@@ -270,7 +310,28 @@
         
         return [NSString stringWithFormat: @"Budget"];
     } else{
-        return [NSString stringWithFormat: @"Premium"];
+        return [NSString stringWithFormat: @"Executive"];
     }  
+}
+
+-(void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if (textField == locationField || textField == mobileField) {
+        escapeButton.enabled = YES;
+    }
+    
+}
+
+
+
+-(BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    if (textField == locationField || textField == mobileField) {
+        escapeButton.enabled = NO;
+        [locationField resignFirstResponder];
+
+    }
+    return YES;
+
 }
 @end

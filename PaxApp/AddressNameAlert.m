@@ -15,9 +15,9 @@
     
     dialog = [[UIAlertView alloc] init];
     [dialog setDelegate:setdelegate];
-    [dialog setTitle:@"Address Name"];
+    [dialog setTitle:NSLocalizedString(@"Address Name", @"")];
     [dialog setMessage:@"/n "];
-    [dialog addButtonWithTitle:@"Cancel"];
+    [dialog addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
     
     [dialog addButtonWithTitle:@"OK"];
     

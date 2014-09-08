@@ -10,7 +10,7 @@
 
 @implementation GlobalVariables
 
-@synthesize gDriverList, gUserCoordinate, gDriver_id, gJob_id, gUserAddress, gDriverInfo, gTaxiType, gDeviceToken, gJobTime, gIsOnJob, gAdvancedForm, gCurrentForm, gGoto;
+@synthesize gDriverList, gUserCoordinate, gUserAddress, gDeviceToken, gIsOnJob, gAdvancedForm, gCurrentForm, gGoto;
 
 static GlobalVariables* myGlobalVariables;
 
@@ -25,19 +25,10 @@ static GlobalVariables* myGlobalVariables;
 
 - (void) clearGlobalData
 {
-    
     gDriverList = nil;
-    gDriver_id = nil;
-    gJob_id = nil;
+    [gCurrentForm setObject:@"" forKey:@"id"];
+    [gCurrentForm setObject:@"" forKey:@"job_Status"];
     gUserAddress = @"";
-
-    gTaxiType = nil;
-    gJobTime = nil;
-    gDriverInfo = nil;
-    
-    
-    
-    
 }
 //[[GlobalVariablePositions myGlobalVariablePositions] setSavedString:@"HELLO"]; - eg setting gvs
 @end

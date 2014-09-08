@@ -7,22 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "LoginModel.h"
 
-@interface SignInViewController : UIViewController<UITextFieldDelegate>
+@class LoginModel;
+@class HTTPQueryModel;
+
+@interface SignInViewController : UIViewController<UITextFieldDelegate, LoginModelDelegate>
 {
     IBOutlet UITextField* emailField;
     IBOutlet UITextField* passwordField;
-    IBOutlet UITextField* nameField;
-    IBOutlet UITextField* mobileField;
-    IBOutlet UIButton* registerButton;
-    IBOutlet UIButton* loginButton;
-    IBOutlet UIButton* cancelButton;
-    IBOutlet UIButton* okButton;
     IBOutlet UIView* registerView;
-    IBOutlet UIImageView* fakeSplash;
-    
+    IBOutlet UIButton* escapeButton;
     IBOutlet UILabel* topLabel;
     NSUserDefaults* preferences;
+    LoginModel* myLogin;
+    HTTPQueryModel* testQuery;
+    UIActivityIndicatorView *activityView;
+    UIView* viewBlocker;
 }
 
 - (void)showLogin;
@@ -38,6 +39,7 @@
 
 -(void)gotoLogin:(NSNotification*) notification;
 -(void)gotoLoginSelector;
+-(IBAction)clickRegisterButton:(id)sender;
 
 
 @end

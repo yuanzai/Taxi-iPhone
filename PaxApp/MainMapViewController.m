@@ -12,12 +12,11 @@
 #import "UserLocationAnnotation.h"
 #import "CoreLocationManager.h"
 #import "GetGeocodedAddress.h"
-
 #import "CustomNavBar.h"
 #import "OtherQuery.h"
-
 #import "Toast+UIView.h"
 #import "ActivityProgressView.h"
+
 
 static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
@@ -36,19 +35,15 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 {
     [super viewDidLoad];
     
-    //use when loginmodel is active
-    
+    //If active job is present and goto SubmitJob VC
      if ([[GlobalVariables myGlobalVariables] gGoto]){
         [self performSegueWithIdentifier:@"gotoSubmitJob" sender:self];
-        NSLog(@"goto Submit job activated");
+        NSLog(@"%@ - %@ - Goto Submit Job",self.class,NSStringFromSelector(_cmd));
         return;
     }
     
-    
     [mapView setDelegate:self];
     
-    //clear global variables
-    [[GlobalVariables myGlobalVariables] clearGlobalData];   
     
     [self registerNotification];
     downloader = [[DriverPositionPoller alloc]initDriverPositionPollWithDriverID:[NSString stringWithFormat:@"all"]];    
@@ -57,10 +52,12 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     //set top navBar
     CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
     self.navigationItem.titleView = thisNavBar;
-    [thisNavBar setCustomNavBarTitle:@"Current Location" subtitle:@""];
+    [thisNavBar setCustomNavBarTitle:NSLocalizedString(@"Current Location", @"") subtitle:@""];
     [thisNavBar addRightLogo];
     self.navigationItem.hidesBackButton = YES;
     self.tabBarController.tabBar.userInteractionEnabled = YES;
+    self.tabBarController.delegate = self;
+
 }
 
 - (void)viewDidUnload
@@ -71,7 +68,10 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 }
 
 - (void)viewWillAppear:(BOOL)animated
-{  
+{
+    //clear global variables
+    [[GlobalVariables myGlobalVariables] clearGlobalData];
+
     [super viewWillAppear:animated];
 }
 
@@ -91,7 +91,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     
     //remove notification observers
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    [clManager stopUpdating];
     //clear annotations list
     newDriverList = nil;
     oldDriverList = nil;
@@ -188,8 +188,10 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     } else {
         [mapView removeAnnotation:userLocationAnnotation];
     }
-    CLLocationCoordinate2D coordinate=[[GlobalVariables myGlobalVariables] gUserCoordinate];    
-
+    CLLocationCoordinate2D coordinate;
+    coordinate.latitude =[[[[GlobalVariables myGlobalVariables] gCurrentForm]objectForKey:@"pickup_latitude"]floatValue];
+    coordinate.longitude =[[[[GlobalVariables myGlobalVariables] gCurrentForm]objectForKey:@"pickup_longitude"]floatValue];
+    
 	span.latitudeDelta=0.01;
 	span.longitudeDelta=0.01;	 
 	region.span=span;
@@ -201,7 +203,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [userLocationAnnotation setCoordinateWithGV];
     [self addAnnotationUserMarker];
     
-    [OtherQuery getNearestTimeWithlocation:[[GlobalVariables myGlobalVariables] gUserCoordinate] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    [OtherQuery getNearestTimeWithlocation:coordinate completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
 
         
             // webservice specific
@@ -222,7 +224,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (void) setNearestDriverTimeText:(NSString*) time
 {
-    //nextButton.titleLabel.text =[NSString stringWithFormat: @"Get a cab in %@", time];
     [nextButton setTitle:[NSString stringWithFormat: @"Get a cab in %@ minutes", time] forState:UIControlStateNormal];
 }
 
@@ -231,7 +232,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [mapView setRegion:region animated:TRUE];
     [mapView regionThatFits:region];
     [mapView addAnnotation:userLocationAnnotation];
-
 }
 
 - (MKAnnotationView *) mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>) annotation
@@ -269,7 +269,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [nextButton setUserInteractionEnabled:NO];
     
     // Spinning thingy code 
-    activityContainer = [[ActivityProgressView alloc] initWithFrame:CGRectMake(0, 0, 200, 80)];
+    activityContainer = [[ActivityProgressView alloc] initWithFrame:CGRectMake(0, 0, 200, 80) text:@"Connecting..."];
     [self.view addSubview:activityContainer];
 }
 
@@ -288,7 +288,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 -(void) updateGeoAddress:(NSNotification*) notification
 {
     // change text in search bar to reverse geocoded address
-    [self.searchDisplayController.searchBar setPlaceholder:[[GlobalVariables myGlobalVariables]gUserAddress]];
+    [self.searchDisplayController.searchBar setPlaceholder:[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"pickup_address"]];
 }
 
 #pragma mark Search functions
@@ -312,7 +312,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 	loading = YES;
 	NSString* query = self.searchDisplayController.searchBar.text;
     
-    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&sensor=true&key=%@&components=country:sg", query, apiKey];
+    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&sensor=true&key=%@&components=country:my", query, apiKey];
     
     urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -355,7 +355,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 - (UITableViewCell *)tableView:(UITableView *)table cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-	static NSString *cellIdentifier = @"suggest";	
+	static NSString *cellIdentifier = @"suggestMain";	
 	UITableViewCell *cell = [table dequeueReusableCellWithIdentifier:cellIdentifier];
     
 	if (cell == nil) 
@@ -401,11 +401,16 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
         region.center=coordinate;
         
         NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+        
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f",coordinate.latitude] forKey:@"pickup_latitude"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[NSString stringWithFormat:@"%f",coordinate.longitude] forKey:@"pickup_longitude"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:[suggestions objectAtIndex:indexPath.row] forKey:@"pickup_address"];
+        
+        
         [userLocationAnnotation initWithCoordinate:coordinate];
         [self performSelectorOnMainThread:@selector(addAnnotationUserMarker) withObject:nil waitUntilDone:YES];
         
         //[self performSelectorOnMainThread:@selector(updateMapMarkers:) withObject:nil waitUntilDone:YES]; 
-        
         
         [mapView performSelectorOnMainThread:@selector(addAnnotations:) withObject:[[[GlobalVariables myGlobalVariables]gDriverList]allValues] waitUntilDone:YES];
         }
@@ -417,5 +422,20 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 {
 	return [suggestions count];
 }
+
+#pragma mark UITabBarControllerDelegate
+
+- (BOOL)tabBarController:(UITabBarController *)tbc shouldSelectViewController:(UIViewController *)vc {
+    UIViewController *tbSelectedController = tbc.selectedViewController;
+    
+    if ([tbSelectedController isEqual:vc]) {
+        return NO;
+    }
+    
+    return YES;
+}
+
+
+   
 
 @end

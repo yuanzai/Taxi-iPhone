@@ -7,9 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-
+@class ActivityProgressView;
 @interface MyTripsViewController : UITableViewController
 {
     NSArray* myArray;
+    NSArray* futureArray;
+    NSArray* pastArray;
+    
+    NSMutableDictionary* selectedDict;
+    NSString* selectedTripType;
+    ActivityProgressView* activityContainer;
 }
+-(void)gotoSelectedTrip;
+-(void) reloadTable;
 @end

@@ -9,7 +9,7 @@
 #import "DateTimePicker.h"
 
 @implementation DateTimePicker
-@synthesize selectedDate;
+@synthesize selectedDate, isOpen, selectedDateProperString;
 - (void) newPickerWithTarget:(UIViewController*)setTarget
 {
     
@@ -21,7 +21,7 @@
     
     myView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, screenRect.size.width, 345)];
     
-    dateLabel = [[UILabel alloc] init]; 
+    dateLabel = [[UILabel alloc] init];
     dateLabel.frame = CGRectMake(0, 0, screenRect.size.width, 40);
     dateLabel.backgroundColor = [UIColor blackColor];
     dateLabel.textColor = [UIColor whiteColor];
@@ -34,15 +34,21 @@
     dateLabel.text = [NSString stringWithFormat:@"%@",
                       [df stringFromDate:[NSDate date]]];
     
-    [myView addSubview:dateLabel]; 
-
+    [myView addSubview:dateLabel];
+    
     datePicker = [[UIDatePicker alloc] initWithFrame:CGRectMake(0, 40, 0, 0)];
     datePicker.datePickerMode = UIDatePickerModeDateAndTime;
     datePicker.hidden = NO;
     datePicker.date = [NSDate date];
     datePicker.minuteInterval = 10;
-    datePicker.minimumDate = [NSDate dateWithTimeIntervalSinceNow:600];
+    int ti = [NSDate timeIntervalSinceReferenceDate];
+    ti = 600 - (ti%600);
+    
+    datePicker.minimumDate = [NSDate dateWithTimeIntervalSinceNow:ti+3600];
     datePicker.maximumDate = [NSDate dateWithTimeIntervalSinceNow:60*60*24*14];
+    
+    
+    
     
     [datePicker addTarget:self
                    action:@selector(LabelChange:)
@@ -50,13 +56,13 @@
     [myView addSubview:datePicker];
     
     selectedDate = [NSString stringWithFormat:@"%@",
-                    [df stringFromDate:[NSDate date]]];
+                    [df stringFromDate:datePicker.date]];
 }
 
 -(void) showPicker
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-
+    
     CGSize pickerSize = [myView sizeThatFits:CGSizeZero];
     
     CGRect startRect = CGRectMake(0.0,
@@ -78,15 +84,15 @@
     [UIView setAnimationDelegate:self];
     
     myView.frame = pickerRect;
-    [UIView commitAnimations];  
-    
+    [UIView commitAnimations];
+    isOpen = YES;
 }
 
 
 - (void) hidePicker
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-
+    
     CGSize pickerSize = [myView sizeThatFits:CGSizeZero];
     
     if (myView.frame.origin.y == screenRect.size.height - pickerSize.height) {
@@ -111,8 +117,9 @@
         [UIView setAnimationDelegate:self];
         
         myView.frame = startRect;
-        [UIView commitAnimations];  
+        [UIView commitAnimations];
     }
+    isOpen = NO;
 }
 
 
@@ -125,6 +132,14 @@
                       [df stringFromDate:datePicker.date]];
     
     selectedDate = [NSString stringWithFormat:@"%@",
-                    [df stringFromDate:[NSDate date]]];
+                    [df stringFromDate:datePicker.date]];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    
+    //Optionally for time zone converstions
+    [formatter setDateFormat:@"yyyy'-'MM'-'dd' 'HH':'mm':'ss Z"];
+    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
+
+    selectedDateProperString = [formatter stringFromDate:datePicker.date];
 }
 @end

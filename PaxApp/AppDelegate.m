@@ -8,6 +8,7 @@
 
 #import "AppDelegate.h"
 #import "GlobalVariables.h"
+#import "OtherQuery.h"
 
 @implementation AppDelegate
 
@@ -16,7 +17,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
-    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
+    //[[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeSound)];
     
     UILocalNotification *localNotif = [launchOptions
                                        objectForKey:UIApplicationLaunchOptionsLocalNotificationKey]; 
@@ -29,6 +30,10 @@
     }
     [_window makeKeyAndVisible];
 
+    
+    [[UIApplication sharedApplication] cancelAllLocalNotifications];
+    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
+    
     return YES;
 }
 
@@ -99,11 +104,69 @@
 
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
-    
+    NSLog(@"Open App");
+    NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
+    NSDate* now = [[NSDate alloc]init];
+    float version =[[[[NSBundle mainBundle] infoDictionary] valueForKey:@"CFBundleVersion"]floatValue];
+    if(![preferences objectForKey:@"LastLogin"]){
+        [preferences setObject:now forKey:@"LastLogin"];
+    } else if ([now timeIntervalSinceDate:[preferences objectForKey:@"LastLogin"]] > 172800) {
+        [OtherQuery getVersioncompletionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            if (data) {
+                
+            NSDictionary* maindict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+                NSDictionary* versionDict =[[maindict objectForKey:@"version"] objectForKey:@"ios"];
+                NSLog(@"READ THIS %@",maindict);
+                
+                
+                appURL = [versionDict objectForKey:@"link"];
+                if ([[versionDict objectForKey:@"min"]floatValue] <= version && [[versionDict objectForKey:@"latest"]floatValue] > version) {
+                    [self performSelectorOnMainThread:@selector(openAlertBoxAboveMinVersion:) withObject:@"option" waitUntilDone:YES];
+                } else if ([[versionDict objectForKey:@"min"]floatValue] > version) {
+                    [self performSelectorOnMainThread:@selector(openAlertBoxAboveMinVersion:) withObject:@"forced"  waitUntilDone:YES];
+                    return;
+                }
+                
+                
+            }
+        }];
+    } else {
+        [preferences setObject:[[NSDate alloc]init] forKey:@"LastLogin"];
+    }
+                
+    /*
+    if ([minimum isEqualToString:@"option"]){
+        UIAlertView* versionAlert = [[UIAlertView alloc]initWithTitle:@"New Version Available" message:@"Would you like to update HopCab?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
+        [versionAlert show];
+    } else {
+        UIAlertView* versionAlert = [[UIAlertView alloc]initWithTitle:@"HopCab outdated" message:@"Please download the latest version of HobCab!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [versionAlert show];
+    }
+    */
     //submitjobview specific
-    NSLog(@"OPEN APP AGAIN");
+
     [[NSNotificationCenter defaultCenter]postNotificationName:@"ReturnToForeground" object:nil];
     
+}
+- (void) openAlertBoxAboveMinVersion:(NSString*) minimum
+{
+    if ([minimum isEqualToString:@"option"]){
+        versionAlert = [[UIAlertView alloc]initWithTitle:@"New Version Available" message:@"Would you like to update HopCab?" delegate:self cancelButtonTitle:@"Yes" otherButtonTitles:@"No", nil];
+        [versionAlert show];
+    } else {
+        versionAlert = [[UIAlertView alloc]initWithTitle:@"HopCab outdated" message:@"Please download the latest version of HobCab!" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
+        [versionAlert show];
+    }
+    
+}
+
+
+-(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    NSLog(@"INIT %p", self);
+    if (buttonIndex == 0){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:appURL]];
+    }
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -121,5 +184,6 @@
      See also applicationDidEnterBackground:.
      */
 }
+
 
 @end

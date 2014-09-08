@@ -12,8 +12,7 @@
 
 @implementation JobDispatchQuery
 
-
-
+//done
 +(void) submitJobWithDictionary:(NSDictionary*)dictdata completionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));

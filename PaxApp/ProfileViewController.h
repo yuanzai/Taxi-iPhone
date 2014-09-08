@@ -15,8 +15,12 @@
     IBOutlet UITextField* emailField;
     IBOutlet UITextField* passwordField;
     NSUserDefaults *preferences;
+    IBOutlet UIButton* saveButton;
+    UIAlertView* myAlert;
 }
 - (IBAction)escapeKeyboard:(id)sender;
 - (void) setFields;
+-(IBAction)clickSaveButton:(id)sender;
+-(void)hideAlert:(NSString*) text;
 
 @end

@@ -14,9 +14,10 @@
     UIAlertView *noshowBox;
     UITextField *textInput;
 }
+@property (strong, nonatomic) UITextField* textInput;
 
--(void) launchConfirmBox;
+-(void) launchConfirmBox: (id) delegate;
 -(void) launchNoShowBox;
--(void) gotoMain;
+
 
 @end

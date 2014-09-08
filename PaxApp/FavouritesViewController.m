@@ -54,13 +54,15 @@
     
     if (refererTag == 21 || refererTag == 41) {
         self.title = @"Pick up";
-        [thisNavBar setCustomNavBarTitle:@"Pick up" subtitle:@""];
+        [thisNavBar setCustomNavBarTitle:NSLocalizedString(@"Pick up", @"") subtitle:@""];
         
     } else if (refererTag == 22 || refererTag == 42) {
         self.title =@"Destination";
-        [thisNavBar setCustomNavBarTitle:@"Destination" subtitle:@""];
+        [thisNavBar setCustomNavBarTitle:NSLocalizedString(@"Destination", @"") subtitle:@""];
         
     }
+    self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
 }
 
 
@@ -96,7 +98,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"FaveCell";
     
     if (addressList.count ==0) {
         UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -104,7 +106,7 @@
             cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier];
             
         }
-        cell.textLabel.text = @"No saved addresses";
+        cell.textLabel.text = NSLocalizedString(@"No saved addresses", @"");
         cell.detailTextLabel.text = @"";
         return cell;
         
@@ -153,25 +155,15 @@
         [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:addressString forKey:@"dropoff_address"];
         [self gotoSubmitJob];
     } else if (refererTag == 41) {
-        NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
-        if (!bookingForm)
-        //    bookingForm = [[NSMutableDictionary alloc]init];
-        
-        
-        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.latitude] forKey:@"pickup_latitude"];
-        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.longitude] forKey:@"pickup_longitude"];            
-        [bookingForm setObject:addressString forKey:@"pickup_address"];   
-        [[GlobalVariables myGlobalVariables]setGAdvancedForm:bookingForm];
+
+        [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myLoc.latitude] forKey:@"pickup_latitude"];
+        [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myLoc.longitude] forKey:@"pickup_longitude"];            
+        [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:addressString forKey:@"pickup_address"];   
         [self gotoAdvanced];
     } else if (refererTag == 42) {
-        NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
-        if (!bookingForm)
-        //    bookingForm = [[NSMutableDictionary alloc]init];
-        
-        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.latitude] forKey:@"dropoff_latitude"];
-        [bookingForm setObject:[NSString stringWithFormat:@"%f", myLoc.longitude] forKey:@"dropoff_longitude"];            
-        [bookingForm setObject:addressString forKey:@"dropoff_address"];      
-        [[GlobalVariables myGlobalVariables]setGAdvancedForm:bookingForm];
+        [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myLoc.latitude] forKey:@"dropoff_latitude"];
+        [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myLoc.longitude] forKey:@"dropoff_longitude"];            
+        [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:addressString forKey:@"dropoff_address"]; 
         [self gotoAdvanced];
     }
                                      
@@ -184,6 +176,38 @@
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
 }
+
+
+// Override to support editing the table view.
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        // Delete the row from the data source
+        //[tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
+        NSLog(@"%@",[[[tableView cellForRowAtIndexPath:indexPath] textLabel] text]);
+        
+        if ([[[[tableView cellForRowAtIndexPath:indexPath] textLabel] text] isEqual:NSLocalizedString(@"No saved addresses", @"")]){
+            
+        } else {
+            [addressList removeObjectAtIndex:[indexPath row]];
+            NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
+            [preferences setValue:addressList forKey:@"ClientSavedAddress"];
+            
+            [tableView reloadData];  
+        }
+        
+        
+        
+        
+        
+        
+    }   
+    else if (editingStyle == UITableViewCellEditingStyleInsert) {
+        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
+    }   
+}
+
 
 -(void)gotoSubmitJob
 {

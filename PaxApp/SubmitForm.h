@@ -1,28 +1,39 @@
-//
-//  SubmitForm.h
-//  PaxApp
-//
-//  Created by Junyuan Lau on 27/06/2012.
-//  Copyright (c) 2012 __MyCompanyName__. All rights reserved.
-//
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVFoundation.h>
+#import <CoreFoundation/CoreFoundation.h>
+#import <AudioToolbox/AudioToolbox.h>
+
 @class CountDownBox;
 @class JobStatusPoller;
+#import "JobStatusPoller.h"
 
-@interface SubmitForm : NSObject<UIAlertViewDelegate>
+@protocol SubmitFormDelegate <NSObject>
+@optional
+- (void) shouldGoToOnRoute: (BOOL)status;
+@end
+
+@interface SubmitForm : NSObject<UIAlertViewDelegate, JobStatusDelegate>
 {
     NSMutableDictionary* dictdata;
     CountDownBox* myBox;
     JobStatusPoller* myStatusReceiver;
     NSMutableDictionary* bookingForm;
+    
+    id <SubmitFormDelegate> delegate;
 
+    SystemSoundID mySound;
 }
+@property (retain) id<SubmitFormDelegate> delegate;
 
 
 - (id) initWithData;
 - (void) fillGlobalVariablesIntoForm;
 - (void) submitForm;
 - (void)startCountdownWithJobID:(NSString*) job_id;
-- (void)jobAccepted;
+- (void) sendJobAcceptedNotification;
+- (SystemSoundID) createSoundID: (NSString*)name;
+
+- (void) playSound;
+
 @end

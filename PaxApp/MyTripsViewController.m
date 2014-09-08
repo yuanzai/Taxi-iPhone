@@ -8,9 +8,11 @@
 
 #import "MyTripsViewController.h"
 #import "CustomNavBar.h"
-
-#import "FakeMyTripsArray.h"
-
+#import "SelectedTripViewController.h"
+#import "OtherQuery.h"
+#import "HTTPQueryModel.h"
+#import "ActivityProgressView.h"
+#import "Toast+UIView.h"
 @implementation MyTripsViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -36,23 +38,9 @@
 {
     CustomNavBar *thisNavBar = [[CustomNavBar alloc] initOneRowBar];    
     self.navigationItem.titleView = thisNavBar;
-    [thisNavBar setCustomNavBarTitle:@"My Trips" subtitle:@""];
+    [thisNavBar setCustomNavBarTitle:NSLocalizedString(@"My Trips", @"") subtitle:@""];
     [thisNavBar addRightLogo];
     self.navigationItem.hidesBackButton = YES;
-    
-    NSDictionary* dict1 = [[NSDictionary alloc]initWithObjectsAndKeys:
-                           @"Jalan Wakaff", @"pickup_address",
-                           @"Toa Payoh", @"destination_address",
-                           @"21 March 2012 9:00 am", @"pickup_datetime",
-                           @"Pending", @"job_status",
-                           @"Mr Driver", @"driver_name",
-                           @"SBC 1234", @"driver_license",
-                           @"1234567", @"driver_number",
-                           nil];
-    
-    myArray = [[NSArray alloc]initWithObjects:dict1, nil];
-    
-    
     [super viewDidLoad];
 
     // Uncomment the following line to preserve selection between presentations.
@@ -71,6 +59,41 @@
 
 - (void)viewWillAppear:(BOOL)animated
 {
+    //[self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+    
+    [self showActivityView];
+    HTTPQueryModel* newQuery;
+    newQuery = [[HTTPQueryModel alloc]initURLConnectionWithMethod:@"getMyTrips" Data:nil completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
+        
+        if ([httpResponse statusCode] == 200) {
+            NSLog(@"%@ - %@ - My Trips Data Received",self.class,NSStringFromSelector(_cmd));
+            NSMutableDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+
+            futureArray = [dict objectForKey:@"future"];
+            pastArray = [dict objectForKey:@"past"];
+            
+            [self performSelectorOnMainThread:@selector(hideActivityView) withObject:nil waitUntilDone:YES];
+            [self.tableView reloadData];
+            [self.tableView performSelectorOnMainThread:@selector(reloadData) withObject:nil waitUntilDone:YES];
+            NSLog(@"Future Array - %@",futureArray);
+            NSLog(@"Past Array - %@",pastArray);
+            
+        } else {
+            [self performSelectorOnMainThread:@selector(hideActivityView) withObject:nil waitUntilDone:YES];
+            [self.view makeToast:NSLocalizedString(@"Cannot connect to server", @"") duration:1.5 position:@"center"];
+
+        }
+    } failHandler:^{
+        [self performSelectorOnMainThread:@selector(hideActivityView) withObject:nil waitUntilDone:YES];
+        [self.view makeToast:NSLocalizedString(@"Cannot connect to server", @"") duration:1.5 position:@"center"];
+
+    }];
+    
+    
+
     [super viewWillAppear:animated];
 }
 
@@ -96,23 +119,44 @@
 }
 
 #pragma mark - Table view data source
+-(void) reloadTable
+{
+    [self.tableView reloadData]; 
+}
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     // Return the number of sections.
-    return 2;
+    int i;
+    i = 0;
+    
+    if (futureArray.count >0)
+        i++;
+    
+    if (pastArray.count>0)
+        i++;
+    
+    if (i ==0) {
+        i =1;
+    }
+    return i;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
     if (section == 0) {
-        
-        return myArray.count;
+        if (futureArray.count>0){
+            return futureArray.count;
+        } else if (pastArray.count > 0){
+            return pastArray.count;
+        } else {
+            return 0;
+        }
         
     } else {
         
-        return 1;
+        return pastArray.count;
     }
         
     
@@ -128,19 +172,44 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
         
     }
-    UILabel *labelA = [[UILabel alloc] initWithFrame:CGRectMake(12, 6, 130, 20)];
+    
+    int i;
+    i = [indexPath row];
+    
+    if (futureArray.count>0){
+        if ([indexPath section] == 1){
+            myArray = pastArray;
+        } else {
+            myArray = futureArray;
+        }
+    } else if (pastArray.count > 0){
+        myArray = pastArray;
+
+    }
+    
+    
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
+    
+    
+    UILabel *labelA = [[UILabel alloc] initWithFrame:CGRectMake(12, 6, 300, 20)];
     labelA.adjustsFontSizeToFitWidth = YES;
     labelA.textColor = [UIColor blackColor];
-    labelA.text = [[myArray objectAtIndex:[indexPath row]]objectForKey:@"pickup_address"];
-    labelA.font = [UIFont boldSystemFontOfSize:18];
+    if ([[myArray objectAtIndex:i]objectForKey:@"pickup_address"]!= (id)[NSNull null])
+    labelA.text = [[myArray objectAtIndex:i]objectForKey:@"pickup_address"];
+    
+    labelA.font = [UIFont boldSystemFontOfSize:16];
     labelA.backgroundColor = [UIColor whiteColor];
     labelA.textAlignment = UITextAlignmentLeft;
+    labelA.lineBreakMode = UILineBreakModeWordWrap;
+    labelA.numberOfLines = 0;
     
     
     UILabel *labelB = [[UILabel alloc] initWithFrame:CGRectMake(12, 26, 300, 20)];
     labelB.font = [UIFont systemFontOfSize:12];
     labelB.textColor = [UIColor blackColor];
-    labelB.text = @"To";
+    labelB.text = NSLocalizedString(@"To", @"");
     labelB.textAlignment = UITextAlignmentLeft;
     CGSize maximumLabelSizeB = CGSizeMake(270,9999);
     CGSize expectedLabelSizeB = [labelB.text sizeWithFont:labelB.font constrainedToSize:maximumLabelSizeB 
@@ -151,19 +220,27 @@
     labelB.frame = newFrameB;
     
     
-    UILabel *labelBB = [[UILabel alloc] initWithFrame:CGRectMake(labelB.frame.size.width + 17, 26, 300, 20)];
-    labelBB.font = [UIFont boldSystemFontOfSize:18];
+    UILabel *labelBB = [[UILabel alloc] initWithFrame:CGRectMake(labelB.frame.size.width + 17, 26, 280, 20)];
+    labelBB.font = [UIFont boldSystemFontOfSize:16];
     labelBB.textColor = [UIColor blackColor];
-    labelBB.text = [[myArray objectAtIndex:[indexPath row]]objectForKey:@"destination_address"];
+    
+    if ([[myArray objectAtIndex:i]objectForKey:@"dropoff_address"]!= (id)[NSNull null])
+    labelBB.text = [[myArray objectAtIndex:i]objectForKey:@"dropoff_address"];
     
     labelBB.textAlignment = UITextAlignmentLeft;
+    labelBB.lineBreakMode = UILineBreakModeWordWrap;
+    labelBB.numberOfLines = 0;
     
 
     UILabel *labelC = [[UILabel alloc] initWithFrame:CGRectMake(12, 46, 200, 20)];
     labelC.textColor = [UIColor grayColor];
     labelC.font = [UIFont systemFontOfSize:14];
 
-    labelC.text = [[myArray objectAtIndex:[indexPath row]]objectForKey:@"pickup_datetime"];
+    if ([[myArray objectAtIndex:i]objectForKey:@"trip_datetime"]!= (id)[NSNull null]){
+        labelC.text = [[myArray objectAtIndex:i]objectForKey:@"trip_datetime"];
+    }else {
+        labelC.text = @"";
+    }
     
     labelC.backgroundColor = [UIColor whiteColor];
     labelC.textAlignment = UITextAlignmentLeft;
@@ -185,8 +262,8 @@
                                         blue:.2    
                                        alpha:1];
     labelD.font = [UIFont boldSystemFontOfSize:14];
-    
-    labelD.text = [[myArray objectAtIndex:[indexPath row]]objectForKey:@"job_status"];
+    if ([[myArray objectAtIndex:i]objectForKey:@"job_status"]!= (id)[NSNull null])
+    labelD.text = [[myArray objectAtIndex:i]objectForKey:@"job_status"];
     
     
     [cell addSubview:labelA];
@@ -206,12 +283,24 @@
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-{
+{        
+        
     if(section == 0) {
-        return @"Future Trips";
+
+        NSLog(@"Section 0 = %i",futureArray.count);
+         NSLog(@"Section 1 = %i",pastArray.count);
+        
+        if (futureArray.count > 0) {
+
+            return NSLocalizedString(@"Future Trips", @"");
+        } else if (pastArray.count > 0) {
+            return NSLocalizedString(@"Past Trips", @"");
+        } else {
+            return NSLocalizedString(@"No trips yet", @"");
+        }
         
     } else {
-        return @"Past Trips";
+        return NSLocalizedString(@"Past Trips", @"");
     }
 }
 /*
@@ -257,6 +346,44 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    [tableView reloadData];
+
+    int i;
+
+    if (futureArray.count>0){
+        
+        
+        if ([indexPath section] == 1){
+            
+            myArray = pastArray;
+            i = [indexPath row];
+        } else {
+            myArray = futureArray;
+            i = [indexPath row];
+        }
+    } else {
+        myArray = pastArray;
+        i = [indexPath row];
+        
+    }
+    
+    if (!selectedDict)
+        selectedDict = [[NSMutableDictionary alloc]init];
+                    
+    selectedDict = [myArray objectAtIndex:i];
+    if(futureArray.count>0){
+        if ([indexPath section] == 0){
+        selectedTripType = @"future";
+        }else {
+        selectedTripType = @"past";
+        }
+    } else {
+        selectedTripType = @"past";
+    }
+    
+    NSLog(@"%@",selectedDict);
+    
+    [self gotoSelectedTrip];
     // Navigation logic may go here. Create and push another view controller.
     /*
      <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
@@ -264,6 +391,36 @@
      // Pass the selected object to the new view controller.
      [self.navigationController pushViewController:detailViewController animated:YES];
      */
+}
+
+-(void)gotoSelectedTrip
+{
+    [self performSegueWithIdentifier:@"gotoSelectedTrip" sender:self];
+}
+
+-(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    if ([[segue identifier] isEqualToString:@"gotoSelectedTrip"]) {
+        
+        SelectedTripViewController *stVC = [segue destinationViewController];
+        stVC.selectedDict = selectedDict;
+        stVC.tripType = selectedTripType;
+        
+        //stVC.refererTag = [sender tag];
+        //sender tag 11 = top chooselocation button, tag 12 = bottom choose location button
+    }
+}
+
+-(void) showActivityView
+{
+    activityContainer = [[ActivityProgressView alloc] initWithFrame:CGRectMake(0, 0, 200, 80) text:NSLocalizedString(@"Connecting...", @"")];
+    [self.view addSubview:activityContainer];
+}
+
+-(void) hideActivityView
+{
+    if (activityContainer)
+        [activityContainer removeFromSuperview];
 }
 
 @end

@@ -11,11 +11,7 @@
 
 @implementation DriverPositionQuery
 
-+(void) passengerLoginWithEmail:(NSString*) email 
-{
-    
-}
-
+//done
 +(void) getDriverPositionsWithCompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
@@ -32,7 +28,7 @@
                            completionHandler:handler];
 }
 
-
+//done
 +(void) getSpecifiedDriverPositionWithDriverID:(NSString*)driver_id JobID:(NSString*) job_id CompletionHandler:(void (^) (NSURLResponse* response, NSData* data, NSError *error))handler
 {
     NSLog(@"%@ - %@ - driverID %@ - jobID %@",self.class,NSStringFromSelector(_cmd),driver_id,job_id);
@@ -48,8 +44,5 @@
                                        queue:[[NSOperationQueue alloc] init] 
                            completionHandler:handler];
 }
-
-
-
 
 @end

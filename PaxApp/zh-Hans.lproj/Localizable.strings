@@ -1,0 +1,85 @@
+/* 
+  Localizable.strings
+  
+
+  Created by Junyuan Lau on 16/09/2012.
+
+*/
+
+"Testtest" = "chinese test";
+
+//Main Map View
+"Current Location" = "当前位置";
+
+// Submit Job
+"Fare: - " = "车费: - ";
+
+"Please enter dropoff address" = "请输入终点地址";
+"Fare: %@ %@" = "车费: %@ %@";
+"Distance: %@" = "车程: %@";
+"Please enter an address" = "请输入切确位置";
+"Please enter a pickup location" = "请输入出发点地址";
+"Please enter a destination" = "请输入终点地址";
+
+"Please enter your current address!" = "请您输入出发点地址!";
+"Please enter your destination!" = "请您输入终点地址!";
+"Please enter your mobile number!" = "请您输入手机号码!";
+
+//Onroute
+"Cannot connect to server" = "无法连接到服务器";
+"\n\nCancelling..." = "\n\n取消中...";
+"Your driver is here!" = "您的司机到了!";
+"Please proceed to pickup point" = "请望出发点前去";
+
+//End Trip
+"You paid %@ %@ by cash" = "现金支付 %@ %@";
+"Connecting..." = "连接中...";
+
+//Advanced
+"Advanced Booking" = "预前定车";
+"Please enter your pickup date and time!" = "请您输入接送日期，时间!";
+"\nYour booking has been submitted.\nPlease see the My Trips tab for booking information." = "\n您的预定一输入系统.\n请查阅“我的旅程”了解更多详情.";
+"Your booking was not submited.\nPlease try again." = "预定输入失败.\n请再试一次.";
+"Cancel" = "取消";
+
+//Chooselocation
+"Pick up" = "出发点";
+"Destination" = "终点";
+"No location selected!" = "没有地址!";
+
+//Fave
+"No saved addresses" = "没有地址存档";
+
+
+//Profile
+"Please enter your name!" = "请输入您的姓名!";
+"Please enter your email!" = "请输入您的邮箱地址!";
+"Please enter your password!" = "请输入您的密码!";
+"There are no changes in your profile!" = "您的个人资料没有更改!";
+"\n\nSaving..." = "\n\n存档中";
+"Profile" = "个人资料";
+
+//My Trips
+"Future Trips" = "未来行程";
+"Past Trips" = "过去行程";
+"No trips yet" = "没有行程";
+"To" = "往";
+"Error" = "错误";
+
+"Pending" = "搜索中";
+"Selected Trip" = "旅程详情";
+
+"Address Name" = "地址";
+
+"\n\nConnecting to server..." = "\n\n连接中...";
+
+"Waiting for driver reply" = "等待司机答覆";
+"Fields incomplete" = "输入不完整";
+
+"Do you want to cancel?" = "您是否想取消行程?";
+"Feedback" = "评论";
+"Do you want to report a driver no show?" = "投诉司机失约?";
+"Yes" = "是";
+"No" = "否";
+//"My Trips" = "我的旅程";
+

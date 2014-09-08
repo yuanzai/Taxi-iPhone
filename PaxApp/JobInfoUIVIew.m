@@ -25,15 +25,9 @@
 {
     
     destination.text = [[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"dropoff_address"];
-
+    driver.text = [[[GlobalVariables myGlobalVariables] gCurrentForm] objectForKey:@"driver_name"];
+    license.text = [[[GlobalVariables myGlobalVariables] gCurrentForm] objectForKey:@"license_plate_number"];
 }
 
-- (void) updateDriver
-{
-    driver.text = [[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"driver_name"];
-    license.text = [[[GlobalVariables myGlobalVariables] gDriverInfo] objectForKey:@"license_plate_number"];
-
-    [[NSNotificationCenter defaultCenter]removeObserver:self];
-}
 
 @end

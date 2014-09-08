@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 
+
 @class UserLocationAnnotation;
 @class CoreLocationManager;
 @class GetETA;
 @class DriverPositionPoller;
-@class CalloutBar;
 @class ActivityProgressView;
 
-@interface MainMapViewController : UIViewController<MKMapViewDelegate> 
+@interface MainMapViewController : UIViewController<MKMapViewDelegate, UITabBarControllerDelegate>
 {
     NSArray *oldDriverList;
     NSArray *newDriverList;
@@ -31,7 +31,6 @@
     
     IBOutlet UILabel *mainTopBar;
     IBOutlet UILabel *mainBottomBar;
-    CalloutBar *myBar;
     
     MKCoordinateRegion region;
     MKCoordinateSpan span;
@@ -39,6 +38,7 @@
     IBOutlet UIButton* nextButton;
 
     ActivityProgressView* activityContainer;
+    
 }
 @property (strong, nonatomic) IBOutlet MKMapView *mapView;
 

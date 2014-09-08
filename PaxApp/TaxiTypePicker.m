@@ -22,8 +22,8 @@
     if (self) {
 
     sourceController = targetVC;
-    screenRect = sourceController.view.frame;
-    //self.frame = CGRectMake(0, 0, 0, 0);
+    screenRect = sourceController.view.frame;    
+        //self.frame = CGRectMake(0, 0, 0, 0);
     self.delegate = delegate;
     self.showsSelectionIndicator = YES;
     self.dataSource = pickerData;
@@ -34,6 +34,7 @@
 -(void) showPicker
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
+    NSLog(@"Screen Height %f",sourceController.view.frame.size.height);
 
     CGSize pickerSize = [self sizeThatFits:CGSizeZero];
     

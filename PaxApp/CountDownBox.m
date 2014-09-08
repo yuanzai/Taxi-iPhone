@@ -9,6 +9,7 @@
 #import "CountDownBox.h"
 #import "JobCycleQuery.h"
 #import "GlobalVariables.h"
+#import "HTTPQueryModel.h"
 
 @implementation CountDownBox
 @synthesize countdownTimer, timerView;
@@ -18,17 +19,16 @@
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     self = [super init];
     if (self) {
-    [self setTitle:@"Waiting for driver reply"];
+    [self setTitle:NSLocalizedString(@"Waiting for driver reply", @"")];
     [self setMessage:@" "];
-    [self addButtonWithTitle:@"Cancel"];
-    
+    [self addButtonWithTitle:NSLocalizedString(@"Cancel", @"")];
     
     timerView = [[UILabel alloc] initWithFrame:CGRectMake(20.0, 45.0, 245.0, 25.0)];
     [timerView setBackgroundColor:[UIColor clearColor]];  
     [timerView setAlpha:1];
     [timerView setTextColor:[UIColor whiteColor]];
     [timerView setTextAlignment:UITextAlignmentCenter];
-    [timerView setText:@"Connecting to server..."];
+    [timerView setText:NSLocalizedString(@"Connecting...", @"")];
     
     [self addSubview:timerView];
     
@@ -44,7 +44,7 @@
     // start timer
     if (!self.visible)
     [super show];
-
+    [self setTitle:NSLocalizedString(@"Waiting for driver reply", @"")];
     NSTimer *timer = [NSTimer timerWithTimeInterval:1.00 target:self selector:@selector(timerFired:) userInfo:nil repeats:YES];
     [[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
     
@@ -71,24 +71,42 @@
 }
 
 - (void) timerExpired
-{    
+{   
+    [self dismissWithClickedButtonIndex:0 animated:NO];
+    UIAlertView* cancelAlert = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"\n\nConnecting to server...", @"") delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+    [cancelAlert show];
     [countdownTimer invalidate];
     self.countdownTimer = nil;
-    [JobCycleQuery jobExpiredWithJobID:[[GlobalVariables myGlobalVariables] gJob_id] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-        [self dismissWithClickedButtonIndex:0 animated:YES];
+    
+    HTTPQueryModel* myQuery;
+    NSMutableDictionary* formData = [[NSMutableDictionary alloc]initWithObjectsAndKeys:[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"id"], @"job_id",nil];
+    
+    myQuery = [[HTTPQueryModel alloc]initURLConnectionWithMethod:@"postCancelJob" Data:formData completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [cancelAlert dismissWithClickedButtonIndex:0 animated:YES];
+    } failHandler:^{
+
     }];
+
+
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     
 }
 
 -(void) stopTimer
 {    
+    
+    UIAlertView* cancelAlert = [[UIAlertView alloc]initWithTitle:@"" message:NSLocalizedString(@"\n\nCancelling...", @"") delegate:self cancelButtonTitle:nil otherButtonTitles:nil];
+    [cancelAlert show];
+    
     [countdownTimer invalidate];
     self.countdownTimer = nil;
-    NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
-    [JobCycleQuery cancelJobCalledByPassenger_jobID:[[GlobalVariables myGlobalVariables] gJob_id] feedback:@"" completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+    HTTPQueryModel* myQuery;
+    NSMutableDictionary* formData = [[NSMutableDictionary alloc]initWithObjectsAndKeys:[[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"id"], @"job_id",nil];
+    
+    myQuery = [[HTTPQueryModel alloc]initURLConnectionWithMethod:@"postCancelJob" Data:formData completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        [cancelAlert dismissWithClickedButtonIndex:0 animated:YES];
+    } failHandler:^{
         
-        [self dismissWithClickedButtonIndex:0 animated:YES];
     }];
     
 }
@@ -97,6 +115,6 @@
 {
     [countdownTimer invalidate];
     self.countdownTimer = nil;
-    [self dismissWithClickedButtonIndex:-1 animated:YES];
+    //[self dismissWithClickedButtonIndex:-1 animated:YES];
 }
 @end

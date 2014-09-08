@@ -13,14 +13,18 @@
 #import "CountDownBox.h"
 #import "Constants.h"
 #import "JobCycleQuery.h"
+#import <AudioToolbox/AudioServices.h>
+#import "HTTPQueryModel.h"
+
+
 @interface submitForm
 - (void) applicationDidEnterBackground:(NSNotification*) notification;
 - (void) appWillEnterForegroundNotification: (NSNotification*) notification;
 
-
 @end
 
 @implementation SubmitForm
+@synthesize delegate;
 - (id) initWithData
 {
     self = [super init];
@@ -35,6 +39,9 @@
         } else {
             bookingForm = [[NSMutableDictionary alloc]init];
         }
+        mySound = [self createSoundID: @"Alert.wav"];
+
+
     }
     return self;
 }
@@ -55,48 +62,49 @@
 -(void) submitForm
 {
     [self fillGlobalVariablesIntoForm];
+    [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:@"" forKey:@"id"];
     NSLog(@"Booking Form - %@", [[GlobalVariables myGlobalVariables]gCurrentForm]);
     [myBox show];
-
     
-    [JobDispatchQuery submitJobWithDictionary:[[GlobalVariables myGlobalVariables]gCurrentForm] completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
-            NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
-            NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
+    if([[[GlobalVariables myGlobalVariables]gCurrentForm]objectForKey:@"starttime"]) {
+        [[[GlobalVariables myGlobalVariables]gCurrentForm]setObject:@"" forKey:@"starttime"];
+    }
+    
+    
+    NSMutableDictionary* formData =[[NSMutableDictionary alloc]initWithObjectsAndKeys:[[GlobalVariables myGlobalVariables]gCurrentForm],@"job", nil];
+    
+    HTTPQueryModel* submitQuery;
+    submitQuery = [[HTTPQueryModel alloc] initURLConnectionWithMethod:@"postJob" Data:formData completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+        NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
+        NSLog(@"%@ - %@ - Response from server - %i",self.class,NSStringFromSelector(_cmd),[httpResponse statusCode]);
+        
+        if ([httpResponse statusCode] == 201) {
             
-            if ([httpResponse statusCode] == 201) {
-                
-                NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                NSDictionary* dataDict = [dict objectForKey:@"data"];
-                
-                NSString* job_id = [dataDict objectForKey:@"id"];
-                
-
-                
-                [bookingForm setObject:[[NSDate alloc]init] forKey:@"starttime"];
-                NSLog(@"%@",[bookingForm objectForKey:@"starttime"]);
-                
-                
-                [[GlobalVariables myGlobalVariables] setGCurrentForm:bookingForm];
-                
-                [[GlobalVariables myGlobalVariables] setGJob_id:job_id];
-                [[GlobalVariables myGlobalVariables] setGIsOnJob:YES];
-                
-                NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
-                [preferences setObject:job_id forKey:@"LastJob"];
+            NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSDictionary* dataDict = [dict objectForKey:@"data"];
+            NSString* job_id = [dataDict objectForKey:@"id"];
             
-            NSLog(@"%@ - %@ - JobID - %@",self.class,NSStringFromSelector(_cmd), job_id);
+            [[GlobalVariables myGlobalVariables] setGIsOnJob:YES];
+            
+            [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:job_id forKey:@"id"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:[NSDate date] forKey:@"starttime"];
+            
             [self performSelectorOnMainThread:@selector(startCountdownWithJobID:) withObject:job_id waitUntilDone:YES];
-                
-            } else if ([httpResponse statusCode] == 422) {
-                NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
-                NSLog(@"Error - %@",dict);
-                myBox.title = @"Error";
-                myBox.timerView.text = @"Fields incomplete";
-                
-            } else {
-                myBox.title = @"Error";
-                myBox.timerView.text = @"Cannot connect";
-            }
+            
+        } else if ([httpResponse statusCode] == 422) {
+            NSDictionary* dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableLeaves error:nil];
+            NSLog(@"Error - %@",dict);
+            myBox.title = NSLocalizedString(@"Error", @"");
+            myBox.timerView.text = NSLocalizedString(@"Fields incomplete", @"");
+            
+        } else {
+            myBox.title = NSLocalizedString(@"Error", @"");
+            myBox.timerView.text = NSLocalizedString(@"Cannot connect to server", @"");
+        }
+
+    } failHandler:^{
+        myBox.title = NSLocalizedString(@"Error", @"");
+        myBox.timerView.text = NSLocalizedString(@"Cannot connect to server", @"");
     }];
 }
 
@@ -124,16 +132,19 @@
             
             // start time is valid
             countDownTime = kCountDownTime - [now timeIntervalSinceDate:startTime];
-            NSLog(@"%@ - %@ - %f",self.class,NSStringFromSelector(_cmd), [now timeIntervalSinceDate:startTime]);
 
         }else{
             
             //start time not valid - expire old job
             [bookingForm setObject:nil forKey:@"starttime"];
-            [JobCycleQuery jobExpiredWithJobID:job_id completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            HTTPQueryModel* myQuery;
+            NSMutableDictionary* formData = [[NSMutableDictionary alloc]initWithObjectsAndKeys:[bookingForm objectForKey:@"id"], @"job_id",nil];
+            
+            myQuery = [[HTTPQueryModel alloc]initURLConnectionWithMethod:@"postCancelJob" Data:formData completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
+            } failHandler:^{
             }];
             
-            NSLog(@"%@ - %@ - %f",self.class,NSStringFromSelector(_cmd), [now timeIntervalSinceDate:startTime]);
+
             if (myBox.visible)
                 [myBox dismissWithClickedButtonIndex:-1 animated:NO];
             
@@ -149,11 +160,10 @@
     }
     
     if (countDownTime >0){
-        NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
    
     [myBox createTimer:countDownTime];
-    myStatusReceiver = [[JobStatusPoller alloc]initStatusReceiverTimerWithJobID:job_id TargettedStatus:@"accepted"];
-    
+    myStatusReceiver = [[JobStatusPoller alloc]initStatusReceiverTimerWithJobID:job_id];
+        myStatusReceiver.delegate = self;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationDidEnterBackground:) name:UIApplicationDidEnterBackgroundNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(appWillEnterForegroundNotification:) name:UIApplicationWillEnterForegroundNotification object:nil];
     }
@@ -171,40 +181,81 @@
 {
     NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));
     [[NSNotificationCenter defaultCenter] removeObserver:self name:UIApplicationWillEnterForegroundNotification object:nil];
-    [self startCountdownWithJobID:[[GlobalVariables myGlobalVariables]gJob_id]];
+    [self startCountdownWithJobID:[[[GlobalVariables myGlobalVariables]gCurrentForm] objectForKey:@"id"]];
 }
 
+
+//Cancelling Job
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     NSLog(@"%@ - %@ - %@ - %i",self.class,NSStringFromSelector(_cmd), alertView.class,buttonIndex);
     if(buttonIndex == 0) {
         
-        NSUserDefaults* preferences = [NSUserDefaults standardUserDefaults];
         [myStatusReceiver stopStatusReceiverTimer];
         myStatusReceiver = nil;
         
-        [preferences setObject:nil forKey:@"JobStartTime"];
+        [[[GlobalVariables myGlobalVariables]gCurrentForm] setObject:@"" forKey:@"starttime"];
         [[GlobalVariables myGlobalVariables]setGIsOnJob:NO];
-        myBox.timerView.text = @"Connecting to server...";
+        myBox.timerView.text = NSLocalizedString(@"Connecting...", @"");
         [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
 
+
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
-    NSLog(@"%@ - %@ - %i",self.class,NSStringFromSelector(_cmd), buttonIndex);
+    NSLog(@"%@ - %@ - Clicked button %i",self.class,NSStringFromSelector(_cmd), buttonIndex);
     [myBox stopTimer];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)jobAccepted 
+
+-(void)jobStatusChangedTo:(NSString *)status info:(NSDictionary *)jobInfo
 {
-    [[GlobalVariables myGlobalVariables] setGIsOnJob:NO];
-    [myBox.countdownTimer invalidate];
-    myBox.countdownTimer = nil;
-    
-    [myBox dismissWithClickedButtonIndex:0 animated:YES];
-    
+    if ([status isEqualToString:@"accepted"] || [status isEqualToString:@"arrived"] || [status isEqualToString:@"reached"])
+    {
+        NSLog(@"%@ - %@ - %@",self.class,NSStringFromSelector(_cmd), status);
+        
+        NSString* driverID = [jobInfo objectForKey:@"driver_id"];
+        NSString* driver_name = [jobInfo objectForKey:@"driver_name"];
+        NSString* license_plate_number = [jobInfo objectForKey:@"license_plate_number"];
+        [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:driverID forKey:@"driver_id"];
+        [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:driver_name forKey:@"driver_name"];
+        [[[GlobalVariables myGlobalVariables] gCurrentForm]setObject:license_plate_number forKey:@"license_plate_number"];
+        
+        
+        [[GlobalVariables myGlobalVariables] setGIsOnJob:NO];
+        [myBox.countdownTimer invalidate];
+        myBox.countdownTimer = nil;
+        
+        [myStatusReceiver stopStatusReceiverTimer];
+        myStatusReceiver = nil;
+        [myBox dismissWithClickedButtonIndex:0 animated:YES];
+         
+
+
+        [self performSelectorOnMainThread:@selector(playSound) withObject:nil waitUntilDone:YES ];
+        [self performSelectorOnMainThread:@selector(sendJobAcceptedNotification) withObject:nil waitUntilDone:YES];
+    }
 }
 
+-(void) sendJobAcceptedNotification
+{
+        NSLog(@"%@ - %@",self.class,NSStringFromSelector(_cmd));    
+        [[self delegate] shouldGoToOnRoute:YES];
+}
+
+- (SystemSoundID) createSoundID: (NSString*)name
+{
+    NSURL* filePath = [[NSBundle mainBundle] URLForResource:@"alert" withExtension:@"wav"];
+    SystemSoundID soundID;
+    AudioServicesCreateSystemSoundID((__bridge CFURLRef)filePath, &soundID);
+    return soundID;
+}
+
+- (void) playSound
+{
+    AudioServicesPlaySystemSound(mySound);
+
+}
 @end

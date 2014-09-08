@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+@interface AppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
+{
+    UIAlertView* versionAlert;
+    NSString* appURL;
+}
 @property (strong, nonatomic) UIWindow *window;
+- (void) openAlertBoxAboveMinVersion:(NSString*) minimum;
 
 @end

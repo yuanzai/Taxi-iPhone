@@ -11,8 +11,8 @@
 #import "AddressNameAlert.h"
 #import "GlobalVariables.h"
 #import "CustomNavBar.h"
+#import "Constants.h"
 
-static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 
 @implementation ChooseLocationViewController
 @synthesize dirty;
@@ -43,20 +43,18 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     self.tabBarController.tabBar.userInteractionEnabled = YES;
     
     if (refererTag == 11 || refererTag == 31) {
-    
-    
         self.title = @"Pick up";
-        [thisNavBar setCustomNavBarTitle:@"Pick up" subtitle:@""];
+        [thisNavBar setCustomNavBarTitle:NSLocalizedString(@"Pick up", @"") subtitle:@""];
 
     } else if (refererTag == 12 || refererTag == 32) {
         self.title =@"Destination";
-        [thisNavBar setCustomNavBarTitle:@"Destination" subtitle:@""];
+        [thisNavBar setCustomNavBarTitle:NSLocalizedString(@"Destination", @"") subtitle:@""];
 
     }
 
     CLLocationCoordinate2D coordinate;    
-    coordinate.latitude = 1.3362;
-    coordinate.longitude = 103.826;
+    coordinate.latitude = 3.136441;
+    coordinate.longitude = 101.689072;
     
     span.latitudeDelta=0.28;
     span.longitudeDelta=0.28;	 
@@ -138,7 +136,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
      */
     
     
-    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&sensor=true&key=%@&components=country:sg", query, apiKey];
+    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/autocomplete/json?input=%@&sensor=true&key=%@&components=country:my", query, kGoogleAPIKey];
     
     urlString =  [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -164,9 +162,6 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
             NSDictionary *term0 = [terms objectAtIndex:0];
             NSString* resultname = [term0 objectForKey:@"value"]; 
             
-            
-            
-            //NSLog([result objectForKey:@"value"]);
             NSLog(@"%@",resultname);
             [sug addObject:resultname];
             [ref addObject:[result objectForKey:@"reference"]];
@@ -219,7 +214,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     [mapView removeAnnotations:mapView.annotations];
     NSString* refID = [references objectAtIndex:indexPath.row];
     
-    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?reference=%@&sensor=true&key=%@", refID, apiKey];
+    NSString *urlString = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/details/json?reference=%@&sensor=true&key=%@", refID, kGoogleAPIKey];
     
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     NSLog(@"%@",urlString);
@@ -303,6 +298,8 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
     NSLog(@"%@ - %@ - textfield %@",self.class,NSStringFromSelector(_cmd), nameBox.inputField.text);
     if(buttonIndex == 1)
     {
+        if (!nameBox.inputField.text)
+            nameBox.inputField.text = @"";
         
         NSLog(@"%@ - %@ - clicked",self.class,NSStringFromSelector(_cmd));
 
@@ -353,15 +350,13 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
             NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
             
             // bookingform
-            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"destination_latitude"];
-            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"destination_longitude"];
-            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%@", myAA.subtitle] forKey:@"destination_address"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"dropoff_latitude"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"dropoff_longitude"];
+            [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%@", myAA.subtitle] forKey:@"dropoff_address"];
             
             [self gotoSubmitJob];
         } else if (refererTag == 11){
             NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
-            [[GlobalVariables myGlobalVariables] setGUserCoordinate:myAA.coordinate];
-            [[GlobalVariables myGlobalVariables] setGUserAddress:myAA.subtitle];
             
             [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"pickup_latitude"];
             [[[GlobalVariables myGlobalVariables] gCurrentForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"pickup_longitude"];
@@ -370,18 +365,17 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
             [self gotoSubmitJob];
         } else if (refererTag == 32){
             NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
-            NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
-            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"dropoff_latitude"];
-            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"dropoff_longitude"];            
-            [bookingForm setObject:myAA.subtitle forKey:@"dropoff_address"];
-            [[GlobalVariables myGlobalVariables] setGAdvancedForm:bookingForm];
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"dropoff_latitude"];
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"dropoff_longitude"];            
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:myAA.subtitle forKey:@"dropoff_address"];
+            [self gotoAdvanced];
         } else if (refererTag == 31){
             NSLog(@"%@ - %@ - clicked %i",self.class,NSStringFromSelector(_cmd), refererTag);
-            NSMutableDictionary* bookingForm = [[GlobalVariables myGlobalVariables]gAdvancedForm];
-            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"pickup_latitude"];
-            [bookingForm setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"pickup_longitude"];            
-            [bookingForm setObject:myAA.subtitle forKey:@"pickup_address"];
-            [[GlobalVariables myGlobalVariables] setGAdvancedForm:bookingForm];
+
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.latitude] forKey:@"pickup_latitude"];
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:[NSString stringWithFormat:@"%f", myAA.coordinate.longitude] forKey:@"pickup_longitude"];            
+            [[[GlobalVariables myGlobalVariables]gAdvancedForm] setObject:myAA.subtitle forKey:@"pickup_address"];
+            [self gotoAdvanced];
         }
         
         
@@ -404,7 +398,7 @@ static NSString* apiKey = @"AIzaSyCqe57ih20Bt7X26dk1vFgatymmmxyS9VI";
 -(void)searchBarBookmarkButtonClicked:(UISearchBar *)searchBar
 {
     if (!myAA) {
-        UIAlertView *errorbox = [[UIAlertView alloc]initWithTitle:@"No location selected!" message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
+        UIAlertView *errorbox = [[UIAlertView alloc]initWithTitle:NSLocalizedString(@"No location selected!", @"") message:@"" delegate:self cancelButtonTitle:@"Ok" otherButtonTitles:nil];
         [errorbox show];
         
     } else {

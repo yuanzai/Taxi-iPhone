@@ -46,9 +46,6 @@ FOUNDATION_EXPORT NSString *const kSubmitJob;
 //Retreive Job Details URL Extension
 FOUNDATION_EXPORT NSString *const kCheckJob;
 
-//Retreive Driver Info URL Extension
-FOUNDATION_EXPORT NSString *const kGetDriverInfo;
-
 //Pax updates status to onboard
 FOUNDATION_EXPORT NSString *const kOnboardJobCalledByPassenger;
 
@@ -70,5 +67,7 @@ FOUNDATION_EXPORT NSString *const kGetETA;
 //Calculate fare of trip
 FOUNDATION_EXPORT NSString *const kGetFare;
 
+//Google PLaces API Key URL
+FOUNDATION_EXPORT NSString *const kGoogleAPIKey;
 
 @end
